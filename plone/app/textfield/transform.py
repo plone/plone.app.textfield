@@ -2,7 +2,7 @@ from zope.interface import implements
 from zope.component import adapts
 
 from zope.app.component.hooks import getSite
-from zExceptions import ConflictError
+from ZODB.POSException import ConflictError
 
 from plone.app.textfield.interfaces import ITransformer, TransformError
 

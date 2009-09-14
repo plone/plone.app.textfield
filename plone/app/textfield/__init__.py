@@ -33,6 +33,7 @@ class RichText(Object):
             default = kw['default']
             if isinstance(default, unicode):
                 kw['default'] = self.fromUnicode(default)
+                kw['default'].readonly = True
         
         super(RichText, self).__init__(schema=schema, **kw)
 
@@ -46,7 +47,10 @@ class RichText(Object):
     
     def set(self, object, value):
         if not self.readonly:
-            value.__parent__ = object
+            if value.readonly:
+                value = value.copy(object)
+            else:
+                value.__parent__ = object
             if value.defaultOutputMimeType is None:
                 value.defaultOutputMimeType = self.output_mime_type
         super(RichText, self).set(object, value)

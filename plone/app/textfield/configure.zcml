@@ -4,9 +4,12 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.textfield">
 
-    <adapter zcml:condition="installed plone.supermodel"
-        factory=".handlers.RichTextHandler"
+    <utility zcml:condition="installed plone.supermodel"
+        component=".handler.RichTextHandler"
         name="plone.app.textfield.RichText"
+        />
+    <adapter zcml:condition="installed plone.supermodel"
+        factory=".handler.RichTextToUnicode"
         />
     
     <adapter zcml:condition="installed Products.PortalTransforms"

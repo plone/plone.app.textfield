@@ -22,6 +22,7 @@ class IRichText(IObject):
             description=u"Set to None to disable checking",
             default=None,
             required=False,
+            value_type=schema.ASCIILine(title=u"MIME type"),
         )
 
 class IRichTextValue(Interface):
@@ -46,7 +47,7 @@ class IRichTextValue(Interface):
             title=u"Default output MIME type"
         )
     
-    value = schema.Text(
+    output = schema.Text(
             title=u"Transformed value in the target MIME type",
             readonly=True
         )
@@ -54,6 +55,22 @@ class IRichTextValue(Interface):
     raw = schema.Text(
             title=u"Raw value in the original MIME type"
         )
+    
+    readonly = schema.Bool(
+            title=u"Is the value readonly? If so, setting the raw data will raise a TypeError."
+        )
+        
+    def modified():
+        """Notify the parent (if set) that this object has been modified
+        """
+    
+    def update():
+        """Updated the cached output value
+        """
+    
+    def copy(parent=None):
+        """Return a copy of this value, with the given parent
+        """
 
 class TransformError(Exception):
     """Exception raised if a value could not be transformed. This is normally

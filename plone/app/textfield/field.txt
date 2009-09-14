@@ -186,7 +186,8 @@ The 'default' parameter can be passed to the field upon construction as a
 unicode string. It will then be converted to a RichTextValue with default
 MIME types.
 
-    >>> default_field = RichText(title=u"Rich text",
+    >>> default_field = RichText(__name__='default_field',
+    ...                          title=u"Rich text",
     ...                          default_mime_type='text/plain',
     ...                          output_mime_type='text/x-uppercase',
     ...                          allowed_mime_types=('text/plain', 'text/html',),
@@ -202,7 +203,57 @@ MIME types.
     'text/x-uppercase'
     >>> default_field.default.mimeType
     'text/plain'
+
+Copying and read-only
+---------------------
+
+A value may be set to be readonly. In this case, it is not possible to set a
+new raw string. One example of a readonly value is the default value of a
+field.
+
+    >>> default_field.default.readonly
+    True
     
+    >>> default_field.default.raw = u"New value"
+    Traceback (most recent call last):
+    ...
+    TypeError: Value is readonly. Use copy() first.
+    
+    >>> default_field.default.mimeType = 'text/foo'
+    Traceback (most recent call last):
+    ...
+    TypeError: Value is readonly. Use copy() first.
+    
+    >>> default_field.default.defaultOutputMimeType = 'text/foo'
+    Traceback (most recent call last):
+    ...
+    TypeError: Value is readonly. Use copy() first.
+    
+A field may be copied, in which case the new value will not be readonly.
+
+    >>> clone = default_field.default.copy()
+    >>> clone._blob is not default_field.default._blob
+    True
+    >>> clone.raw
+    u'Default value'
+    
+The copy() method may be passed a new parent object.
+
+    >>> content = Content()
+    >>> clone = default_field.default.copy(content)
+    >>> clone.__parent__ is content
+    True
+
+Alternatively, when using set() on the field, the object will be cloned if
+necessary.
+
+    >>> content = Content()
+    >>> default_field.set(content, default_field.default)
+    >>> content.default_field.__parent__ is content
+    True
+    >>> content.default_field._blob is not default_field.default._blob
+    True
+
 Persistence
 -----------
 

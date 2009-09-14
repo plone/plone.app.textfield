@@ -19,7 +19,8 @@ class RichTextValue(object):
     
     implements(IRichTextValue)
     
-    def __init__(self, parent=None, defaultOutputMimeType=None, raw=None, mimeType=None, encoding='utf-8'):
+    def __init__(self, parent=None, defaultOutputMimeType=None, raw=None,
+                 mimeType=None, encoding='utf-8', readonly=False):
         self.__parent__ = parent
         self._blob = Blob()
         self._defaultOutputMimeType = defaultOutputMimeType
@@ -27,6 +28,7 @@ class RichTextValue(object):
         self._mimeType = mimeType
         self._output = None
         self._encoding = encoding
+        self._readonly = readonly
         
         if raw:
             self.raw = raw
@@ -51,6 +53,10 @@ class RichTextValue(object):
     @setproperty
     def raw(self, value):
         assert isinstance(value, unicode)
+        
+        if self.readonly:
+            raise TypeError("Value is readonly. Use copy() first.")
+        
         fp = self._blob.open('w')
         try:
             fp.write(value.encode(self._encoding))
@@ -77,6 +83,10 @@ class RichTextValue(object):
     
     @setproperty
     def mimeType(self, value):
+        
+        if self.readonly:
+            raise TypeError("Value is readonly. Use copy() first.")
+        
         self._mimeType = value
         self.update()
         self.modified()
@@ -89,8 +99,22 @@ class RichTextValue(object):
     
     @setproperty
     def defaultOutputMimeType(self, value):
+        
+        if self.readonly:
+            raise TypeError("Value is readonly. Use copy() first.")
+        
         self._defaultOutputMimeType = value
         self.update()
+        self.modified()
+    
+    # is the object readonly?
+    @getproperty
+    def readonly(self):
+        return self._readonly
+    
+    @setproperty
+    def readonly(self, value):
+        self._readonly = value
         self.modified()
     
     # cached output
@@ -120,6 +144,28 @@ class RichTextValue(object):
         """
         if self.__parent__ is not None:
             self.__parent__._p_changed = 1
+    
+    def copy(self, parent=None, readonly=False):
+        """Return a copy of this value, without the given parent.
+        """
+        newvalue = RichTextValue(parent)
+        newvalue._blob = Blob()
+        newvalue._defaultOutputMimeType = self.defaultOutputMimeType
+        newvalue._mimeType = self.mimeType
+        newvalue._output = self._output
+        newvalue._encoding = self._encoding
+        newvalue._readonly = readonly
+        
+        fp = newvalue._blob.open('w')
+        try:
+            fp.write(self.raw_encoded)
+        finally:
+            fp.close()
+        
+        newvalue._set = True
+        newvalue.modified()
+        
+        return newvalue
     
     def __repr__(self):
         return u"RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?)"

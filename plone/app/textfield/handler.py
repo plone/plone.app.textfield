@@ -7,7 +7,11 @@ except ImportError:
 if HAVE_SUPERMODEL:
 
     
+    from zope.interface import implements
+    from zope.component import adapts
     from plone.app.textfield import RichText
+    from plone.supermodel.interfaces import IToUnicode
+    from plone.app.textfield.interfaces import IRichText
     
     class RichTextHandler_(BaseHandler):
         """Special handling for the RichText field, to deal with 'default'
@@ -21,7 +25,14 @@ if HAVE_SUPERMODEL:
         def __init__(self, klass):
             super(RichTextHandler_, self).__init__(klass)
         
-        # TODO: when reading 'default', allow a string; when writing 'default', 
-        # skip unless of default mime type
+    class RichTextToUnicode(object):
+        implements(IToUnicode)
+        adapts(IRichText)
+        
+        def __init__(self, context):
+            self.context = context
+        
+        def toUnicode(self, value):
+            return value.raw
     
     RichTextHandler = RichTextHandler_(RichText)

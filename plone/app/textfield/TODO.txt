@@ -1,14 +1,15 @@
 
-  [ ] Handling of 'default'
-        - need to make sure we don't modify a shared copy if used on multiple
-          objects
+  [ ] Test the following
+    
+    - copying an object (needs to get a new blob)
+    - placing a value in an annotation (needs to remain persistent)
+    - versioning an object and rolling back
 
   [ ] Supermodel handler
         - should support import and export of 'default'
 
   [ ] Tests
   
-        - handler.txt
         - transform.txt
         
   [ ] Documentation
