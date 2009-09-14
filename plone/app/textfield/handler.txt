@@ -1,0 +1,41 @@
+plone.supermodel handler
+========================
+
+If plone.supermodel is installed, this package will register a handler
+for the RichText field.
+
+First, let's wire up the package.
+
+    >>> configuration = """\
+    ... <configure
+    ...      xmlns="http://namespaces.zope.org/zope"
+    ...      i18n_domain="plone.app.textfield">
+    ...      
+    ...     <include package="zope.component" file="meta.zcml" />
+    ...     <include package="zope.app.component" file="meta.zcml" />
+    ...     
+    ...     <include package="plone.supermodel" />
+    ...     <include package="plone.app.textfield" />
+    ...     
+    ... </configure>
+    ... """
+
+    >>> from StringIO import StringIO
+    >>> from zope.configuration import xmlconfig
+    >>> xmlconfig.xmlconfig(StringIO(configuration))
+
+Then, let's test the field
+
+    >>> from zope.component import getUtility
+    >>> from zope import schema
+
+    >>> from plone.supermodel.interfaces import IFieldExportImportHandler
+    >>> from plone.supermodel.interfaces import IFieldNameExtractor
+    >>> from plone.supermodel.utils import prettyXML
+
+    >>> import datetime
+    >>> import plone.supermodel.tests
+
+    >>> from elementtree import ElementTree
+
+TODO

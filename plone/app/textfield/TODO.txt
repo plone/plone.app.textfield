@@ -1,0 +1,18 @@
+
+  [ ] Handling of 'default'
+        - need to make sure we don't modify a shared copy if used on multiple
+          objects
+
+  [ ] Supermodel handler
+        - should support import and export of 'default'
+
+  [ ] Tests
+  
+        - handler.txt
+        - transform.txt
+        
+  [ ] Documentation
+  
+        - README.txt
+  
+  [ ] Widget (plone.formwidget.textfield)
