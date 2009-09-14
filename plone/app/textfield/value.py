@@ -3,6 +3,8 @@ import logging
 from rwproperty import getproperty, setproperty
 
 from zope.interface import implements
+from zope.app.component.hooks import getSite
+
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer, TransformError
 
 from ZODB.blob import Blob
@@ -128,8 +130,12 @@ class RichTextValue(object):
         
         if self.defaultOutputMimeType is None:
             return
-            
-        transformer = ITransformer(self.__parent__, None)
+        
+        context = self.__parent__
+        if context is None:
+            context = getSite()
+        
+        transformer = ITransformer(context, None)
         if transformer is None:
             return
             

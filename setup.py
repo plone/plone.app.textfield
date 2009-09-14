@@ -31,10 +31,11 @@ setup(name='plone.app.textfield',
           'ZODB3 >= 3.8.1',
           'rwproperty',
           'Products.PortalTransforms',
-          'Products.Five',
       ],
+      tests_require=['collective.testcaselayer'],
       extras_require={
-        'xml': ['plone.supermodel']
+        'xml': ['plone.supermodel'],
+        'tests': ['collective.testcaselayer'],
       },
       entry_points="""
       """,

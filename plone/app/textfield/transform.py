@@ -1,12 +1,10 @@
 from zope.interface import implements
-from zope.component import adapts
 
 from zope.app.component.hooks import getSite
 from ZODB.POSException import ConflictError
 
 from plone.app.textfield.interfaces import ITransformer, TransformError
 
-from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
 
 class PortalTransformsTransformer(object):
@@ -14,7 +12,6 @@ class PortalTransformsTransformer(object):
     """
     
     implements(ITransformer)
-    adapts(IContentish)
     
     def __init__(self, context):
         self.context = context

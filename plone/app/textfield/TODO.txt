@@ -5,15 +5,3 @@
     - placing a value in an annotation (needs to remain persistent)
     - versioning an object and rolling back
 
-  [ ] Supermodel handler
-        - should support import and export of 'default'
-
-  [ ] Tests
-  
-        - transform.txt
-        
-  [ ] Documentation
-  
-        - README.txt
-  
-  [ ] Widget (plone.formwidget.textfield)
