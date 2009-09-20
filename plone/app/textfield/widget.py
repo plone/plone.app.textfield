@@ -12,17 +12,21 @@ from z3c.form.widget import FieldWidget
 from z3c.form.converter import BaseDataConverter
 
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
-from plone.app.textfield.utils import getSiteEncoding
 from plone.app.textfield.value import RichTextValue
 
+from plone.app.textfield.utils import getSiteEncoding, getAllowedContentTypes
+
 class IRichTextWidget(ITextAreaWidget):
-    pass
+    
+    def allowedMimeTypes():
+        """Get allowed MIME types
+        """
 
 class RichTextWidget(TextAreaWidget):
     implementsOnly(IRichTextWidget)
     
-    klass = u'rich-text-widget'
-    value = u''
+    klass = u'richTextWidget'
+    value = None
 
     def update(self):
         super(RichTextWidget, self).update()
@@ -33,7 +37,7 @@ class RichTextWidget(TextAreaWidget):
         # ``context/portal_this`` if context is not wrapped already.
         # Any attempts to satisfy the Kupu template in a less idiotic
         # way failed:
-        if getattr(self.context, 'aq_inner', None) is None:
+        if self.context is not None and getattr(self.context, 'aq_inner', None) is None:
             self.context = ImplicitAcquisitionWrapper(
                 self.context, getSite())
     
@@ -42,14 +46,20 @@ class RichTextWidget(TextAreaWidget):
         
         if raw is default:
             return default
-            
-        mimeType = self.request.get("%s.format" % self.name, self.field.default_mime_type)
+        
+        mimeType = self.request.get("%s.mimeType" % self.name, self.field.default_mime_type)
         return RichTextValue(aq_inner(self.context),
                              outputMimeType=self.field.output_mime_type,
                              raw=raw,
                              mimeType=mimeType,
                              encoding=getSiteEncoding())
-    
+
+    def allowedMimeTypes(self):
+        allowed = self.field.allowed_mime_types
+        if allowed is None:
+            allowed = getAllowedContentTypes()
+        return list(allowed)
+
 @adapter(IRichText, IFormLayer)
 @implementer(IFieldWidget)
 def RichTextFieldWidget(field, request):

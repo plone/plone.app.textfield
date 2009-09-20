@@ -1,8 +1,8 @@
 
-  [ ] Add format selector to widget
-  [ ] Optimise extract() and set() so that we re-use the same blob?
+  [ ] Optimise widget.extract() and/or field.set() so that we re-use the same
+      blob instead of creating a new one each time?
   
-  [ ] Test copying and moving:
+  [ ] Test:
+  
     - placing a value in an annotation (needs to remain persistent)
-    - versioning an object and rolling back
-
+    - versioning/rollback (CMFEditions may have problems with blobs)

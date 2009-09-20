@@ -4,19 +4,58 @@
      xmlns:tal="http://xml.zope.org/namespaces/tal"
      xmlns:metal="http://xml.zope.org/namespaces/metal"
      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-     i18n:domain="plone">
+     i18n:domain="plone.app.textfield"
+     tal:attributes="id view/id;
+                     class view/klass;
+                     style view/style;
+                     title view/title;
+                     lang view/lang;
+                     onclick view/onclick;
+                     ondblclick view/ondblclick;
+                     onmousedown view/onmousedown;
+                     onmouseup view/onmouseup;
+                     onmouseover view/onmouseover;
+                     onmousemove view/onmousemove;
+                     onmouseout view/onmouseout;
+                     onkeypress view/onkeypress;
+                     onkeydown view/onkeydown;
+                     onkeyup view/onkeyup">
 
-     <tal:editor define="context            nocall:view/context;
-                         here               nocall:context;
-                         portal_url         nocall:context/portal_url;
-                         portal             portal_url/getPortalObject;
-                         inputname          view/name;
-                         inputvalue         python:view.value.raw;
-                         here_url           request/getURL;
-                         member             context/portal_membership/getAuthenticatedMember;
-                         editor             python: member.getProperty('wysiwyg_editor','').lower();
-                         support            python: path('nocall:here/%s_wysiwyg_support|here/%s/wysiwyg_support|here/portal_skins/plone_wysiwyg/wysiwyg_support' % (editor, editor));
-                         tabindex           nothing">
+    <tal:define define="fieldName view/name;
+                        mimeType view/value/mimeType | view/field/default_mime_type;
+                        allowedMimeTypes view/allowedMimeTypes;">
+
+        <div class="fieldTextFormat" tal:condition="python: len(allowedMimeTypes) > 1">
+            <label i18n:translate="label_text_format">Text Format</label>
+
+            <select tal:attributes="id   string:${fieldName}_text_format;
+                                    name string:${fieldName}.mimeType;">
+                <option selected=""
+                    tal:repeat="item allowedMimeTypes"
+                    tal:attributes="selected python:item == mimeType and 'selected' or None;
+                                    value item;"
+                    tal:content="item" />
+            </select>
+        </div>
+
+        <tal:hidden condition="python: len(allowedMimeTypes) == 1">
+            <input type="hidden" tal:attributes="id string:${fieldName}_text_format;
+                                                 name string:${fieldName}.mimeType;
+                                                 value python:allowedMimeTypes[0]"/>
+        </tal:hidden>
+    </tal:define>
+
+    <tal:editor define="context            nocall:view/context;
+                        here               nocall:context;
+                        portal_url         nocall:context/portal_url;
+                        portal             portal_url/getPortalObject;
+                        inputname          view/name;
+                        inputvalue         python:view.value.raw;
+                        here_url           request/getURL;
+                        member             context/portal_membership/getAuthenticatedMember;
+                        editor             python: member.getProperty('wysiwyg_editor','').lower();
+                        support            python: path('nocall:here/%s_wysiwyg_support|here/%s/wysiwyg_support|here/portal_skins/plone_wysiwyg/wysiwyg_support' % (editor, editor));
+                        tabindex           nothing">
         <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
             The WYSIWYG code
         </div>

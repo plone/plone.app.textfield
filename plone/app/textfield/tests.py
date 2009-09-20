@@ -56,7 +56,141 @@ class TestIntegration(ptc.PloneTestCase):
         
         value = IWithText['text'].fromUnicode(u"Some **text**")
         self.assertEquals(u'<p>Some <strong>text</strong></p>\n', value.output)
-
+    
+    def testTransformView(self):
+        from zope.interface import Interface, implements
+        from plone.app.textfield import RichText
+        from zope.publisher.browser import TestRequest
+        from plone.app.textfield.browser import Transform
+        from Products.CMFCore.PortalContent import PortalContent
+        
+        class IWithText(Interface):
+            
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html')
+        
+        class Context(PortalContent):
+            implements(IWithText)
+            
+            text = None
+        
+        context = Context()
+        request = TestRequest()
+        
+        context.text = IWithText['text'].fromUnicode(u"Some **text**")
+        
+        view = Transform(context, request)
+        
+        view.publishTraverse(request, 'text')
+        output = view()
+        self.assertEquals(u'<p>Some <strong>text</strong></p>', output.strip())
+        
+        view.publishTraverse(request, 'text/plain')
+        output = view()
+        self.assertEquals(u'Some text', output.strip())
+    
+    def testWidgetExtract(self):
+        from zope.interface import Interface, implements
+        from plone.app.textfield import RichText
+        from zope.publisher.browser import TestRequest
+        from Products.CMFCore.PortalContent import PortalContent
+        from plone.app.textfield.widget import RichTextWidget
+        from z3c.form.widget import FieldWidget
+        from z3c.form.interfaces import NOVALUE
+        
+        class IWithText(Interface):
+            
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html')
+        
+        class Context(PortalContent):
+            implements(IWithText)
+            
+            text = None
+        
+        context = Context()
+        request = TestRequest()
+        
+        widget = FieldWidget(IWithText['text'], RichTextWidget(request))
+        widget.update()
+        
+        value = widget.extract()
+        self.assertEquals(NOVALUE, value)
+        
+        request.form['%s' % widget.name] = u"Sample **text**"
+        request.form['%s.mimeType' % widget.name] = 'text/structured'
+        
+        value = widget.extract()
+        self.assertEquals(u"<p>Sample <strong>text</strong></p>", value.output.strip())
+    
+    def testWidgetAllowedTypesDefault(self):
+        from zope.interface import Interface, implements
+        from plone.app.textfield import RichText
+        from zope.publisher.browser import TestRequest
+        from Products.CMFCore.PortalContent import PortalContent
+        from plone.app.textfield.widget import RichTextWidget
+        from z3c.form.widget import FieldWidget
+        from z3c.form.interfaces import NOVALUE
+        
+        class IWithText(Interface):
+            
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html')
+        
+        class Context(PortalContent):
+            implements(IWithText)
+            
+            text = None
+        
+        context = Context()
+        request = TestRequest()
+        
+        widget = FieldWidget(IWithText['text'], RichTextWidget(request))
+        widget.update()
+        
+        self.portal['portal_properties']['site_properties']._setPropValue('forbidden_contenttypes', ['text/structured'])
+        
+        allowed = widget.allowedMimeTypes()
+        self.failUnless('text/html' in allowed)
+        self.failIf('text/structured' in allowed)
+    
+    def testWidgetAllowedTypesField(self):
+        from zope.interface import Interface, implements
+        from plone.app.textfield import RichText
+        from zope.publisher.browser import TestRequest
+        from Products.CMFCore.PortalContent import PortalContent
+        from plone.app.textfield.widget import RichTextWidget
+        from z3c.form.widget import FieldWidget
+        from z3c.form.interfaces import NOVALUE
+        
+        class IWithText(Interface):
+            
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html',
+                            allowed_mime_types=('text/structured', 'text/html'))
+        
+        class Context(PortalContent):
+            implements(IWithText)
+            
+            text = None
+        
+        context = Context()
+        request = TestRequest()
+        
+        widget = FieldWidget(IWithText['text'], RichTextWidget(request))
+        widget.update()
+        
+        self.portal['portal_properties']['site_properties']._setPropValue('forbidden_contenttypes', ['text/structured'])
+        
+        allowed = widget.allowedMimeTypes()
+        self.failUnless('text/html' in allowed)
+        self.failUnless('text/structured' in allowed)
+        
+    
 def test_suite():
     
     field = doctest.DocFileSuite('field.txt', optionflags=doctest.ELLIPSIS)
