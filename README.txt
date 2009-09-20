@@ -66,11 +66,17 @@ when the field's set() method is used. Otherwise, set it yourself.
 
 Transformation takes place using an ITransformer adapter. The default
 implementation uses Plone's portal_transforms tool to convert form one
-MIME type to another.
+MIME type to another. Note that Products.PortalTransforms must be installed
+for this to work, otherwise no default ITransformer adapter is registered.
+You can use the [portaltransforms] extra to add a `Products.PortralTransforms`
+dependency.
 
 The package also contains a `plone.supermodel` export/import handler, which
-will be configured if plone.supermodel is installed. The [xml] extra will
-configure this.
+will be configured if plone.supermodel is installed. You can use the
+[supermodel] extra to add a `plone.supermodel` dependency.
+
+Finally, a `z3c.form` widget will be installed if `z3c.form` is installed.
+The [widget] extra will pull this dependency in if nothing else does.
 
 See field.txt for more details about the field's behaviour, and handler.txt
 for more details about the plone.supermodel handler.

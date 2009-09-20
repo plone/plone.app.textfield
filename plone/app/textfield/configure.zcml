@@ -1,31 +1,24 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.textfield">
-
-    <utility zcml:condition="installed plone.supermodel"
-        component=".handler.RichTextHandler"
-        name="plone.app.textfield.RichText"
-        />
-    <adapter zcml:condition="installed plone.supermodel"
-        factory=".handler.RichTextToUnicode"
+    
+    <!-- Configure plone.supermodel support if available -->
+    <include zcml:condition="installed plone.supermodel"
+        file="handler.zcml"
         />
     
-    <adapter zcml:condition="installed Products.PortalTransforms"
-        factory=".transform.PortalTransformsTransformer"
-        for="Products.CMFCore.interfaces.IContentish"
-        />
-    <adapter zcml:condition="installed Products.PortalTransforms"
-        factory=".transform.PortalTransformsTransformer"
-        for="Products.CMFCore.interfaces.ISiteRoot"
+    <!-- Configure PortalTransforms based transformer if available -->
+    <include zcml:condition="installed Products.PortalTransforms"
+        file="transform.zcml"
         />
     
-    <browser:page
-        for="*"
-        name="text-transform"
-        permission="zope2.View"
-        class=".browser.Transform"
+    <!-- Configure z3c.form widget if z3c.form is installed -->
+    <include zcml:condition="installed z3c.form"
+        file="widget.zcml"
         />
+    
+    <!-- Configure transform invocation browser view -->
+    <include file="browser.zcml" />
 
 </configure>

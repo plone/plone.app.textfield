@@ -31,7 +31,11 @@ class TestIntegration(ptc.PloneTestCase):
     
     layer = IntegrationLayer
 
-    def testTransform(self):
+    def afterSetUp(self):
+        if hasattr(self.portal, '_v_transform_cache'):
+            del self.portal._v_transform_cache
+
+    def testTransformPlain(self):
         from zope.interface import Interface
         from plone.app.textfield import RichText
         
@@ -44,7 +48,7 @@ class TestIntegration(ptc.PloneTestCase):
         value = IWithText['text'].fromUnicode(u"Some **text**")
         self.assertEquals(u'<p>Some **text**</p>', value.output)
     
-    def testTransform(self):
+    def testTransformStructured(self):
         from zope.interface import Interface
         from plone.app.textfield import RichText
         
