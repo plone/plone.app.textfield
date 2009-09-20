@@ -1,7 +1,8 @@
 
-  [ ] Test the following
-    
-    - copying an object (needs to get a new blob)
+  [ ] Add format selector to widget
+  [ ] Optimise extract() and set() so that we re-use the same blob?
+  
+  [ ] Test copying and moving:
     - placing a value in an annotation (needs to remain persistent)
     - versioning an object and rolling back
 

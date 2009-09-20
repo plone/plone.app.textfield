@@ -48,7 +48,7 @@ class Transform(BrowserView):
         if mimeType is None:
             mimeType = self.mimeType
             if mimeType is None:
-                mimeType = value.defaultOutputMimeType
+                mimeType = value.outputMimeType
         
         transformer = ITransformer(context)
         return transformer(value, mimeType)

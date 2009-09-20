@@ -43,7 +43,7 @@ class IRichTextValue(Interface):
             title=u"MIME type"
         )
     
-    defaultOutputMimeType = schema.ASCIILine(
+    outputMimeType = schema.ASCIILine(
             title=u"Default output MIME type"
         )
     

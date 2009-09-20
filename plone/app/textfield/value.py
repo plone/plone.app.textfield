@@ -21,11 +21,11 @@ class RichTextValue(object):
     
     implements(IRichTextValue)
     
-    def __init__(self, parent=None, defaultOutputMimeType=None, raw=None,
+    def __init__(self, parent=None, outputMimeType=None, raw=None,
                  mimeType=None, encoding='utf-8', readonly=False):
         self.__parent__ = parent
         self._blob = Blob()
-        self._defaultOutputMimeType = defaultOutputMimeType
+        self._outputMimeType = outputMimeType
         self._set = False
         self._mimeType = mimeType
         self._output = None
@@ -96,16 +96,16 @@ class RichTextValue(object):
     # the default mime type
     
     @getproperty
-    def defaultOutputMimeType(self):
-        return self._defaultOutputMimeType
+    def outputMimeType(self):
+        return self._outputMimeType
     
     @setproperty
-    def defaultOutputMimeType(self, value):
+    def outputMimeType(self, value):
         
         if self.readonly:
             raise TypeError("Value is readonly. Use copy() first.")
         
-        self._defaultOutputMimeType = value
+        self._outputMimeType = value
         self.update()
         self.modified()
     
@@ -128,7 +128,7 @@ class RichTextValue(object):
         if not self._set:
             return
         
-        if self.defaultOutputMimeType is None:
+        if self.outputMimeType is None:
             return
         
         context = self.__parent__
@@ -140,7 +140,7 @@ class RichTextValue(object):
             return
             
         try:
-            self._output = transformer(self, self.defaultOutputMimeType)
+            self._output = transformer(self, self.outputMimeType)
         except TransformError, e:
             self._output = None
         self.modified()
@@ -156,7 +156,7 @@ class RichTextValue(object):
         """
         newvalue = RichTextValue(parent)
         newvalue._blob = Blob()
-        newvalue._defaultOutputMimeType = self.defaultOutputMimeType
+        newvalue._outputMimeType = self.outputMimeType
         newvalue._mimeType = self.mimeType
         newvalue._output = self._output
         newvalue._encoding = self._encoding

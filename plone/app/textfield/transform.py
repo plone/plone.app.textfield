@@ -29,8 +29,11 @@ class PortalTransformsTransformer(object):
             raise TransformError("Cannot find portal_transforms tool")
         
         try:
-            data = transforms.convertTo(mimeType, value.raw_encoded, mimetype=value.mimeType,
-                                        object=self.context, encoding=value._encoding)
+            data = transforms.convertTo(mimeType,
+                                        value.raw_encoded,
+                                        mimetype=value.mimeType,
+                                        object=None, # stop portal_transforms from caching - we have our own cache in the 'output' variable
+                                        encoding=value._encoding)
             output = data.getData()
             return output.decode(value._encoding)
         except ConflictError:

@@ -92,7 +92,7 @@ Note: It is an error to set the 'raw' value before the 'mimeType' has been
 set!
 
     >>> value.mimeType = 'text/plain'
-    >>> value.defaultOutputMimeType = field.output_mime_type
+    >>> value.outputMimeType = field.output_mime_type
     >>> value.raw = u"Some plain text"
      -> Transforming from text/plain to text/x-uppercase
 
@@ -131,7 +131,7 @@ that it supports non-ASCII characters:
 Note that if the value is changed in a way that stops the transform from
 working, the output will be None.
 
-    >>> value.defaultOutputMimeType = 'text/html'
+    >>> value.outputMimeType = 'text/html'
      -> Transforming from text/plain to text/html
     >>> value.output is None
     True
@@ -152,7 +152,7 @@ default MIME types set on the field.
      -> Transforming from text/plain to text/x-uppercase
     >>> value.mimeType
     'text/plain'
-    >>> value.defaultOutputMimeType
+    >>> value.outputMimeType
     'text/x-uppercase'
     >>> value.raw
     u'A plain text string'
@@ -199,7 +199,7 @@ MIME types.
     
     >>> default_field.default.raw
     u'Default value'
-    >>> default_field.default.defaultOutputMimeType
+    >>> default_field.default.outputMimeType
     'text/x-uppercase'
     >>> default_field.default.mimeType
     'text/plain'
@@ -224,7 +224,7 @@ field.
     ...
     TypeError: Value is readonly. Use copy() first.
     
-    >>> default_field.default.defaultOutputMimeType = 'text/foo'
+    >>> default_field.default.outputMimeType = 'text/foo'
     Traceback (most recent call last):
     ...
     TypeError: Value is readonly. Use copy() first.
@@ -312,7 +312,7 @@ Let's now show when _p_changed is modified
     True
     
     >>> content._p_changed = False
-    >>> value.defaultOutputMimeType = 'text/x-lowercase'
+    >>> value.outputMimeType = 'text/x-lowercase'
      -> Transforming from text/plain to text/x-lowercase
     >>> content._p_changed
     True
