@@ -48,20 +48,27 @@ Using the value object
 ----------------------
 
 The value that is stored on a rich text field is a RichTextValue object.
-We can create an empty value to start with.
+This object is immutable and non-persistent.
 
     >>> from plone.app.textfield.value import RichTextValue
-    >>> value = RichTextValue()
 
 The text value stores a 'raw' value in a ZODB blob, as well as an 'output'
 value that is transformed to a target MIME type. It is possible to access
 the raw value directly to transform to a different output type if needed,
 of course.
 
-Before we can set the raw value and test the field, we need to provide a
-transformation engine. Here, we will make a rather simple one. This package
-comes with a default transformer that uses Products.PortalTransforms, which
-comes with Plone.
+If no transformation is available, the output will be None.
+
+    >>> value = RichTextValue(raw=u"Some plain text",
+    ...                       mimeType='text/plain',
+    ...                       outputMimeType=field.output_mime_type,
+    ...                       encoding='utf-8')    
+    >>> value.output is None
+    True
+
+To test transformations, we need to provide a transformation engine. Here, we
+will make a rather simple one. This package comes with a default transformer
+that uses Products.PortalTransforms, which comes with Plone.
 
     >>> from plone.app.textfield.interfaces import ITransformer, TransformError
     >>> from zope.component import adapts, provideAdapter
@@ -85,56 +92,47 @@ comes with Plone.
     ...     
     >>> provideAdapter(TestTransformer)
 
-At this point, let's set some text onto the value. This would commonly be
-done in a form widget when the object is created.
+Let's now access the output again:
 
-Note: It is an error to set the 'raw' value before the 'mimeType' has been
-set!
-
-    >>> value.mimeType = 'text/plain'
-    >>> value.outputMimeType = field.output_mime_type
-    >>> value.raw = u"Some plain text"
+    >>> value.output
      -> Transforming from text/plain to text/x-uppercase
+    u'SOME PLAIN TEXT'
 
-As you can see, the transform was invoked as soon as the 'raw' value was set.
-We can now obtain the cached value from the output:
+Notice how the transform was invoked on demand. The value is now cached and
+will not be transformed again:
 
     >>> value.output
     u'SOME PLAIN TEXT'
 
-It is also possible to read the raw value:
+If the engine is available when the field is constructed, the transform will
+take place immediately:
+
+    >>> value = RichTextValue(raw=u"Some plain text",
+    ...                       mimeType='text/plain',
+    ...                       outputMimeType=field.output_mime_type,
+    ...                       encoding='utf-8')    
+     -> Transforming from text/plain to text/x-uppercase
+    >>> value.output
+    u'SOME PLAIN TEXT'
+    
+It is also possible to provide the transformed value directly. One reason to
+do this may be to create a copy of another value.
+
+    >>> copy = RichTextValue(value.raw, value.mimeType,value.outputMimeType, value.encoding, value.output)
+
+Notice how now transformation took place this time.
+
+It is of course possible to get the raw value:
 
     >>> value.raw
     u'Some plain text'
 
 Or to get the value encoded:
 
-    >>> value._encoding
+    >>> value.encoding
     'utf-8'
     >>> value.raw_encoded
     'Some plain text'
-
-If the value is changed, the output transform is re-applied. We'll also show
-that it supports non-ASCII characters:
-
-    >>> value.raw = u'Hello w\xf8rld'
-     -> Transforming from text/plain to text/x-uppercase
-    >>> value.raw_encoded
-    'Hello w\xc3\xb8rld'
-    
-    >>> value.raw
-    u'Hello w\xf8rld'
-    
-    >>> value.output
-    u'HELLO W\xd8RLD'
-
-Note that if the value is changed in a way that stops the transform from
-working, the output will be None.
-
-    >>> value.outputMimeType = 'text/html'
-     -> Transforming from text/plain to text/html
-    >>> value.output is None
-    True
 
 Converting a value from unicode
 -------------------------------
@@ -204,56 +202,6 @@ MIME types.
     >>> default_field.default.mimeType
     'text/plain'
 
-Copying and read-only
----------------------
-
-A value may be set to be readonly. In this case, it is not possible to set a
-new raw string. One example of a readonly value is the default value of a
-field.
-
-    >>> default_field.default.readonly
-    True
-    
-    >>> default_field.default.raw = u"New value"
-    Traceback (most recent call last):
-    ...
-    TypeError: Value is readonly. Use copy() first.
-    
-    >>> default_field.default.mimeType = 'text/foo'
-    Traceback (most recent call last):
-    ...
-    TypeError: Value is readonly. Use copy() first.
-    
-    >>> default_field.default.outputMimeType = 'text/foo'
-    Traceback (most recent call last):
-    ...
-    TypeError: Value is readonly. Use copy() first.
-    
-A field may be copied, in which case the new value will not be readonly.
-
-    >>> clone = default_field.default.copy()
-    >>> clone._blob is not default_field.default._blob
-    True
-    >>> clone.raw
-    u'Default value'
-    
-The copy() method may be passed a new parent object.
-
-    >>> content = Content()
-    >>> clone = default_field.default.copy(content)
-    >>> clone.__parent__ is content
-    True
-
-Alternatively, when using set() on the field, the object will be cloned if
-necessary.
-
-    >>> content = Content()
-    >>> default_field.set(content, default_field.default)
-    >>> content.default_field.__parent__ is content
-    True
-    >>> content.default_field._blob is not default_field.default._blob
-    True
-
 Persistence
 -----------
 
@@ -268,51 +216,3 @@ and so loading an object with a RichTextValue would mean loading two objects
 from the ZODB. For the common use case of storing the body text of a content
 object (or indeed, any situation where the RichTextValue is usually loaded
 when the object is accessed), this is unnecessary overhead.
-
-Instead, the RichTextValue object keeps track of its parent and sets the
-_p_changed variable on it each time it is modified.
-
-So far, we haven't had a parent object.
-
-    >>> value.__parent__ is None
-    True
-
-Let's create a new value that does have a parent. One way to do that is to
-use the set() method on the field.
-
-    >>> content = Content()
-
-We set up a dummy ZODB data manager so that we can test _p_changed.
-
-    >>> class DM:
-    ...     def __init__(self):
-    ...         self.called = 0
-    ...     def register(self, ob):
-    ...         self.called += 1
-    ...     def setstate(self, ob):
-    ...         ob.__setstate__({})
-    >>> content._p_jar = DM()
-
-    >>> field.set(content, value)
-    >>> value.__parent__ is content
-    True
-
-Let's now show when _p_changed is modified
-
-    >>> content._p_changed = False
-    >>> value.raw = u"A raw value"
-     -> Transforming from text/plain to text/x-uppercase
-    >>> content._p_changed
-    True
-
-    >>> content._p_changed = False
-    >>> value.mimeType = 'text/plain'
-     -> Transforming from text/plain to text/x-uppercase
-    >>> content._p_changed
-    True
-    
-    >>> content._p_changed = False
-    >>> value.outputMimeType = 'text/x-lowercase'
-     -> Transforming from text/plain to text/x-lowercase
-    >>> content._p_changed
-    True

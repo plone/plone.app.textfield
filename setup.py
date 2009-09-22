@@ -29,7 +29,6 @@ setup(name='plone.app.textfield',
           'zope.interface',
           'zope.component',
           'ZODB3 >= 3.8.1',
-          'rwproperty',
       ],
       tests_require=['collective.testcaselayer'],
       extras_require={

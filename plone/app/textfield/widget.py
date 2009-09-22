@@ -1,4 +1,4 @@
-from Acquisition import ImplicitAcquisitionWrapper, aq_inner
+from Acquisition import ImplicitAcquisitionWrapper
 
 from zope.interface import implementsOnly, implementer
 from zope.component import adapts, adapter
@@ -48,10 +48,9 @@ class RichTextWidget(TextAreaWidget):
             return default
         
         mimeType = self.request.get("%s.mimeType" % self.name, self.field.default_mime_type)
-        return RichTextValue(aq_inner(self.context),
-                             outputMimeType=self.field.output_mime_type,
-                             raw=raw,
+        return RichTextValue(raw=raw,
                              mimeType=mimeType,
+                             outputMimeType=self.field.output_mime_type,
                              encoding=getSiteEncoding())
 
     def allowedMimeTypes(self):

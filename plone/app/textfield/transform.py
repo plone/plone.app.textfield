@@ -33,9 +33,9 @@ class PortalTransformsTransformer(object):
                                         value.raw_encoded,
                                         mimetype=value.mimeType,
                                         object=None, # stop portal_transforms from caching - we have our own cache in the 'output' variable
-                                        encoding=value._encoding)
+                                        encoding=value.encoding)
             output = data.getData()
-            return output.decode(value._encoding)
+            return output.decode(value.encoding)
         except ConflictError:
             raise
         except Exception, e:

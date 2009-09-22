@@ -32,45 +32,44 @@ class IRichTextValue(Interface):
     
       - A ZODB blob with the original value
       - A cache of the value transformed to the default output type
+      
+    The object is immutable.
     """
-    
-    __parent__ = schema.Object(
-            title=u"Content object",
-            schema=Interface
+
+    raw = schema.Text(
+            title=u"Raw value in the original MIME type",
+            readonly=True,
         )
     
     mimeType = schema.ASCIILine(
-            title=u"MIME type"
+            title=u"MIME type",
+            readonly=True,
         )
     
     outputMimeType = schema.ASCIILine(
-            title=u"Default output MIME type"
+            title=u"Default output MIME type",
+            readonly=True,
+        )
+        
+    encoding = schema.ASCIILine(
+            title=u"Default encoding for the value",
+            description=u"Mainly used internally",
+            readonly=True,
+        )
+
+    raw_encoded = schema.ASCII(
+            title=u"Get the raw value as an encoded string",
+            description=u"Mainly used internally",
+            readonly=True,
         )
     
     output = schema.Text(
             title=u"Transformed value in the target MIME type",
-            readonly=True
+            description=u"May be None if the transform cannot be completed",
+            readonly=True,
+            required=False,
+            missing_value=None,
         )
-    
-    raw = schema.Text(
-            title=u"Raw value in the original MIME type"
-        )
-    
-    readonly = schema.Bool(
-            title=u"Is the value readonly? If so, setting the raw data will raise a TypeError."
-        )
-        
-    def modified():
-        """Notify the parent (if set) that this object has been modified
-        """
-    
-    def update():
-        """Updated the cached output value
-        """
-    
-    def copy(parent=None):
-        """Return a copy of this value, with the given parent
-        """
 
 class TransformError(Exception):
     """Exception raised if a value could not be transformed. This is normally

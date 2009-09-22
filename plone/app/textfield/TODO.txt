@@ -1,7 +1,4 @@
 
-  [ ] Optimise widget.extract() and/or field.set() so that we re-use the same
-      blob instead of creating a new one each time?
-  
   [ ] Test:
   
     - placing a value in an annotation (needs to remain persistent)

@@ -1,8 +1,15 @@
 Changelog
 =========
 
-1.0b1 2009-09-17
-----------------
+1.0b2 - 
+------------------
+
+* Make the RichTextValue immutable. This greatly simplifies the code and
+  avoids the need to keep track of the parent object.
+  [optilude]
+
+1.0b1 - 2009-09-17
+------------------
 
 * Initial release
 

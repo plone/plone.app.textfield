@@ -38,19 +38,13 @@ class RichText(Object):
         super(RichText, self).__init__(schema=schema, **kw)
 
     def fromUnicode(self, str):
-        return RichTextValue(parent=self.context, outputMimeType=self.output_mime_type,
-            raw=str, mimeType=self.default_mime_type, encoding=getSiteEncoding())
+        return RichTextValue(
+                raw=str,
+                mimeType=self.default_mime_type,
+                outputMimeType=self.output_mime_type,
+                encoding=getSiteEncoding(),
+            )
         
     def _validate(self, value):
         if self.allowed_mime_types and value.mimeType not in self.allowed_mime_types:
             raise WrongType(value, self.allowed_mime_types)
-    
-    def set(self, object, value):
-        if not self.readonly:
-            if value.readonly:
-                value = value.copy(object)
-            else:
-                value.__parent__ = object
-            if value.outputMimeType is None:
-                value.outputMimeType = self.output_mime_type
-        super(RichText, self).set(object, value)
