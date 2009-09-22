@@ -2,8 +2,12 @@ Rich text field and value
 =========================
 
 The main purpose of this package is to provide a rich text field, which stores
-rich text with an associated MIME type in a ZODB blob, with the possibility of
-transforming the value to another MIME type.
+rich text with an associated MIME type, with the possibility of transforming
+the value to another MIME type.
+
+The storage is optimised for the case where the transformed output value is
+used frequently when the content object it resides on is used, whereas the
+raw value is used only infrequently (e.g. when the object is modified).
 
 Using the field
 ---------------
@@ -48,14 +52,13 @@ Using the value object
 ----------------------
 
 The value that is stored on a rich text field is a RichTextValue object.
-This object is immutable and non-persistent.
+This object is immutable.
 
     >>> from plone.app.textfield.value import RichTextValue
 
-The text value stores a 'raw' value in a ZODB blob, as well as an 'output'
-value that is transformed to a target MIME type. It is possible to access
-the raw value directly to transform to a different output type if needed,
-of course.
+The value object stores the 'raw' text value as well as an 'output' value that
+is transformed to a target MIME type. It is possible to access the raw value
+directly to transform to a different output type if needed, of course.
 
 If no transformation is available, the output will be None.
 
@@ -66,9 +69,11 @@ If no transformation is available, the output will be None.
     >>> value.output is None
     True
 
-To test transformations, we need to provide a transformation engine. Here, we
-will make a rather simple one. This package comes with a default transformer
-that uses Products.PortalTransforms, which comes with Plone.
+To test transformations, we need to provide a transformation engine, via an
+ITransformer adapter. For these tests, we will make a rather simple one.
+
+This package comes with a default transformer that uses
+Products.PortalTransforms, which in turn comes with Plone.
 
     >>> from plone.app.textfield.interfaces import ITransformer, TransformError
     >>> from zope.component import adapts, provideAdapter
@@ -92,7 +97,7 @@ that uses Products.PortalTransforms, which comes with Plone.
     ...     
     >>> provideAdapter(TestTransformer)
 
-Let's now access the output again:
+Let's now access the output of our previously constructed value object again:
 
     >>> value.output
      -> Transforming from text/plain to text/x-uppercase
@@ -205,7 +210,7 @@ MIME types.
 Persistence
 -----------
 
-The RichTextValue object is not persistent.
+The RichTextValue object is not a persistent object.
 
     >>> from persistent.interfaces import IPersistent
     >>> IPersistent.providedBy(value)
@@ -216,3 +221,13 @@ and so loading an object with a RichTextValue would mean loading two objects
 from the ZODB. For the common use case of storing the body text of a content
 object (or indeed, any situation where the RichTextValue is usually loaded
 when the object is accessed), this is unnecessary overhead.
+
+However, the raw value is stored in a separated persistent object. This means
+that unless the 'raw' or 'raw_encoded' attributes are accessed, the raw value
+is not loaded from the ZODB.
+
+    >>> value._raw_holder
+    <RawValueHolder: A plain text string>
+    
+    >>> IPersistent.providedBy(value._raw_holder)
+    True

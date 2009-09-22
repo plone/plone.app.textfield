@@ -4,6 +4,11 @@ Changelog
 1.0b2 - 
 ------------------
 
+* Store the raw value in a separate persistent object in the ZODB instead of
+  in a BLOB. This avoids potential problems with having thousands of small
+  BLOB files, which would not be very space efficient on many filesystems.
+  [optilude]
+
 * Make the RichTextValue immutable. This greatly simplifies the code and
   avoids the need to keep track of the parent object.
   [optilude]

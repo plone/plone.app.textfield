@@ -5,9 +5,20 @@ from zope.app.component.hooks import getSite
 
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer, TransformError
 
-from ZODB.blob import Blob
+from persistent import Persistent
 
 LOG = logging.getLogger('plone.app.textfield')
+
+class RawValueHolder(Persistent):
+    """Place the raw value in a separate persistent object so that it does not
+    get loaded when all we want is the output.
+    """
+    
+    def __init__(self, value):
+        self.value = value
+        
+    def __repr__(self):
+        return u"<RawValueHolder: %s>" % self.value
 
 class RichTextValue(object):
     """The actual value.
@@ -19,23 +30,14 @@ class RichTextValue(object):
     implements(IRichTextValue)
     
     def __init__(self, raw=None, mimeType=None, outputMimeType=None, encoding='utf-8', output=None):
-        self._blob           = Blob()
+        self._raw_holder     = RawValueHolder(raw)
         self._mimeType       = mimeType
         self._outputMimeType = outputMimeType
         self._encoding       = encoding
         self._output         = output
         
-        raw_encoded = raw.encode(self._encoding)
-        
-        fp = self._blob.open('w')
-        try:
-            fp.write(raw_encoded)
-            self._set = True
-        finally:
-            fp.close()
-        
         if output is None:
-            self._update(raw_encoded)
+            self._update()
     
     # output: the cached transformed value. Not stored in a BLOB since it
     # is probably used on the main view of the object and should thus be
@@ -44,15 +46,14 @@ class RichTextValue(object):
     @property
     def output(self):
         if self._output is None:
-            self._update(self.raw_encoded)
+            self._update()
         return self._output
         
     # the raw value - stored in a BLOB
     
     @property
     def raw(self):
-        value = self.raw_encoded
-        return value.decode(self._encoding)
+        return self._raw_holder.value
     
     # Encoded raw value
 
@@ -62,11 +63,7 @@ class RichTextValue(object):
 
     @property
     def raw_encoded(self):
-        fp = self._blob.open('r')
-        try:
-            return fp.read()
-        finally:
-            fp.close()
+        return self._raw_holder.value.encode(self.encoding)
     
     # the current mime type
     
@@ -82,7 +79,7 @@ class RichTextValue(object):
     
     # cached output
     
-    def _update(self, raw_encoded):
+    def _update(self):
         """Update the cache
         """
         
