@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b2 - 
+1.0b2 - 2009-09-21
 ------------------
 
 * Store the raw value in a separate persistent object in the ZODB instead of
