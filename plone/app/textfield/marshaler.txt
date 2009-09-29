@@ -80,3 +80,39 @@ default type is used.
     'text/html'
     >>> decoded.encoding
     'utf-8'
+
+Let's see how this looks in a message. We will mark the text field as a
+primary field so that it is encoded in the content body.
+
+    >>> from plone.rfc822.interfaces import IPrimaryField
+    >>> from plone.rfc822 import constructMessageFromSchema
+    >>> from plone.rfc822 import renderMessage
+
+    >>> from zope.interface import alsoProvides
+    >>> alsoProvides(ITestContent['_text'], IPrimaryField)
+    
+    >>> message = constructMessageFromSchema(t, ITestContent)
+    >>> messageBody = renderMessage(message)
+    >>> print messageBody
+    MIME-Version: 1.0
+    Content-Type: text/plain
+    <BLANKLINE>
+    Some Ø plain text
+
+Let's now use this message to construct a new object.
+
+    >>> from email import message_from_string
+    >>> inputMessage = message_from_string(messageBody)
+
+    >>> newContent = TestContent()
+
+    >>> from plone.rfc822 import initializeObjectFromSchema
+    >>> initializeObjectFromSchema(newContent, ITestContent, inputMessage)
+    >>> newContent._text.raw
+    'Some \xc3\x98 plain text'
+    >>> newContent._text.mimeType
+    'text/plain'
+    >>> newContent._text.outputMimeType
+    'text/html'
+    >>> newContent._text.encoding
+    'utf-8'
