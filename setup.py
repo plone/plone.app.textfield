@@ -35,6 +35,7 @@ setup(name='plone.app.textfield',
         'portraltransforms': ['Products.PortalTransforms'],
         'supermodel': ['plone.supermodel'],
         'widget': ['z3c.form'],
+        'marshaler': ['plone.rfc822'],
         'tests': ['collective.testcaselayer'],
       },
       entry_points="""

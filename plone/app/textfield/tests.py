@@ -132,7 +132,6 @@ class TestIntegration(ptc.PloneTestCase):
         from Products.CMFCore.PortalContent import PortalContent
         from plone.app.textfield.widget import RichTextWidget
         from z3c.form.widget import FieldWidget
-        from z3c.form.interfaces import NOVALUE
         
         class IWithText(Interface):
             
@@ -164,7 +163,6 @@ class TestIntegration(ptc.PloneTestCase):
         from Products.CMFCore.PortalContent import PortalContent
         from plone.app.textfield.widget import RichTextWidget
         from z3c.form.widget import FieldWidget
-        from z3c.form.interfaces import NOVALUE
         
         class IWithText(Interface):
             
@@ -199,7 +197,10 @@ def test_suite():
     handler = doctest.DocFileSuite('handler.txt', optionflags=doctest.ELLIPSIS)
     handler.layer = UnitTestLayer
     
+    marshaler = doctest.DocFileSuite('marshaler.txt', optionflags=doctest.ELLIPSIS)
+    marshaler.layer = UnitTestLayer
+    
     return unittest.TestSuite((
-        field, handler,
+        field, handler, marshaler,
         unittest.makeSuite(TestIntegration),
         ))

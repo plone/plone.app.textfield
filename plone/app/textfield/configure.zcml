@@ -17,6 +17,11 @@
     <include zcml:condition="installed z3c.form"
         file="widget.zcml"
         />
+        
+    <!-- Configure plone.rfc822 marshaler if installed -->
+    <include zcml:condition="installed plone.rfc822"
+        file="marshaler.zcml"
+        />
     
     <!-- Configure transform invocation browser view -->
     <include file="browser.zcml" />
