@@ -65,6 +65,8 @@ We can now look up and test the marshaler:
     'utf-8'
     >>> marshaler.getContentType()
     'text/plain'
+    >>> marshaler.getCharset('utf-8')
+    'utf-8'
     >>> marshaler.ascii
     False
 
@@ -95,9 +97,11 @@ primary field so that it is encoded in the content body.
     >>> messageBody = renderMessage(message)
     >>> print messageBody
     MIME-Version: 1.0
-    Content-Type: text/plain
+    Content-Type: text/plain; charset="utf-8"
+    Content-Transfer-Encoding: base64
     <BLANKLINE>
-    Some Ø plain text
+    U29tZSDDmCBwbGFpbiB0ZXh0
+    <BLANKLINE>
 
 Let's now use this message to construct a new object.
 

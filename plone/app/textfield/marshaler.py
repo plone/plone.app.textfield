@@ -38,3 +38,9 @@ if HAVE_MARSHALER:
             if value is None:
                 return None
             return value.mimeType
+
+        def getCharset(self, default='utf-8'):
+            value = self._query()
+            if value is None:
+                return None
+            return value.encoding
