@@ -98,10 +98,8 @@ primary field so that it is encoded in the content body.
     >>> print messageBody
     MIME-Version: 1.0
     Content-Type: text/plain; charset="utf-8"
-    Content-Transfer-Encoding: base64
     <BLANKLINE>
-    U29tZSDDmCBwbGFpbiB0ZXh0
-    <BLANKLINE>
+    Some Ø plain text
 
 Let's now use this message to construct a new object.
 
