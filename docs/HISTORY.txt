@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b3 -
+1.0b3 - 2009-10-08
 ------------------
 
 * Add plone.rfc822 field marshaller. This is only configured if that package
