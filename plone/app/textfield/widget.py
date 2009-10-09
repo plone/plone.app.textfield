@@ -76,6 +76,8 @@ class RichTextConverter(BaseDataConverter):
             return value
         elif isinstance(value, unicode):
             return self.field.fromUnicode(value)
+        elif value is None:
+            return None
         raise ValueError("Cannot convert %s to an IRichTextValue" % repr(value))
 
     def toFieldValue(self, value):
