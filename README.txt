@@ -24,59 +24,68 @@ To use the field, place it in a schema like so::
 This specifies the default MIME type of text content as well as the default
 output type, and a tuple of allowed types. All these values are optional.
 The default MIME type is 'text/html', and the default output type is
-'text/x-html-safe'. By default, allowed_mime_types is None, which means
-no validation will take place on the allowed MIME type.
+'text/x-html-safe'. By default, ``allowed_mime_types`` is None, which means
+that the side-wide default set of allowable input MIME types will be permitted.
 
 Note that the default value here is set to a unicode string, which will be
 considered to be of the default MIME type. This value is converted to a
-`RichTextValue` object (see below) on field initialisation, so the `default`
-property will be an object of this type.
+``RichTextValue`` object (see below) on field initialisation, so the
+``default`` property will be an object of this type.
 
-The field actually stores an object of type
+The field actually stores an immutable object of type
 `plone.app.textfield.value.RichTextValue`. This object has the following
 attributes:
 
-    raw (read/write)
-        The raw value as a unicode string. This value is stored in a ZODB
-        blob.
+    raw
+        The raw value as a unicode string.
     
-    mimeType (read/write)
+    mimeType
         The MIME type of the raw text.
     
-    output (read-only)
+    output
         A unicode string that represents the value transformed to the
-        default output MIME type. This is not stored in a BLOB. May be None
-        if the transformation could not be completed successfully.
+        default output MIME type. May be None if the transformation could
+        not be completed successfully, but will be cached after it has been
+        successfully transformed once.
         
-    readonly (read-only)
-        The value may be read-only. A common example is the `default` property
-        on the field, if set. In this case, setting the raw value or MIME
-        type will result in a TypeError. Use the copy() method to get back
-        a new copy that is not in read-only mode.
+    outputMimeType
+        The MIME type of the output string. This is normally copied from the
+        field's ``output_mime_type`` property.
 
-The idea is that the raw value is used in edit controls or if a different
-transformation is required. The output value is stored in a non-BLOB string,
-because it is expected to be commonly used (e.g. as the body text of a page-
-like object) and should thus be loaded with the object.
+That the ``output``, ``mimeType`` and ``outputMimeType`` properties will be
+stored in the same _p_jar as the parent content object, whilst the ``raw``
+value is stored in a separate persistent object. This is to optimise for the
+common case where the ``output`` is frequently accessed when the object is
+viewed (and thus should avoid a separate persistent object load), whereas the
+``raw`` value is infrequently accessed (and so should not take up memory
+unless specifically requested).
 
-The RichTextValue is not a persistent object, but is expected to be set as
-an attribute of a persistent object. It will notify its parent (via the
-_p_changed protocol) when it is modified. The parent will be set correctly
-when the field's set() method is used. Otherwise, set it yourself.
-
-Transformation takes place using an ITransformer adapter. The default
-implementation uses Plone's portal_transforms tool to convert form one
-MIME type to another. Note that Products.PortalTransforms must be installed
+Transformation takes place using an ``ITransformer`` adapter. The default
+implementation uses Plone's ``portal_transforms`` tool to convert form one
+MIME type to another. Note that ``Products.PortalTransforms`` must be installed
 for this to work, otherwise no default ITransformer adapter is registered.
-You can use the [portaltransforms] extra to add a `Products.PortralTransforms`
-dependency.
+You can use the ``[portaltransforms]`` extra to add
+``Products.PortralTransforms`` as a dependency.
 
-The package also contains a `plone.supermodel` export/import handler, which
+To invoke alternative transformations from a page template, you can use the
+following convenience syntax::
+
+  <div tal:content="structure context/@@text-transform/fieldName/text/plain" />
+  
+Here ``fieldName`` is the name of the field (which must be found on ``context``
+and contain a ``RichTextValue``). ``text/plain`` is the desired output MIME
+type.
+
+The package also contains a ``plone.supermodel`` export/import handler, which
 will be configured if plone.supermodel is installed. You can use the
-[supermodel] extra to add a `plone.supermodel` dependency.
+``[supermodel]`` extra to add a ``plone.supermodel`` dependency.
 
-Finally, a `z3c.form` widget will be installed if `z3c.form` is installed.
-The [widget] extra will pull this dependency in if nothing else does.
+A ``z3c.form`` widget will be installed if `z3c.form`` is installed.
+The ``[widget]`` extra will pull this dependency in if nothing else does.
+
+A ``plone.rfc822`` field marshaler will be installed if ``plone.rfc822`` is
+installed. The ``[marshaler]`` extra will pull this dependency in if nothing
+else does.
 
 See field.txt for more details about the field's behaviour, and handler.txt
 for more details about the plone.supermodel handler.

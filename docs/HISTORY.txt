@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.0b4 - 2009-10-12
+------------------
+
+* Update README.txt to be in line with reality.
+  [optilude]
+
+* Fix the @@text-transform view to work with path traversal.
+  [optilude]
+
 1.0b3 - 2009-10-08
 ------------------
 

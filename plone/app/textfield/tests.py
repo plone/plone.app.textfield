@@ -60,8 +60,6 @@ class TestIntegration(ptc.PloneTestCase):
     def testTransformView(self):
         from zope.interface import Interface, implements
         from plone.app.textfield import RichText
-        from zope.publisher.browser import TestRequest
-        from plone.app.textfield.browser import Transform
         from Products.CMFCore.PortalContent import PortalContent
         
         class IWithText(Interface):
@@ -76,18 +74,15 @@ class TestIntegration(ptc.PloneTestCase):
             text = None
         
         context = Context()
-        request = TestRequest()
-        
         context.text = IWithText['text'].fromUnicode(u"Some **text**")
         
-        view = Transform(context, request)
+        self.portal._setObject('context', context)
+        context = self.portal['context']
         
-        view.publishTraverse(request, 'text')
-        output = view()
+        output = context.restrictedTraverse('@@text-transform/text')()
         self.assertEquals(u'<p>Some <strong>text</strong></p>', output.strip())
         
-        view.publishTraverse(request, 'text/plain')
-        output = view()
+        output = context.restrictedTraverse('@@text-transform/text/text/plain')()
         self.assertEquals(u'Some text', output.strip())
     
     def testWidgetExtract(self):

@@ -1,6 +1,4 @@
-import urllib
 from zope.interface import implements
-
 from zope.publisher.interfaces import IPublishTraverse
 
 from Acquisition import aq_inner
@@ -17,23 +15,24 @@ class Transform(BrowserView):
     
     Or:
     
-        context/@@apply-transform/fieldname/mimetype
+        context/@@text-transform/fieldname/major/minor
     
-    The mimetype may be url quoted, e.g.
+    e.g.
     
-        context/@@apply-transform/fieldname/text%2Fplain
+        context/@@text-transform/fieldname/text/plain
     """
     
-    implements(IPublishTraverse)
-    
     fieldName = None
-    mimeType = None
+    major = None
+    minor = None
     
-    def publishTraverse(self, request, name):
+    def __getitem__(self, name):
         if self.fieldName is None:
             self.fieldName = name
-        elif self.mimeType is None:
-            self.mimeType = urllib.unquote_plus(name)
+        elif self.major is None:
+            self.major = name
+        elif self.minor is None:
+            self.minor = name
         return self
         
     def __call__(self, value=None, fieldName=None, mimeType=None):
@@ -46,9 +45,10 @@ class Transform(BrowserView):
             value = getattr(context, fieldName)
         
         if mimeType is None:
-            mimeType = self.mimeType
-            if mimeType is None:
+            if not self.major or not self.minor:
                 mimeType = value.outputMimeType
+            else:
+                mimeType = "%s/%s" % (self.major, self.minor,)
         
         transformer = ITransformer(context)
         return transformer(value, mimeType)
