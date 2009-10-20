@@ -36,6 +36,7 @@ setup(name='plone.app.textfield',
         'supermodel': ['plone.supermodel'],
         'widget': ['z3c.form'],
         'marshaler': ['plone.rfc822'],
+        'editor': ['plone.schemaeditor'],
         'tests': ['collective.testcaselayer'],
       },
       entry_points="""

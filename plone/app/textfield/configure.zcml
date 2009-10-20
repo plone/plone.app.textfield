@@ -23,6 +23,11 @@
         file="marshaler.zcml"
         />
     
+    <!-- Configure plone.schemaeditor field factory if installed -->
+    <include zcml:condition="installed plone.schemaeditor"
+        file="editor.zcml"
+        />
+    
     <!-- Configure transform invocation browser view -->
     <include file="browser.zcml" />
 
