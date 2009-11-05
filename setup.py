@@ -32,7 +32,7 @@ setup(name='plone.app.textfield',
       ],
       tests_require=['collective.testcaselayer'],
       extras_require={
-        'portraltransforms': ['Products.PortalTransforms'],
+        'portaltransforms': ['Products.PortalTransforms'],
         'supermodel': ['plone.supermodel'],
         'widget': ['z3c.form'],
         'marshaler': ['plone.rfc822'],
