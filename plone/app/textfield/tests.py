@@ -71,6 +71,7 @@ class TestIntegration(ptc.PloneTestCase):
         class Context(PortalContent):
             implements(IWithText)
             
+            id = 'context'
             text = None
         
         context = Context()

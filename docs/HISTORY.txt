@@ -4,6 +4,9 @@ Changelog
 1.0b5 - unreleased
 ------------------
 
+* Fix tests on Plone 4.
+  [optilude]
+
 * Add field factory for use with plone.schemaeditor (only configured if that
   package is installed).
   [davisagli]
