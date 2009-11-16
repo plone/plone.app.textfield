@@ -4,6 +4,10 @@ Changelog
 1.0b5 - unreleased
 ------------------
 
+* Fix an error that could occur if the user did not have an editor preference
+  set.
+  [optilude]
+
 * Fix tests on Plone 4.
   [optilude]
 
