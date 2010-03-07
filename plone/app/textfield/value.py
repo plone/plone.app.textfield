@@ -39,9 +39,9 @@ class RichTextValue(object):
         if output is None:
             self._update()
     
-    # output: the cached transformed value. Not stored in a BLOB since it
-    # is probably used on the main view of the object and should thus be
-    # loaded with the object
+    # output: the cached transformed value. Not stored in a separate persistent
+    # object since it is probably used on the main view of the object and
+    # should thus be loaded with the object
     
     @property
     def output(self):
@@ -49,7 +49,7 @@ class RichTextValue(object):
             self._update()
         return self._output
         
-    # the raw value - stored in a BLOB
+    # the raw value - stored in a separate persistent object
     
     @property
     def raw(self):
@@ -90,7 +90,7 @@ class RichTextValue(object):
         
         try:
             self._output = transformer(self, self.outputMimeType)
-        except TransformError, e:
+        except TransformError:
             self._output = None
     
     def __repr__(self):

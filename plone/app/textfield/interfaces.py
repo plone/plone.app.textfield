@@ -30,7 +30,7 @@ class IRichTextValue(Interface):
     
     This stores the following values on the parent object
     
-      - A ZODB blob with the original value
+      - A separate persistent object with the original value
       - A cache of the value transformed to the default output type
       
     The object is immutable.
