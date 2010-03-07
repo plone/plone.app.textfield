@@ -52,8 +52,6 @@
                         inputname          view/name;
                         inputvalue         view/value/raw | nothing;
                         here_url           request/getURL;
-                        member             context/portal_membership/getAuthenticatedMember;
-                        editor             python: member.getProperty('wysiwyg_editor','').lower();
                         tabindex           nothing">
         <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
             The WYSIWYG code

@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0b6 - unreleased
+------------------
+
+* Remove unused lookup of the current member's editor preference. This is
+  handled by the wysiwyg_support macros.
+  [davisagli]
+
 1.0b5 - 2009-11-17
 ------------------
 
