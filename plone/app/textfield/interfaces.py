@@ -13,7 +13,7 @@ class IRichText(IObject):
         )
     
     output_mime_type = schema.ASCIILine(
-            title=u"Deafult output MIME type",
+            title=u"Default output MIME type",
             default='text/x-html-safe'
         )
     
