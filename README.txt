@@ -87,5 +87,9 @@ A ``plone.rfc822`` field marshaler will be installed if ``plone.rfc822`` is
 installed. The ``[marshaler]`` extra will pull this dependency in if nothing
 else does.
 
+A ``plone.schemaeditor`` field factory will be installed if
+``plone.schemaeditor`` is installed. The ``editor`` extra will pull this
+dependency if nothing else does.
+
 See field.txt for more details about the field's behaviour, and handler.txt
 for more details about the plone.supermodel handler.

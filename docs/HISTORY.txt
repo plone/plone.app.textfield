@@ -1,8 +1,12 @@
 Changelog
 =========
 
-1.0b6 - unreleased
+1.0b6 - 2010-04-18
 ------------------
+
+* Fix the field schemata so they can be used as the form schema when adding the
+  field using plone.schemaeditor
+  [rossp]
 
 * Remove unused lookup of the current member's editor preference. This is
   handled by the wysiwyg_support macros.
