@@ -32,6 +32,7 @@ class PortalTransformsTransformer(object):
             data = transforms.convertTo(mimeType,
                                         value.raw_encoded,
                                         mimetype=value.mimeType,
+                                        context=self.context,
                                         object=None, # stop portal_transforms from caching - we have our own cache in the 'output' variable
                                         encoding=value.encoding)
             output = data.getData()

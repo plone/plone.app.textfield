@@ -4,6 +4,9 @@ Changelog
 1.0b7 - unreleased
 ------------------
 
+* Pass context to portal transforms.
+  [elro]
+
 1.0b6 - 2010-04-18
 ------------------
 
