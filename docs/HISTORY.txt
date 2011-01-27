@@ -4,6 +4,11 @@ Changelog
 1.0b7 - unreleased
 ------------------
 
+* Don't persistently cache output. Transforms may depend on outside state
+  (e.g. the uuid transform.) PortalTransform's caching is imperfect, but it is
+  time limited. http://code.google.com/p/dexterity/issues/detail?id=151
+  [elro]
+
 * Pass context to portal transforms.
   [elro]
 
