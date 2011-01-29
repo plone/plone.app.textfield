@@ -66,7 +66,9 @@ class RichTextValue(object):
     @property
     def output(self):
         site = getSite()
-        transformer = ITransformer(site)
+        transformer = ITransformer(site, None)
+        if transformer is None:
+            return None
         return transformer(self, self.outputMimeType)
     
     def __repr__(self):
