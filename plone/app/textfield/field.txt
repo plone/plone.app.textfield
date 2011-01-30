@@ -85,8 +85,6 @@ Products.PortalTransforms, which in turn comes with Plone.
     ...         self.context = context
     ...     
     ...     def __call__(self, value, mimeType):
-    ...         # print something so that we can test when the transform happens
-    ...         print " -> Transforming from", value.mimeType, "to", mimeType
     ...         if not value.mimeType.startswith('text/'):
     ...             raise TransformError("Can only work with text")
     ...         if mimeType == 'text/x-uppercase':
@@ -100,32 +98,7 @@ Products.PortalTransforms, which in turn comes with Plone.
 Let's now access the output of our previously constructed value object again:
 
     >>> value.output
-     -> Transforming from text/plain to text/x-uppercase
     u'SOME PLAIN TEXT'
-
-Notice how the transform was invoked on demand. The value is now cached and
-will not be transformed again:
-
-    >>> value.output
-    u'SOME PLAIN TEXT'
-
-If the engine is available when the field is constructed, the transform will
-take place immediately:
-
-    >>> value = RichTextValue(raw=u"Some plain text",
-    ...                       mimeType='text/plain',
-    ...                       outputMimeType=field.output_mime_type,
-    ...                       encoding='utf-8')    
-     -> Transforming from text/plain to text/x-uppercase
-    >>> value.output
-    u'SOME PLAIN TEXT'
-    
-It is also possible to provide the transformed value directly. One reason to
-do this may be to create a copy of another value.
-
-    >>> copy = RichTextValue(value.raw, value.mimeType,value.outputMimeType, value.encoding, value.output)
-
-Notice how now transformation took place this time.
 
 It is of course possible to get the raw value:
 
@@ -152,7 +125,6 @@ This can be used to create a new RichTextValue from a string, using the
 default MIME types set on the field.
 
     >>> value = field.fromUnicode(u"A plain text string")
-     -> Transforming from text/plain to text/x-uppercase
     >>> value.mimeType
     'text/plain'
     >>> value.outputMimeType
@@ -195,7 +167,6 @@ MIME types.
     ...                          output_mime_type='text/x-uppercase',
     ...                          allowed_mime_types=('text/plain', 'text/html',),
     ...                          default=u"Default value")
-     -> Transforming from text/plain to text/x-uppercase
     
     >>> default_field.default
     RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?)
