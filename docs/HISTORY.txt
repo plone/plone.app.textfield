@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b7 - unreleased
+1.0b7 - 2011-02-11
 ------------------
 
 * Don't persistently cache output. Transforms may depend on outside state
