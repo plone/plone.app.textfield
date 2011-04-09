@@ -91,7 +91,7 @@ To import:
     >>> reciprocal.__class__
     <class 'plone.app.textfield.RichText'>
     >>> reciprocal.__name__
-    u'dummy'
+    'dummy'
     >>> reciprocal.title
     u'Test'
     >>> reciprocal.description
