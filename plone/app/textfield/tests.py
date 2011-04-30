@@ -1,5 +1,5 @@
+import doctest
 import unittest
-from zope.testing import doctest
 import zope.component.testing
 
 from Products.PloneTestCase import ptc
@@ -106,7 +106,6 @@ class TestIntegration(ptc.PloneTestCase):
             
             text = None
         
-        context = Context()
         request = TestRequest()
         
         widget = FieldWidget(IWithText['text'], RichTextWidget(request))
@@ -140,7 +139,6 @@ class TestIntegration(ptc.PloneTestCase):
             
             text = None
         
-        context = Context()
         request = TestRequest()
         
         widget = FieldWidget(IWithText['text'], RichTextWidget(request))
@@ -172,7 +170,6 @@ class TestIntegration(ptc.PloneTestCase):
             
             text = None
         
-        context = Context()
         request = TestRequest()
         
         widget = FieldWidget(IWithText['text'], RichTextWidget(request))
