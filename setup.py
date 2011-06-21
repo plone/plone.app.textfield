@@ -41,6 +41,7 @@ setup(name='plone.app.textfield',
         'marshaler': ['plone.rfc822'],
         'editor': ['plone.schemaeditor'],
         'tests': [
+          'Products.PloneTestCase',
           'collective.testcaselayer',
           'plone.supermodel [test]',
         ],
