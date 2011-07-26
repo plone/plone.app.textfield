@@ -23,7 +23,7 @@
 
     <tal:define define="fieldName view/name;
                         mimeType view/value/mimeType | view/field/default_mime_type;
-                        allowedMimeTypes view/allowedMimeTypes;">
+                        allowedMimeTypes view/allowedMimeTypes">
 
         <div class="fieldTextFormat" tal:condition="python: len(allowedMimeTypes) > 1">
             <label i18n:translate="label_text_format">Text Format</label>
@@ -52,7 +52,9 @@
                         inputname          view/name;
                         inputvalue         view/value/raw | nothing;
                         here_url           request/getURL;
-                        tabindex           nothing">
+                        tabindex           nothing;
+                        rows               view/rows;
+                        cols               view/cols">
         <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
             The WYSIWYG code
         </div>

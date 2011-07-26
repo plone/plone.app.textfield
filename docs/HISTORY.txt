@@ -4,6 +4,9 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+* Pass through the z3c.form widget's ``rows`` and ``cols`` settings to the
+  wysiwyg editor macro.
+  [davisagli]
 
 1.0 - 2011-04-30
 ----------------
