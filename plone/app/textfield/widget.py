@@ -1,4 +1,5 @@
 from Acquisition import ImplicitAcquisitionWrapper
+from UserDict import UserDict
 
 from zope.interface import implementsOnly, implementer
 from zope.component import adapts, adapter
@@ -31,15 +32,21 @@ class RichTextWidget(TextAreaWidget):
     def update(self):
         super(RichTextWidget, self).update()
         addFieldClass(self)
-
+    
+    def wrapped_context(self):
+        context = self.context
         # We'll wrap context in the current site *if* it's not already
         # wrapped.  This allows the template to acquire tools with
         # ``context/portal_this`` if context is not wrapped already.
         # Any attempts to satisfy the Kupu template in a less idiotic
-        # way failed:
-        if self.context is not None and getattr(self.context, 'aq_inner', None) is None:
-            self.context = ImplicitAcquisitionWrapper(
-                self.context, getSite())
+        # way failed. Also we turn dicts into UserDicts to avoid
+        # short-circuiting path traversal. :-s
+        if context.__class__ == dict:
+            context = UserDict(self.context)
+        if context is not None and getattr(context, 'aq_inner', None) is None:
+            context = ImplicitAcquisitionWrapper(
+                context, getSite())
+        return context
     
     def extract(self, default=NOVALUE):
         raw = self.request.get(self.name, default)

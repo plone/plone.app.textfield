@@ -5,8 +5,7 @@
      xmlns:metal="http://xml.zope.org/namespaces/metal"
      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
      i18n:domain="plone.app.textfield"
-     tal:attributes="id view/id;
-                     class view/klass;
+     tal:attributes="class view/klass;
                      style view/style;
                      title view/title;
                      lang view/lang;
@@ -45,7 +44,7 @@
         </tal:hidden>
     </tal:define>
 
-    <tal:editor define="context            nocall:view/context;
+    <tal:editor define="context            view/wrapped_context;
                         here               nocall:context;
                         portal_url         nocall:context/portal_url;
                         portal             portal_url/getPortalObject;
@@ -53,8 +52,8 @@
                         inputvalue         view/value/raw | nothing;
                         here_url           request/getURL;
                         tabindex           nothing;
-                        rows               view/rows;
-                        cols               view/cols">
+                        rows               python:view.rows or 25;
+                        cols               python:view.cols or 80">
         <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
             The WYSIWYG code
         </div>

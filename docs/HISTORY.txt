@@ -4,6 +4,13 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+* Avoid duplicating the id of the textarea if the form has no prefix.
+  [davisagli]
+
+* Fix case where editor did not load if the context being edited is a
+  dict.
+  [davisagli]
+
 * Pass through the z3c.form widget's ``rows`` and ``cols`` settings to the
   wysiwyg editor macro.
   [davisagli]
