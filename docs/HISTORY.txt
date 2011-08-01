@@ -4,6 +4,10 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+* Wrap the context in the form context, not the site, so that relative links
+  are generated correctly.
+  [davisagli]
+
 * Avoid duplicating the id of the textarea if the form has no prefix.
   [davisagli]
 

@@ -4,8 +4,6 @@ from UserDict import UserDict
 from zope.interface import implementsOnly, implementer
 from zope.component import adapts, adapter
 
-from zope.app.component.hooks import getSite
-
 from z3c.form.interfaces import ITextAreaWidget, IFormLayer, IFieldWidget, NOVALUE
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.browser.widget import addFieldClass
@@ -45,7 +43,7 @@ class RichTextWidget(TextAreaWidget):
             context = UserDict(self.context)
         if context is not None and getattr(context, 'aq_inner', None) is None:
             context = ImplicitAcquisitionWrapper(
-                context, getSite())
+                context, self.form.context)
         return context
     
     def extract(self, default=NOVALUE):
