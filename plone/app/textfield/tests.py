@@ -120,6 +120,32 @@ class TestIntegration(ptc.PloneTestCase):
         value = widget.extract()
         self.assertEquals(u"<p>Sample <strong>text</strong></p>", value.output.strip())
     
+    def testWidgetConverter(self):
+        from zope.interface import Interface
+        from plone.app.textfield import RichText
+        from zope.publisher.browser import TestRequest
+        from plone.app.textfield.value import RichTextValue
+        from plone.app.textfield.widget import RichTextWidget, RichTextConverter
+        from z3c.form.widget import FieldWidget
+
+        _marker = object()
+
+        class IWithText(Interface):
+            
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html',
+                            missing_value = _marker)
+
+        request = TestRequest()
+
+        widget = FieldWidget(IWithText['text'], RichTextWidget(request))
+        widget.update()
+
+        converter = RichTextConverter(IWithText['text'], widget)
+        self.assertTrue(converter.toFieldValue(u'') is _marker)
+        self.assertTrue(converter.toFieldValue(RichTextValue(u'')) is _marker)
+    
     def testWidgetAllowedTypesDefault(self):
         from zope.interface import Interface, implements
         from plone.app.textfield import RichText

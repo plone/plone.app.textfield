@@ -4,6 +4,10 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+* Make sure validation fails if no text is entered for a required field.
+  This closes http://code.google.com/p/dexterity/issues/detail?id=199
+  [davisagli]
+
 * Wrap the context in the form context, not the site, so that relative links
   are generated correctly.
   [davisagli]
