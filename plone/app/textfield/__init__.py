@@ -3,6 +3,7 @@ from zope.schema import Object
 
 from zope.schema.interfaces import IFromUnicode
 from zope.schema.interfaces import WrongType
+from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
@@ -48,3 +49,6 @@ class RichText(Object):
     def _validate(self, value):
         if self.allowed_mime_types and value.mimeType not in self.allowed_mime_types:
             raise WrongType(value, self.allowed_mime_types)
+
+        if not self.constraint(value):
+            raise ConstraintNotSatisfied(value)

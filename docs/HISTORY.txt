@@ -4,6 +4,10 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+* Make sure the field constraint is validated, if specified.
+  This closes http://code.google.com/p/dexterity/issues/detail?id=200
+  [davisagli]
+
 * Make sure validation fails if no text is entered for a required field.
   This closes http://code.google.com/p/dexterity/issues/detail?id=199
   [davisagli]

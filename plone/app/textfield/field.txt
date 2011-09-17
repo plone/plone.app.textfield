@@ -154,6 +154,15 @@ MIME types if the allowed_mime_types property is set.
     >>> field.allowed_mime_types = ('text/plain', 'text/html',)
     >>> field.validate(value)
 
+Field validation will also check field constraints.
+
+    >>> field.constraint = lambda value: False
+    >>> field.validate(value)
+    Traceback (most recent call last):
+    ...
+    ConstraintNotSatisfied: ...
+
+
 Default value
 -------------
 
