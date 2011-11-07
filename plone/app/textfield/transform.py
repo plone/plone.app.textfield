@@ -35,6 +35,9 @@ class PortalTransformsTransformer(object):
                                         context=self.context,
                                         object=value._raw_holder, # portal_transforms caches on this object
                                         encoding=value.encoding)
+            # TODO: "data == None" might indicate no existing transform path,
+            # do we really want this to throw an exception in the face of the user?
+            # Better to use an identity transform?
             output = data.getData()
             return output.decode(value.encoding)
         except ConflictError:
