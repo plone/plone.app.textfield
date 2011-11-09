@@ -4,8 +4,9 @@ Changelog
 1.0.2 - unreleased
 ------------------
 
-* If no transform path is found, return empty string and log error message
-  (instead of throwing an exception in the face of the user).
+* If no transform path is found: Instead of throwing an exception page
+  in the face of the user, now return an empty string. Additionally:
+  log an error message, and render it using addPortalMessage().
   [kleist]
 
 1.0.1 - 2011-09-24
