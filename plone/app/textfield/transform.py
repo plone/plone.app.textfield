@@ -38,9 +38,12 @@ class PortalTransformsTransformer(object):
                                         object=value._raw_holder,
                                         encoding=value.encoding)
             if data is None:
-                LOG.error('No transform path found from "%s" to "%s".' %
+                msg = (u'No transform path found from "%s" to "%s".' %
                           (value.mimeType, mimeType))
-                return u''; # TODO: error message instead?
+                LOG.error(msg)
+                plone_utils = getToolByName(self.context, 'plone_utils')
+                plone_utils.addPortalMessage(msg, type='error')
+                return u'';
             else:
                 output = data.getData()
                 return output.decode(value.encoding)
