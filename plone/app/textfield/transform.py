@@ -2,6 +2,7 @@ import logging
 
 from plone.app.textfield.interfaces import ITransformer, TransformError
 from Products.CMFCore.utils import getToolByName
+# from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
 from zope.app.component.hooks import getSite
 from zope.interface import implements
@@ -38,11 +39,16 @@ class PortalTransformsTransformer(object):
                                         object=value._raw_holder,
                                         encoding=value.encoding)
             if data is None:
+                # TODO: i18n
                 msg = (u'No transform path found from "%s" to "%s".' %
                           (value.mimeType, mimeType))
                 LOG.error(msg)
+                # TODO: memoize?
                 plone_utils = getToolByName(self.context, 'plone_utils')
                 plone_utils.addPortalMessage(msg, type='error')
+                # FIXME: message not always rendered, cookie caching issue?
+                # The following might work better, but how to get the request?
+                # IStatusMessage(request).add(msg, type='error')
                 return u'';
             else:
                 output = data.getData()
