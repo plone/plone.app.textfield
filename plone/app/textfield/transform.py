@@ -44,9 +44,9 @@ class PortalTransformsTransformer(object):
                           (value.mimeType, mimeType))
                 LOG.error(msg)
                 # TODO: memoize?
-                plone_utils = getToolByName(self.context, 'plone_utils')
-                plone_utils.addPortalMessage(msg, type='error')
-                # FIXME: message not always rendered, cookie caching issue?
+                ## plone_utils = getToolByName(self.context, 'plone_utils')
+                ## plone_utils.addPortalMessage(msg, type='error')
+                # FIXME: message not always rendered, or rendered later on other page.
                 # The following might work better, but how to get the request?
                 # IStatusMessage(request).add(msg, type='error')
                 return u'';
