@@ -85,6 +85,17 @@ class TestIntegration(ptc.PloneTestCase):
         
         output = context.restrictedTraverse('@@text-transform/text/text/plain')()
         self.assertEquals(u'Some text', output.strip())
+
+        # test transform shortcircuit when input and output type is the
+        # same. this used to cause infinite recursion
+        class IWithText(Interface):
+            text = RichText(title=u"Text",
+                            default_mime_type='text/html',
+                            output_mime_type='text/html')
+
+        context.text = IWithText['text'].fromUnicode(u"<span>Some html</span>")
+        output = context.restrictedTraverse('@@text-transform/text')()
+        self.assertEquals(u"<span>Some html</span>", output.strip())
     
     def testWidgetExtract(self):
         from zope.interface import Interface, implements
