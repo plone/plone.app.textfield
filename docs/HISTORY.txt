@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.2 - unreleased
+1.0.2 - 2011-11-26
 ------------------
 
 * If no transform path is found: Instead of throwing an exception page
