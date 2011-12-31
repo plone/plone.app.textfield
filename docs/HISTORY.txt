@@ -1,8 +1,15 @@
 Changelog
 =========
 
-1.0.3 - unreleased
-------------------
+1.1 - unreleased
+----------------
+
+* Provide a version of the RichText field schema for use with
+  plone.schemaeditor. Only the ``default_mime_type`` field is exposed for
+  editing through-the-web, with a vocabulary of mimetypes derived from
+  the ``AllowedContentTypes`` vocabulary in ``plone.app.vocabularies``
+  (which can be adjusted via Plone's markup control panel).
+  [davisagli]
 
 1.0.2 - 2011-11-26
 ------------------
