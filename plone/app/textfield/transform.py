@@ -56,4 +56,6 @@ class PortalTransformsTransformer(object):
         except ConflictError:
             raise
         except Exception, e:
+            # log the traceback of the original exception
+            LOG.error("Transform exception", exc_info=True)
             raise TransformError('Error during transformation', e)
