@@ -11,6 +11,9 @@ Changelog
   (which can be adjusted via Plone's markup control panel).
   [davisagli]
 
+* Log original exception when a TransformError is raised.
+  [rochecompaan]
+
 1.0.2 - 2011-11-26
 ------------------
 
