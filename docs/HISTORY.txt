@@ -4,6 +4,9 @@ Changelog
 1.1.1 - unreleased
 ------------------
 
+* Pass some additional context to the wysiwyg_support macro to help with
+  determining the field's mimetype.
+  [davisagli]
 
 1.1 - 2012-02-20
 ----------------

@@ -45,6 +45,7 @@
     </tal:define>
 
     <tal:editor define="context            view/wrapped_context;
+                        object             python:(not view.ignoreContext) and context or None;
                         here               nocall:context;
                         portal_url         nocall:context/portal_url;
                         portal             portal_url/getPortalObject;
@@ -53,7 +54,8 @@
                         here_url           request/getURL;
                         tabindex           nothing;
                         rows               python:view.rows or 25;
-                        cols               python:view.cols or 80">
+                        cols               python:view.cols or 80;
+                        field              view/field;">
         <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
             The WYSIWYG code
         </div>
