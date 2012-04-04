@@ -1,8 +1,15 @@
 Changelog
 =========
 
-1.1.1 - unreleased
-------------------
+1.2 - unreleased
+----------------
+
+* Fix an issue with the support for plone.schemaeditor.
+  [davisagli]
+
+* Support a ``max_length`` parameter for RichText fields. Input longer
+  than the max_length does not pass validation.
+  [davisagli]
 
 * Pass some additional context to the wysiwyg_support macro to help with
   determining the field's mimetype.

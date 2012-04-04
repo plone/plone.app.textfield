@@ -1,6 +1,6 @@
 from zope.interface import Interface
 
-from zope.schema.interfaces import IObject
+from zope.schema.interfaces import IObject, IMinMaxLen
 from zope import schema
 
 class IRichText(IObject):
@@ -24,6 +24,15 @@ class IRichText(IObject):
             required=False,
             value_type=schema.ASCIILine(title=u"MIME type"),
         )
+
+    max_length = schema.Int(
+        title=u'Maximum length',
+        description=u'in characters',
+        required=False,
+        min=0,
+        default=None,
+        )
+
 
 class IRichTextValue(Interface):
     """The value actually stored in a RichText field.

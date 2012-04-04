@@ -25,6 +25,7 @@ class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
         default_mime_type = Attribute('')
 
     # prevent some settings from being included in the field edit form
+    default = Attribute('')
     output_mime_type = Attribute('')
     allowed_mime_types = Attribute('')
 

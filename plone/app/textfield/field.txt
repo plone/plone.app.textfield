@@ -33,13 +33,16 @@ it stores. These are the default values:
     >>> field.allowed_mime_types is None # an optional list of allowable types
     True
 
+    >>> field.max_length  # A maximum number of characters (default = None)
+
 These can be set when the field is constructed:
 
     >>> class IContent(Interface):
     ...     rich = RichText(title=u"Rich text",
     ...                     default_mime_type='text/plain',
     ...                     output_mime_type='text/x-uppercase',
-    ...                     allowed_mime_types=('text/plain', 'text/html',),)
+    ...                     allowed_mime_types=('text/plain', 'text/html',),
+    ...                     max_length=500)
     >>> field = IContent['rich']
 
     >>> from persistent import Persistent
@@ -153,6 +156,15 @@ MIME types if the allowed_mime_types property is set.
     
     >>> field.allowed_mime_types = ('text/plain', 'text/html',)
     >>> field.validate(value)
+
+It will also make sure the raw value is not longer than the max_length,
+if a max_length is set.
+
+    >>> long_value = field.fromUnicode(u'x' * (field.max_length + 1))
+    >>> field.validate(long_value)
+    Traceback (most recent call last):
+    ...
+    Invalid: Text is too long. (Maximum 500 characters.)
 
 Field validation will also check field constraints.
 
