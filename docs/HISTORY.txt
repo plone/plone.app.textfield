@@ -4,6 +4,12 @@ Changelog
 1.2 - unreleased
 ----------------
 
+* Make sure that the display widget absolutizes relative links relative
+  to the correct context. To facilitate doing this from custom templates,
+  RichTextValue now has an ``output_relative_to`` helper method which
+  can be passed a context.
+  [davisagli]
+
 * Fix an issue with the support for plone.schemaeditor.
   [davisagli]
 

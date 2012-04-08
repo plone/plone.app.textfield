@@ -14,5 +14,5 @@
                       onkeypress view/onkeypress;
                       onkeydown view/onkeydown;
                       onkeyup view/onkeyup"><tal:block
-      define="value view/value" condition="nocall:value" content="structure python:value.output"
+      define="value view/value" condition="nocall:value" content="structure python:value.output_relative_to(view.context)"
 /></div>

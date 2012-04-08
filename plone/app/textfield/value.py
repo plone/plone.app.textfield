@@ -66,13 +66,33 @@ class RichTextValue(object):
     @property
     def output(self):
         site = getSite()
+        return self.output_relative_to(site)
+    
+    def output_relative_to(self, context):
+        """Transforms the raw value to the output mimetype, within a specified context.
+
+        If the value's mimetype is already the same as the output mimetype,
+        no transformation is performed.
+
+        The context parameter is relevant when the transformation is
+        context-dependent. For example, Plone's resolveuid-and-caption
+        transform converts relative links to absolute links using the context
+        as a base.
+
+        If a transformer cannot be found for the specified context, a
+        transformer with the site as a context is used instead.
+        """
         if self.mimeType == self.outputMimeType:
             return self.raw_encoded
-        else:
+
+        transformer = ITransformer(context, None)
+        if transformer is None:
+            site = getSite()
             transformer = ITransformer(site, None)
             if transformer is None:
                 return None
-            return transformer(self, self.outputMimeType)
+
+        return transformer(self, self.outputMimeType)
     
     def __repr__(self):
         return u"RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?)"
