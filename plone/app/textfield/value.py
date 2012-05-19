@@ -1,7 +1,7 @@
 import logging
 
 from zope.interface import implements
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer, TransformError
 

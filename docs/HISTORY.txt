@@ -4,6 +4,9 @@ Changelog
 1.2 - unreleased
 ----------------
 
+* Update getSite import locations.
+  [hannosch]
+
 * Make sure that the display widget absolutizes relative links relative
   to the correct context. To facilitate doing this from custom templates,
   RichTextValue now has an ``output_relative_to`` helper method which

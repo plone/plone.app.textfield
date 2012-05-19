@@ -4,7 +4,7 @@ from plone.app.textfield.interfaces import ITransformer, TransformError
 from Products.CMFCore.utils import getToolByName
 # from Products.statusmessages.interfaces import IStatusMessage
 from ZODB.POSException import ConflictError
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from zope.interface import implements
 
 LOG = logging.getLogger('plone.app.textfield')
