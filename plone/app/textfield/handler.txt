@@ -39,7 +39,10 @@ Then, let's test the field
     >>> import datetime
     >>> import plone.supermodel.tests
 
-    >>> from elementtree import ElementTree
+    >>> try:
+    ...     from xml.etree import ElementTree
+    ... except ImportError:
+    ...     from elementtree import ElementTree
 
     >>> field = RichText(__name__=u"dummy", title=u"Test", 
     ...     description=u"Test desc", required=False, readonly=True,
