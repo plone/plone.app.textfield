@@ -1,4 +1,7 @@
-from zope.component.hooks import getSite
+try:
+    from zope.component.hooks import getSite
+except ImportError:
+    from zope.site.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 
 def getSiteEncoding(default='utf-8'):
