@@ -13,7 +13,7 @@ from z3c.form.converter import BaseDataConverter
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
 
-from plone.app.textfield.utils import getSiteEncoding, getAllowedContentTypes
+from plone.app.textfield.utils import getAllowedContentTypes
 
 class IRichTextWidget(ITextAreaWidget):
     
@@ -56,7 +56,7 @@ class RichTextWidget(TextAreaWidget):
         return RichTextValue(raw=raw,
                              mimeType=mimeType,
                              outputMimeType=self.field.output_mime_type,
-                             encoding=getSiteEncoding())
+                             encoding='utf-8')
 
     def allowedMimeTypes(self):
         allowed = self.field.allowed_mime_types

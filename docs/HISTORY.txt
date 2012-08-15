@@ -24,6 +24,9 @@ Changelog
   determining the field's mimetype.
   [davisagli]
 
+* Changed deprecated getSiteEncoding to hardcoded `utf-8`
+  [tom_gross]
+
 1.1 - 2012-02-20
 ----------------
 

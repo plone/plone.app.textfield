@@ -8,7 +8,6 @@ from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
-from plone.app.textfield.utils import getSiteEncoding
 
 class RichText(Object):
     """Text field that also stores MIME type
@@ -47,7 +46,7 @@ class RichText(Object):
                 raw=str,
                 mimeType=self.default_mime_type,
                 outputMimeType=self.output_mime_type,
-                encoding=getSiteEncoding(),
+                encoding='utf-8',
             )
         
     def _validate(self, value):
