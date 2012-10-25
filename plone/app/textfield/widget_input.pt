@@ -52,11 +52,18 @@
                         inputname          view/name;
                         inputvalue         view/value/raw | nothing;
                         here_url           request/getURL;
+                        member context/portal_membership/getAuthenticatedMember;
+                        isAnon context/@@plone_portal_state/anonymous;
+                        member_editor python: not isAnon and member.getProperty('wysiwyg_editor').lower() or '';
+                        default_editor python: context.portal_properties.site_properties.getProperty('default_editor', '').lower();
+                        editor python: member_editor=='' and default_editor or member_editor;
+                        support_path string:nocall:here/@@${editor}_wysiwyg_support|here/${editor}_wysiwyg_support|here/${editor}/wysiwyg_support|here/portal_skins/plone_wysiwyg/wysiwyg_support;
+                        support python: path(support_path);
                         tabindex           nothing;
                         rows               python:view.rows or 25;
                         cols               python:view.cols or 80;
                         field              view/field;">
-        <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
+        <div metal:use-macro="support/macros/wysiwygEditorBox">
             The WYSIWYG code
         </div>
     </tal:editor>
