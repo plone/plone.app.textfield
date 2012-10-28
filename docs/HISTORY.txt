@@ -4,6 +4,10 @@ Changelog
 1.2 - unreleased
 ----------------
 
+* Determine which editor's wysiwyg_support template to use from within
+  widget_input.pt. Fixes support for collective.ckeditor.
+  [tschorr, davisagli]
+
 * Update getSite import locations.
   [hannosch]
 
