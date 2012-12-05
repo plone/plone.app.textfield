@@ -39,11 +39,6 @@ Then, let's test the field
     >>> import datetime
     >>> import plone.supermodel.tests
 
-    >>> try:
-    ...     from xml.etree import ElementTree
-    ... except ImportError:
-    ...     from elementtree import ElementTree
-
     >>> field = RichText(__name__=u"dummy", title=u"Test", 
     ...     description=u"Test desc", required=False, readonly=True,
     ...     default=u"Test default", 
@@ -70,7 +65,8 @@ Then, let's test the field
     
 To import:
 
-    >>> element = ElementTree.XML("""\
+    >>> from lxml import etree
+    >>> element = etree.fromstring("""\
     ... <field name="dummy" type="plone.app.textfield.RichText">
     ...   <default>Test default</default>
     ...   <description>Test desc</description>
