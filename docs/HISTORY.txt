@@ -4,6 +4,9 @@ Changelog
 1.2 - unreleased
 ----------------
 
+* Pass field's max_length to the wysiwyg macro, if it has one.
+  [davisagli]
+
 * Determine which editor's wysiwyg_support template to use from within
   widget_input.pt. Fixes support for collective.ckeditor.
   [tschorr, davisagli]

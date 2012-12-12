@@ -62,6 +62,7 @@
                         tabindex           nothing;
                         rows               python:view.rows or 25;
                         cols               python:view.cols or 80;
+                        maxlength          python:view.field.max_length or None;
                         field              view/field;">
         <div metal:use-macro="support/macros/wysiwygEditorBox">
             The WYSIWYG code
