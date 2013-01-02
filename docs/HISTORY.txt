@@ -1,7 +1,14 @@
 Changelog
 =========
 
-1.2 - unreleased
+
+1.2.1 (2012-08-14)
+------------------
+
+* Fix compatibility with Zope 2.12. [davisagli]
+
+
+1.2 (2012-08-14)
 ----------------
 
 * Pass field's max_length to the wysiwyg macro, if it has one.
