@@ -19,6 +19,9 @@ class PortalTransformsTransformer(object):
         self.context = context
 
     def __call__(self, value, mimeType):
+        # shortcut it we have no data
+        if value.raw is None:
+            return u''
 
         # shortcut if we already have the right value
         if mimeType is value.mimeType:
