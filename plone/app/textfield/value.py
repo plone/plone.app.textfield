@@ -49,6 +49,8 @@ class RichTextValue(object):
 
     @property
     def raw_encoded(self):
+        if self._raw_holder.value is None:
+            return ''
         return self._raw_holder.value.encode(self.encoding)
     
     # the current mime type

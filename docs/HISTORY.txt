@@ -4,7 +4,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not give an error when the raw value is None.  Give an empty
+  unicode string as output in that case.
+  [maurits]
 
 
 1.2.2 (2013-01-01)
