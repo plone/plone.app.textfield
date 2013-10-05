@@ -44,6 +44,13 @@ class TestIntegration(ptc.PloneTestCase):
         value = IWithText['text'].fromUnicode(u"Some **text**")
         self.assertEquals(u'<p>Some **text**</p>', value.output)
     
+    def testTransformNone(self):
+        from plone.app.textfield.value import RichTextValue
+        value = RichTextValue()
+        # Mostly, these calls simply should not give an error.
+        self.assertEquals(None, value.raw)
+        self.assertEquals(u'', value.output)
+
     def testTransformStructured(self):
         from zope.interface import Interface
         from plone.app.textfield import RichText
@@ -97,6 +104,37 @@ class TestIntegration(ptc.PloneTestCase):
         output = context.restrictedTraverse('@@text-transform/text')()
         self.assertEquals(u"<span>Some html</span>", output.strip())
     
+    def testTransformNoneView(self):
+        from zope.interface import Interface, implements
+        from plone.app.textfield import RichText
+        from plone.app.textfield.value import RichTextValue
+        from Products.CMFCore.PortalContent import PortalContent
+
+        class IWithText(Interface):
+
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html')
+
+        class Context(PortalContent):
+            implements(IWithText)
+
+            id = 'context'
+            text = None
+
+        context = Context()
+        # None as value should not lead to errors.
+        context.text = RichTextValue()
+
+        self.portal._setObject('context', context)
+        context = self.portal['context']
+
+        output = context.restrictedTraverse('@@text-transform/text')()
+        self.assertEquals(u'', output.strip())
+
+        output = context.restrictedTraverse('@@text-transform/text/text/plain')()
+        self.assertEquals(u'', output.strip())
+
     def testWidgetExtract(self):
         from zope.interface import Interface, implements
         from plone.app.textfield import RichText
