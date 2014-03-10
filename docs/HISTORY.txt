@@ -4,7 +4,10 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not give an error when the raw value is not unicode and isn't
+  ascii. In that case, encode as unicode then decode as the proper
+  string, bang head on desk.
+  [eleddy]
 
 
 1.2.3 (2014-01-27)
