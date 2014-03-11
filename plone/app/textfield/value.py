@@ -4,8 +4,10 @@ from zope.interface import implements
 from zope.component.hooks import getSite
 
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer, TransformError
+from Products.CMFPlone.utils import safe_unicode
 
 from persistent import Persistent
+
 
 LOG = logging.getLogger('plone.app.textfield')
 
@@ -51,11 +53,10 @@ class RichTextValue(object):
     def raw_encoded(self):
         if self._raw_holder.value is None:
             return ''
-        try:
-            return self._raw_holder.value.encode(self.encoding)
-        except UnicodeDecodeError:  # unicode values getting saved as plain str
-            return unicode(self._raw_holder.value,
-                           self.encoding).encode(self.encoding, 'ignore')
+        happy_value = safe_unicode(self._raw_holder.value,
+                                   encoding=self.encoding)
+        return happy_value.encode(self.encoding, 'ignore')
+
 
     # the current mime type
     
