@@ -2,9 +2,11 @@ from zope.interface import Attribute
 from zope.schema import interfaces as schema_ifaces
 from zope import schema
 
+from plone.schemaeditor.fields import FieldFactory
 from plone.app.textfield import interfaces
 from plone.app.textfield import RichText
-from plone.schemaeditor.fields import FieldFactory
+from plone.app.textfield import _
+
 
 try:
     import plone.app.vocabularies
@@ -17,7 +19,7 @@ class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
 
     if HAS_VOCABS:
         default_mime_type = schema.Choice(
-            title = u'Input format',
+            title = _(u'Input format'),
             vocabulary = 'plone.app.vocabularies.AllowedContentTypes',
             default = 'text/html',
             )
@@ -30,4 +32,4 @@ class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
     allowed_mime_types = Attribute('')
 
 
-RichTextFactory = FieldFactory(RichText, u'Rich Text')
+RichTextFactory = FieldFactory(RichText, _(u'Rich Text'))
