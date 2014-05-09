@@ -1,3 +1,5 @@
 plone.app.textfield.egg-info
 *.pyc
 *.pyo
+.pydevproject
+.project

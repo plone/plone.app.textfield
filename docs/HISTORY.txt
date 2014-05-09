@@ -8,6 +8,8 @@ Changelog
   ascii. In that case, encode as unicode then decode as the proper
   string, bang head on desk.
   [eleddy]
+- Internationalization.
+  [thomasdesvenain]
 
 
 1.2.3 (2014-01-27)
