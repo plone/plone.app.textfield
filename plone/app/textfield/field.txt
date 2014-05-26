@@ -26,10 +26,10 @@ it stores. These are the default values:
 
     >>> field.default_mime_type # the default raw/input type
     'text/html'
-    
+
     >>> field.output_mime_type # the default output type
     'text/x-html-safe'
-    
+
     >>> field.allowed_mime_types is None # an optional list of allowable types
     True
 
@@ -68,7 +68,7 @@ If no transformation is available, the output will be None.
     >>> value = RichTextValue(raw=u"Some plain text",
     ...                       mimeType='text/plain',
     ...                       outputMimeType=field.output_mime_type,
-    ...                       encoding='utf-8')    
+    ...                       encoding='utf-8')
     >>> value.output is None
     True
 
@@ -83,10 +83,10 @@ Products.PortalTransforms, which in turn comes with Plone.
     >>> class TestTransformer(object):
     ...     implements(ITransformer)
     ...     adapts(Interface)
-    ...     
+    ...
     ...     def __init__(self, context):
     ...         self.context = context
-    ...     
+    ...
     ...     def __call__(self, value, mimeType):
     ...         if not value.mimeType.startswith('text/'):
     ...             raise TransformError("Can only work with text")
@@ -95,7 +95,7 @@ Products.PortalTransforms, which in turn comes with Plone.
     ...         if mimeType == 'text/x-lowercase':
     ...             return value.raw.lower()
     ...         raise TransformError("Don't know how to create a %s'")
-    ...     
+    ...
     >>> provideAdapter(TestTransformer)
 
 Let's now access the output of our previously constructed value object again:
@@ -123,7 +123,7 @@ The RichText field provides IFromUnicode:
     >>> from zope.schema.interfaces import IFromUnicode
     >>> IFromUnicode.providedBy(field)
     True
-    
+
 This can be used to create a new RichTextValue from a string, using the
 default MIME types set on the field.
 
@@ -141,19 +141,19 @@ default MIME types set on the field.
 
 Validation
 ----------
-    
+
 The field will validate the MIME type of the value against the allowed
 MIME types if the allowed_mime_types property is set.
 
     >>> field.allowed_mime_types = None
     >>> field.validate(value)
-    
+
     >>> field.allowed_mime_types = ('text/html',)
     >>> field.validate(value)
     Traceback (most recent call last):
     ...
     WrongType: (RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?), ('text/html',))
-    
+
     >>> field.allowed_mime_types = ('text/plain', 'text/html',)
     >>> field.validate(value)
 
@@ -164,7 +164,7 @@ if a max_length is set.
     >>> field.validate(long_value)
     Traceback (most recent call last):
     ...
-    Invalid: Text is too long. (Maximum 500 characters.)
+    Invalid: msg_text_too_long
 
 Field validation will also check field constraints.
 
@@ -188,10 +188,10 @@ MIME types.
     ...                          output_mime_type='text/x-uppercase',
     ...                          allowed_mime_types=('text/plain', 'text/html',),
     ...                          default=u"Default value")
-    
+
     >>> default_field.default
     RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?)
-    
+
     >>> default_field.default.raw
     u'Default value'
     >>> default_field.default.outputMimeType
@@ -220,6 +220,6 @@ is not loaded from the ZODB.
 
     >>> value._raw_holder
     <RawValueHolder: A plain text string>
-    
+
     >>> IPersistent.providedBy(value._raw_holder)
     True
