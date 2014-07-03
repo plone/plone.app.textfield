@@ -4,6 +4,10 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
+* Use closest_content to navigate through the sea of subforms to
+  find something that we can use portal_url on.
+  [lentinj]
+
 - Do not give an error when the raw value is not unicode and isn't
   ascii. In that case, encode as unicode then decode as the proper
   string, bang head on desk.

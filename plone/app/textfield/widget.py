@@ -12,6 +12,7 @@ from z3c.form.converter import BaseDataConverter
 
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
+from plone.app.z3cform.utils import closest_content
 
 from plone.app.textfield.utils import getAllowedContentTypes
 
@@ -33,6 +34,7 @@ class RichTextWidget(TextAreaWidget):
     
     def wrapped_context(self):
         context = self.context
+        content = closest_content(context)
         # We'll wrap context in the current site *if* it's not already
         # wrapped.  This allows the template to acquire tools with
         # ``context/portal_this`` if context is not wrapped already.
@@ -41,10 +43,7 @@ class RichTextWidget(TextAreaWidget):
         # short-circuiting path traversal. :-s
         if context.__class__ == dict:
             context = UserDict(self.context)
-        if context is not None and getattr(context, 'aq_inner', None) is None:
-            context = ImplicitAcquisitionWrapper(
-                context, self.form.context)
-        return context
+        return ImplicitAcquisitionWrapper(context, content)
     
     def extract(self, default=NOVALUE):
         raw = self.request.get(self.name, default)
