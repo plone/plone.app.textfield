@@ -2,32 +2,26 @@ import doctest
 import unittest
 import zope.component.testing
 
-from Products.PloneTestCase import ptc
-import collective.testcaselayer.ptc
-
 import plone.app.textfield
+from plone.app.testing.bbb import PloneTestCase
+from plone.app import testing
+from plone.testing import layered
 
-ptc.setupPloneSite()
+class IntegrationFixture(testing.PloneSandboxLayer):
 
-class UnitTestLayer:
-    
-    @classmethod
-    def testTearDown(cls):
-        zope.component.testing.tearDown()
+    defaultBases = (testing.PLONE_FIXTURE,)
 
-class IntegrationTestLayer(collective.testcaselayer.ptc.BasePTCLayer):
+    def setUpZope(self, app, configurationContext):
+        self.loadZCML(package=plone.app.textfield)
 
-    def afterSetUp(self):
-        from Products.Five import zcml
-        from Products.Five import fiveconfigure
-        
-        fiveconfigure.debug_mode = True
-        zcml.load_config('configure.zcml', package=plone.app.textfield)
-        fiveconfigure.debug_mode = False
 
-IntegrationLayer = IntegrationTestLayer([collective.testcaselayer.ptc.ptc_layer])
 
-class TestIntegration(ptc.PloneTestCase):
+
+PTC_FIXTURE = IntegrationFixture()
+IntegrationLayer = testing.FunctionalTesting(
+    bases=(PTC_FIXTURE, ), name='PloneAppTextfieldTest:Functional')
+
+class TestIntegration(PloneTestCase):
     
     layer = IntegrationLayer
 
@@ -258,17 +252,9 @@ class TestIntegration(ptc.PloneTestCase):
         
     
 def test_suite():
-    
-    field = doctest.DocFileSuite('field.txt', optionflags=doctest.ELLIPSIS)
-    field.layer = UnitTestLayer
-    
-    handler = doctest.DocFileSuite('handler.txt', optionflags=doctest.ELLIPSIS)
-    handler.layer = UnitTestLayer
-    
-    marshaler = doctest.DocFileSuite('marshaler.txt', optionflags=doctest.ELLIPSIS)
-    marshaler.layer = UnitTestLayer
-    
-    return unittest.TestSuite((
-        field, handler, marshaler,
-        unittest.makeSuite(TestIntegration),
-        ))
+    suite = unittest.makeSuite(TestIntegration)
+    for doctestfile in ['field.txt', 'handler.txt', 'marshaler.txt']:
+        suite.addTest(layered(
+            doctest.DocFileSuite(doctestfile, optionflags=doctest.ELLIPSIS),
+            layer=testing.PLONE_FIXTURE))
+    return suite
