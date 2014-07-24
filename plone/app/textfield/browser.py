@@ -3,6 +3,7 @@ from Products.Five.browser import BrowserView
 
 from plone.app.textfield.interfaces import ITransformer
 
+
 class Transform(BrowserView):
     """Invoke a transformation on a RichText field.
 
@@ -45,7 +46,7 @@ class Transform(BrowserView):
             if not self.major or not self.minor:
                 mimeType = value.outputMimeType
             else:
-                mimeType = "%s/%s" % (self.major, self.minor,)
+                mimeType = "%s/%s" % (self.major, self.minor, )
 
         transformer = ITransformer(context)
         return transformer(value, mimeType)

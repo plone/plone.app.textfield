@@ -13,7 +13,6 @@ from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
 
 
-
 class RichText(Object):
     """Text field that also stores MIME type
     """

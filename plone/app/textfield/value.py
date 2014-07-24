@@ -6,8 +6,8 @@ from Products.CMFPlone.utils import safe_unicode
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer
 from persistent import Persistent
 
-
 LOG = logging.getLogger('plone.app.textfield')
+
 
 class RawValueHolder(Persistent):
     """Place the raw value in a separate persistent object so that it does not
@@ -20,6 +20,7 @@ class RawValueHolder(Persistent):
     def __repr__(self):
         return u"<RawValueHolder: %s>" % self.value
 
+
 class RichTextValue(object):
     """The actual value.
 
@@ -30,17 +31,15 @@ class RichTextValue(object):
     implements(IRichTextValue)
 
     def __init__(self, raw=None, mimeType=None, outputMimeType=None, encoding='utf-8', output=None):
-        self._raw_holder     = RawValueHolder(raw)
-        self._mimeType       = mimeType
+        self._raw_holder = RawValueHolder(raw)
+        self._mimeType = mimeType
         self._outputMimeType = outputMimeType
-        self._encoding       = encoding
-
+        self._encoding = encoding
     # the raw value - stored in a separate persistent object
 
     @property
     def raw(self):
         return self._raw_holder.value
-
     # Encoded raw value
 
     @property
@@ -59,7 +58,6 @@ class RichTextValue(object):
     @property
     def mimeType(self):
         return self._mimeType
-
     # the default mime type
 
     @property

@@ -19,9 +19,9 @@ class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
 
     if HAS_VOCABS:
         default_mime_type = schema.Choice(
-            title = _(u'Input format'),
-            vocabulary = 'plone.app.vocabularies.AllowedContentTypes',
-            default = 'text/html',
+            title=_(u'Input format'),
+            vocabulary='plone.app.vocabularies.AllowedContentTypes',
+            default='text/html',
             )
     else:
         default_mime_type = Attribute('')
@@ -30,6 +30,5 @@ class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
     default = Attribute('')
     output_mime_type = Attribute('')
     allowed_mime_types = Attribute('')
-
 
 RichTextFactory = FieldFactory(RichText, _(u'Rich Text'))
