@@ -1,6 +1,5 @@
 import doctest
 import unittest
-import zope.component.testing
 
 import plone.app.textfield
 from plone.app.testing.bbb import PloneTestCase
@@ -249,7 +248,7 @@ class TestIntegration(PloneTestCase):
         self.failUnless('text/html' in allowed)
         self.failUnless('text/structured' in allowed)
 
-    
+
 def test_suite():
     suite = unittest.makeSuite(TestIntegration)
     for doctestfile in ['field.txt', 'handler.txt', 'marshaler.txt']:

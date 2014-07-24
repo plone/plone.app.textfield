@@ -10,6 +10,7 @@ from plone.app.textfield import _
 
 try:
     import plone.app.vocabularies
+    plone.app.vocabularies    # make pyflakes happy
     HAS_VOCABS = True
 except ImportError:
     HAS_VOCABS = False
