@@ -32,10 +32,6 @@ setup(name='plone.app.textfield',
           'zope.component',
           'ZODB3 >= 3.8.1',
       ],
-      tests_require=[
-        'collective.testcaselayer',
-        'plone.supermodel [test]',
-      ],
       extras_require={
         'portaltransforms': ['Products.PortalTransforms'],
         'supermodel': ['plone.supermodel'],
