@@ -16,22 +16,24 @@ from plone.app.z3cform.utils import closest_content
 
 from plone.app.textfield.utils import getAllowedContentTypes
 
+
 class IRichTextWidget(ITextAreaWidget):
-    
+
     def allowedMimeTypes():
         """Get allowed MIME types
         """
 
+
 class RichTextWidget(TextAreaWidget):
     implementsOnly(IRichTextWidget)
-    
+
     klass = u'richTextWidget'
     value = None
 
     def update(self):
         super(RichTextWidget, self).update()
         addFieldClass(self)
-    
+
     def wrapped_context(self):
         context = self.context
         content = closest_content(context)
@@ -44,13 +46,13 @@ class RichTextWidget(TextAreaWidget):
         if context.__class__ == dict:
             context = UserDict(self.context)
         return ImplicitAcquisitionWrapper(context, content)
-    
+
     def extract(self, default=NOVALUE):
         raw = self.request.get(self.name, default)
-        
+
         if raw is default:
             return default
-        
+
         mimeType = self.request.get("%s.mimeType" % self.name, self.field.default_mime_type)
         return RichTextValue(raw=raw,
                              mimeType=mimeType,
@@ -63,18 +65,20 @@ class RichTextWidget(TextAreaWidget):
             allowed = getAllowedContentTypes()
         return list(allowed)
 
+
 @adapter(IRichText, IFormLayer)
 @implementer(IFieldWidget)
 def RichTextFieldWidget(field, request):
     """IFieldWidget factory for RichTextWidget."""
     return FieldWidget(field, RichTextWidget(request))
 
+
 class RichTextConverter(BaseDataConverter):
     """Data converter for the RichTextWidget
     """
-    
+
     adapts(IRichText, IRichTextWidget)
-    
+
     def toWidgetValue(self, value):
         if IRichTextValue.providedBy(value):
             return value

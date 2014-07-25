@@ -9,6 +9,7 @@ from zope.interface import implements
 
 LOG = logging.getLogger('plone.app.textfield')
 
+
 class PortalTransformsTransformer(object):
     """Invoke portal_transforms to perform a conversion
     """
@@ -52,7 +53,8 @@ class PortalTransformsTransformer(object):
                 # FIXME: message not always rendered, or rendered later on other page.
                 # The following might work better, but how to get the request?
                 # IStatusMessage(request).add(msg, type='error')
-                return u'';
+                return u''
+                
             else:
                 output = data.getData()
                 return output.decode(value.encoding)
