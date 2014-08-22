@@ -5,7 +5,7 @@ except ImportError:
     HAVE_SUPERMODEL = False
 
 if HAVE_SUPERMODEL:
-    
+
     from zope.interface import implements
     from zope.component import adapts
     from plone.app.textfield import RichText

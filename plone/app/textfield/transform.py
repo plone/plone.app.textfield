@@ -54,7 +54,7 @@ class PortalTransformsTransformer(object):
                 # The following might work better, but how to get the request?
                 # IStatusMessage(request).add(msg, type='error')
                 return u''
-                
+
             else:
                 output = data.getData()
                 return output.decode(value.encoding)

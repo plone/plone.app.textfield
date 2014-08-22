@@ -10,16 +10,16 @@ First, let's wire up the package.
     ... <configure
     ...      xmlns="http://namespaces.zope.org/zope"
     ...      i18n_domain="plone.app.textfield">
-    ...      
+    ...
     ...     <include package="zope.component" file="meta.zcml" />
     ...     <include package="plone.supermodel" />
-    ...     
+    ...
     ...     <utility
     ...         component="plone.app.textfield.handler.RichTextHandler"
     ...         name="plone.app.textfield.RichText"
     ...         />
     ...     <adapter factory="plone.app.textfield.handler.RichTextToUnicode" />
-    ...     
+    ...
     ... </configure>
     ... """
 
@@ -39,9 +39,9 @@ Then, let's test the field
     >>> import datetime
     >>> import plone.supermodel.tests
 
-    >>> field = RichText(__name__=u"dummy", title=u"Test", 
+    >>> field = RichText(__name__=u"dummy", title=u"Test",
     ...     description=u"Test desc", required=False, readonly=True,
-    ...     default=u"Test default", 
+    ...     default=u"Test default",
     ...     default_mime_type='text/plain',
     ...     output_mime_type='text/html',
     ...     allowed_mime_types=('text/plain', 'text/html',))
@@ -62,7 +62,7 @@ Then, let's test the field
       <required>False</required>
       <title>Test</title>
     </field>
-    
+
 To import:
 
     >>> from lxml import etree
@@ -83,7 +83,7 @@ To import:
     ...   </allowed_mime_types>
     ... </field>
     ... """)
-    
+
     >>> reciprocal = handler.read(element)
     >>> reciprocal.__class__
     <class 'plone.app.textfield.RichText'>

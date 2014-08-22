@@ -10,9 +10,9 @@ To use the field, place it in a schema like so::
 
     from plone.app.textfield import RichText
     from zope.interface import Interface
-    
+
     class ITest(Interface):
-    
+
         bodyText = RichText(
                 title=u"Body text",
                 default_mime_type='text/structured',
@@ -38,16 +38,16 @@ attributes:
 
     raw
         The raw value as a unicode string.
-    
+
     mimeType
         The MIME type of the raw text.
-    
+
     output
         A unicode string that represents the value transformed to the
         default output MIME type. May be None if the transformation could
         not be completed successfully, but will be cached after it has been
         successfully transformed once.
-        
+
     outputMimeType
         The MIME type of the output string. This is normally copied from the
         field's ``output_mime_type`` property.
@@ -71,7 +71,7 @@ To invoke alternative transformations from a page template, you can use the
 following convenience syntax::
 
   <div tal:content="structure context/@@text-transform/fieldName/text/plain" />
-  
+
 Here ``fieldName`` is the name of the field (which must be found on ``context``
 and contain a ``RichTextValue``). ``text/plain`` is the desired output MIME
 type.

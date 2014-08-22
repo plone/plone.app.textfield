@@ -23,7 +23,7 @@
         layer="z3c.form.interfaces.IFormLayer"
         template="widget_display.pt"
         />
-    
+
     <z3c:widgetTemplate
         mode="input"
         widget=".widget.IRichTextWidget"
