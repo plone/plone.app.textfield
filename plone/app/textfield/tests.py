@@ -251,7 +251,7 @@ class TestIntegration(PloneTestCase):
 
 def test_suite():
     suite = unittest.makeSuite(TestIntegration)
-    for doctestfile in ['field.txt', 'handler.txt', 'marshaler.txt']:
+    for doctestfile in ['field.rst', 'handler.rst', 'marshaler.rst']:
         suite.addTest(layered(
             doctest.DocFileSuite(doctestfile, optionflags=doctest.ELLIPSIS),
             layer=testing.PLONE_FIXTURE))
