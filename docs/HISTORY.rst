@@ -4,7 +4,7 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
-* Use closest_content to navigate through the sea of subforms to
+- Use closest_content to navigate through the sea of subforms to
   find something that we can use portal_url on.
   [lentinj]
 
@@ -12,6 +12,7 @@ Changelog
   ascii. In that case, encode as unicode then decode as the proper
   string, bang head on desk.
   [eleddy]
+
 - Internationalization.
   [thomasdesvenain]
 
