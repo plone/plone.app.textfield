@@ -4,6 +4,9 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
+* Tell Products.TinyMCE what the MIME type is, so it doesn't have to work it out.
+  [lentinj]
+
 - Use closest_content to navigate through the sea of subforms to
   find something that we can use portal_url on.
   [lentinj]
