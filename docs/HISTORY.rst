@@ -4,6 +4,13 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
+* Force WYSIWYG, so when we start with 'text/plain' (or another MIME),
+  selecting 'text/html' will cause TinyMCE to spring into life.
+  [lentinj]
+
+* Tell Products.TinyMCE what the MIME type is, so it doesn't have to work it out.
+  [lentinj]
+
 - Use closest_content to navigate through the sea of subforms to
   find something that we can use portal_url on.
   [lentinj]
