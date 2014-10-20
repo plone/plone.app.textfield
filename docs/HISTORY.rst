@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.4 (unreleased)
+1.2.4 (2014-10-20)
 ------------------
 
 * Force WYSIWYG, so when we start with 'text/plain' (or another MIME),
