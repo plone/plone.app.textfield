@@ -25,13 +25,6 @@ def markupRegistrySettings(context):
     return settings
 
 
-# XXX this can probably be removed
-def getSiteEncoding(default='utf-8'):
-    """Get the default site encoding
-    """
-    return 'utf-8'
-
-
 def getAllowedContentTypes():
     """Get a set of allowed MIME types according to the portal_properties
     tool
