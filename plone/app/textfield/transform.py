@@ -1,16 +1,16 @@
-import logging
-
-from plone.app.textfield.interfaces import ITransformer, TransformError
-from Products.CMFCore.utils import getToolByName
 # from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFCore.utils import getToolByName
 from ZODB.POSException import ConflictError
+from plone.app.textfield.interfaces import ITransformer, TransformError
 from zope.component.hooks import getSite
 from zope.interface import implements
+import logging
 
 LOG = logging.getLogger('plone.app.textfield')
 
 
 class PortalTransformsTransformer(object):
+
     """Invoke portal_transforms to perform a conversion
     """
 
@@ -45,12 +45,13 @@ class PortalTransformsTransformer(object):
             if data is None:
                 # TODO: i18n
                 msg = (u'No transform path found from "%s" to "%s".' %
-                          (value.mimeType, mimeType))
+                       (value.mimeType, mimeType))
                 LOG.error(msg)
                 # TODO: memoize?
-                ## plone_utils = getToolByName(self.context, 'plone_utils')
-                ## plone_utils.addPortalMessage(msg, type='error')
-                # FIXME: message not always rendered, or rendered later on other page.
+                # plone_utils = getToolByName(self.context, 'plone_utils')
+                # plone_utils.addPortalMessage(msg, type='error')
+                # FIXME: message not always rendered, or rendered later on
+                # other page.
                 # The following might work better, but how to get the request?
                 # IStatusMessage(request).add(msg, type='error')
                 return u''
@@ -60,7 +61,7 @@ class PortalTransformsTransformer(object):
                 return output.decode(value.encoding)
         except ConflictError:
             raise
-        except Exception, e:
+        except Exception as e:
             # log the traceback of the original exception
             LOG.error("Transform exception", exc_info=True)
             raise TransformError('Error during transformation', e)

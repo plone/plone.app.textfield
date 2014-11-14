@@ -12,7 +12,6 @@ if HAVE_SUPERMODEL:
     from plone.supermodel.interfaces import IToUnicode
     from plone.app.textfield.interfaces import IRichText
 
-
     class RichTextHandler_(BaseHandler):
         """Special handling for the RichText field, to deal with 'default'
         that may be unicode.
@@ -24,7 +23,6 @@ if HAVE_SUPERMODEL:
 
         def __init__(self, klass):
             super(RichTextHandler_, self).__init__(klass)
-
 
     class RichTextToUnicode(object):
         implements(IToUnicode)

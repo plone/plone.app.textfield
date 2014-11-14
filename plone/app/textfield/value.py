@@ -1,10 +1,9 @@
-import logging
-
-from zope.interface import implements
-from zope.component.hooks import getSite
 from Products.CMFPlone.utils import safe_unicode
-from plone.app.textfield.interfaces import IRichTextValue, ITransformer
 from persistent import Persistent
+from plone.app.textfield.interfaces import IRichTextValue, ITransformer
+from zope.component.hooks import getSite
+from zope.interface import implements
+import logging
 
 LOG = logging.getLogger('plone.app.textfield')
 
@@ -30,7 +29,8 @@ class RichTextValue(object):
 
     implements(IRichTextValue)
 
-    def __init__(self, raw=None, mimeType=None, outputMimeType=None, encoding='utf-8', output=None):
+    def __init__(self, raw=None, mimeType=None, outputMimeType=None,
+                 encoding='utf-8', output=None):
         self._raw_holder = RawValueHolder(raw)
         self._mimeType = mimeType
         self._outputMimeType = outputMimeType
@@ -96,4 +96,5 @@ class RichTextValue(object):
         return transformer(self, self.outputMimeType)
 
     def __repr__(self):
-        return u"RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?)"
+        return u"RichTextValue object. (Did you mean <attribute>.raw or "\
+               u"<attribute>.output?)"

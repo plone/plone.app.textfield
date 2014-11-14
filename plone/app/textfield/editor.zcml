@@ -6,9 +6,9 @@
     <implements interface=".editor.IRichText" />
   </class>
 
-    <utility
-        name="plone.app.textfield.RichText"
-        component=".editor.RichTextFactory"
-        />
+  <utility
+      name="plone.app.textfield.RichText"
+      component=".editor.RichTextFactory"
+      />
 
 </configure>

@@ -1,25 +1,20 @@
 from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
-
 from plone.app.textfield.interfaces import ITransformer
 
 
 class Transform(BrowserView):
     """Invoke a transformation on a RichText field.
 
-    Invoke as:
-
+    Invoke as::
         context/@@text-transform/fieldname
 
-    Or:
-
+    Or::
         context/@@text-transform/fieldname/major/minor
 
-    e.g.
-
+    e.g.::
         context/@@text-transform/fieldname/text/plain
     """
-
     fieldName = None
     major = None
     minor = None

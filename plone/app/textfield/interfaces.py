@@ -11,22 +11,22 @@ class IRichText(IObject):
     """
 
     default_mime_type = schema.ASCIILine(
-            title=_(u"Default MIME type"),
-            default='text/html',
-        )
+        title=_(u"Default MIME type"),
+        default='text/html',
+    )
 
     output_mime_type = schema.ASCIILine(
-            title=_(u"Default output MIME type"),
-            default='text/x-html-safe'
-        )
+        title=_(u"Default output MIME type"),
+        default='text/x-html-safe'
+    )
 
     allowed_mime_types = schema.Tuple(
-            title=_(u"Allowed MIME types"),
-            description=_(u"Set to None to disable checking"),
-            default=None,
-            required=False,
-            value_type=schema.ASCIILine(title=u"MIME type"),
-        )
+        title=_(u"Allowed MIME types"),
+        description=_(u"Set to None to disable checking"),
+        default=None,
+        required=False,
+        value_type=schema.ASCIILine(title=u"MIME type"),
+    )
 
     max_length = schema.Int(
         title=_(u'Maximum length'),
@@ -34,7 +34,7 @@ class IRichText(IObject):
         required=False,
         min=0,
         default=None,
-        )
+    )
 
 
 class IRichTextValue(Interface):
@@ -49,39 +49,39 @@ class IRichTextValue(Interface):
     """
 
     raw = schema.Text(
-            title=_(u"Raw value in the original MIME type"),
-            readonly=True,
-        )
+        title=_(u"Raw value in the original MIME type"),
+        readonly=True,
+    )
 
     mimeType = schema.ASCIILine(
-            title=_(u"MIME type"),
-            readonly=True,
-        )
+        title=_(u"MIME type"),
+        readonly=True,
+    )
 
     outputMimeType = schema.ASCIILine(
-            title=_(u"Default output MIME type"),
-            readonly=True,
-        )
+        title=_(u"Default output MIME type"),
+        readonly=True,
+    )
 
     encoding = schema.ASCIILine(
-            title=_(u"Default encoding for the value"),
-            description=_(u"Mainly used internally"),
-            readonly=True,
-        )
+        title=_(u"Default encoding for the value"),
+        description=_(u"Mainly used internally"),
+        readonly=True,
+    )
 
     raw_encoded = schema.ASCII(
-            title=_(u"Get the raw value as an encoded string"),
-            description=_(u"Mainly used internally"),
-            readonly=True,
-        )
+        title=_(u"Get the raw value as an encoded string"),
+        description=_(u"Mainly used internally"),
+        readonly=True,
+    )
 
     output = schema.Text(
-            title=_(u"Transformed value in the target MIME type"),
-            description=_(u"May be None if the transform cannot be completed"),
-            readonly=True,
-            required=False,
-            missing_value=None,
-        )
+        title=_(u"Transformed value in the target MIME type"),
+        description=_(u"May be None if the transform cannot be completed"),
+        readonly=True,
+        required=False,
+        missing_value=None,
+    )
 
 
 class TransformError(Exception):

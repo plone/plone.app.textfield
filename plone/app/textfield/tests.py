@@ -82,7 +82,8 @@ class TestIntegration(PloneTestCase):
         output = context.restrictedTraverse('@@text-transform/text')()
         self.assertEquals(u'<p>Some <strong>text</strong></p>', output.strip())
 
-        output = context.restrictedTraverse('@@text-transform/text/text/plain')()
+        output = context.restrictedTraverse(
+            '@@text-transform/text/text/plain')()
         self.assertEquals(u'Some text', output.strip())
 
         # test transform shortcircuit when input and output type is the
@@ -124,7 +125,8 @@ class TestIntegration(PloneTestCase):
         output = context.restrictedTraverse('@@text-transform/text')()
         self.assertEquals(u'', output.strip())
 
-        output = context.restrictedTraverse('@@text-transform/text/text/plain')()
+        output = context.restrictedTraverse(
+            '@@text-transform/text/text/plain')()
         self.assertEquals(u'', output.strip())
 
     def testWidgetExtract(self):
@@ -159,14 +161,17 @@ class TestIntegration(PloneTestCase):
         request.form['%s.mimeType' % widget.name] = 'text/structured'
 
         value = widget.extract()
-        self.assertEquals(u"<p>Sample <strong>text</strong></p>", value.output.strip())
+        self.assertEquals(
+            u"<p>Sample <strong>text</strong></p>",
+            value.output.strip())
 
     def testWidgetConverter(self):
         from zope.interface import Interface
         from plone.app.textfield import RichText
         from zope.publisher.browser import TestRequest
         from plone.app.textfield.value import RichTextValue
-        from plone.app.textfield.widget import RichTextWidget, RichTextConverter
+        from plone.app.textfield.widget import RichTextWidget
+        from plone.app.textfield.widget import RichTextConverter
         from z3c.form.widget import FieldWidget
 
         _marker = object()
@@ -211,7 +216,9 @@ class TestIntegration(PloneTestCase):
         widget = FieldWidget(IWithText['text'], RichTextWidget(request))
         widget.update()
 
-        self.portal['portal_properties']['site_properties']._setPropValue('forbidden_contenttypes', ['text/structured'])
+        self.portal['portal_properties']['site_properties']._setPropValue(
+            'forbidden_contenttypes',
+            ['text/structured'])
 
         allowed = widget.allowedMimeTypes()
         self.failUnless('text/html' in allowed)
@@ -227,10 +234,13 @@ class TestIntegration(PloneTestCase):
 
         class IWithText(Interface):
 
-            text = RichText(title=u"Text",
-                            default_mime_type='text/structured',
-                            output_mime_type='text/html',
-                            allowed_mime_types=('text/structured', 'text/html'))
+            text = RichText(
+                title=u"Text",
+                default_mime_type='text/structured',
+                output_mime_type='text/html',
+                allowed_mime_types=(
+                    'text/structured',
+                    'text/html'))
 
         class Context(PortalContent):
             implements(IWithText)
@@ -242,7 +252,9 @@ class TestIntegration(PloneTestCase):
         widget = FieldWidget(IWithText['text'], RichTextWidget(request))
         widget.update()
 
-        self.portal['portal_properties']['site_properties']._setPropValue('forbidden_contenttypes', ['text/structured'])
+        self.portal['portal_properties']['site_properties']._setPropValue(
+            'forbidden_contenttypes',
+            ['text/structured'])
 
         allowed = widget.allowedMimeTypes()
         self.failUnless('text/html' in allowed)

@@ -3,12 +3,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plone.app.textfield">
 
-    <!-- Generic transform browser view -->
-    <browser:page
-        for="*"
-        name="text-transform"
-        permission="zope2.View"
-        class=".browser.Transform"
-        />
+  <!-- Generic transform browser view -->
+  <browser:page
+      for="*"
+      name="text-transform"
+      permission="zope2.View"
+      class=".browser.Transform"
+      />
 
 </configure>

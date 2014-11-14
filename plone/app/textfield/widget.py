@@ -1,20 +1,19 @@
 from Acquisition import ImplicitAcquisitionWrapper
 from UserDict import UserDict
-
-from zope.interface import implementsOnly, implementer
-from zope.component import adapts, adapter
-
-from z3c.form.interfaces import ITextAreaWidget, IFormLayer, IFieldWidget, NOVALUE
-from z3c.form.browser.textarea import TextAreaWidget
-from z3c.form.browser.widget import addFieldClass
-from z3c.form.widget import FieldWidget
-from z3c.form.converter import BaseDataConverter
-
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
+from plone.app.textfield.utils import getAllowedContentTypes
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.utils import closest_content
-
-from plone.app.textfield.utils import getAllowedContentTypes
+from z3c.form.browser.textarea import TextAreaWidget
+from z3c.form.browser.widget import addFieldClass
+from z3c.form.converter import BaseDataConverter
+from z3c.form.interfaces import IFieldWidget
+from z3c.form.interfaces import IFormLayer
+from z3c.form.interfaces import ITextAreaWidget
+from z3c.form.interfaces import NOVALUE
+from z3c.form.widget import FieldWidget
+from zope.component import adapts, adapter
+from zope.interface import implementsOnly, implementer
 
 
 class IRichTextWidget(ITextAreaWidget):
@@ -53,7 +52,8 @@ class RichTextWidget(TextAreaWidget):
         if raw is default:
             return default
 
-        mimeType = self.request.get("%s.mimeType" % self.name, self.field.default_mime_type)
+        mimeType = self.request.get(
+            "%s.mimeType" % self.name, self.field.default_mime_type)
         return RichTextValue(raw=raw,
                              mimeType=mimeType,
                              outputMimeType=self.field.output_mime_type,
@@ -86,7 +86,8 @@ class RichTextConverter(BaseDataConverter):
             return self.field.fromUnicode(value)
         elif value is None:
             return None
-        raise ValueError("Cannot convert %s to an IRichTextValue" % repr(value))
+        raise ValueError(
+            "Cannot convert %s to an IRichTextValue" % repr(value))
 
     def toFieldValue(self, value):
         if IRichTextValue.providedBy(value):
@@ -97,4 +98,5 @@ class RichTextConverter(BaseDataConverter):
             if value == u'':
                 return self.field.missing_value
             return self.field.fromUnicode(value)
-        raise ValueError("Cannot convert %s to an IRichTextValue" % repr(value))
+        raise ValueError(
+            "Cannot convert %s to an IRichTextValue" % repr(value))
