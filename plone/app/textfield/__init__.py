@@ -1,16 +1,14 @@
-from zope.interface import implements
-from zope.interface import Invalid
-from zope.i18nmessageid.message import MessageFactory
-from zope.schema import Object
-
-from zope.schema.interfaces import IFromUnicode
-from zope.schema.interfaces import WrongType
-from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
-
-_ = MessageFactory('plone')
-
 from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
+from zope.i18nmessageid.message import MessageFactory
+from zope.interface import Invalid
+from zope.interface import implements
+from zope.schema import Object
+from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
+from zope.schema.interfaces import IFromUnicode
+from zope.schema.interfaces import WrongType
+
+_ = MessageFactory('plone')
 
 
 class RichText(Object):
