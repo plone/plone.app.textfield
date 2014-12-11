@@ -4,6 +4,20 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- Fix marshaler decode to always decode raw value into unicode
+  [datakurre]
+
+- Remove utils.getSiteEncoding, which was deprecated and not used anywhere.
+  [thet]
+
+- For Plone 5, support getting markup control panel settings from the registry,
+  while still supporting normal portal_properties access for Plone < 5.
+  [thet]
+
+- Resolved an interesting circular import case, which wasnt effective because
+  of sort order of imports
+  [thet]
+
 - For Plone 5, support getting markup control panel settings from the registry,
   while still supporting normal portal_properties access for Plone < 5.
   [thet]
