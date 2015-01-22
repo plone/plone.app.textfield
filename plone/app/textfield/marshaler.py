@@ -32,12 +32,8 @@ if HAVE_MARSHALER:
                 charset='utf-8',
                 contentType=None,
                 primary=False):
-            try:
-                unicode_value = value.decode(charset)
-            except UnicodeEncodeError:
-                unicode_value = value  # was already unicode
             return RichTextValue(
-                raw=unicode_value,
+                raw=value,
                 mimeType=contentType or self.field.default_mime_type,
                 outputMimeType=self.field.output_mime_type,
                 encoding=charset
