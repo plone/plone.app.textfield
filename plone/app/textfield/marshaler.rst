@@ -53,7 +53,7 @@ We can now look up and test the marshaler:
     'Some \xc3\x98 plain text'
     >>> decoded = marshaler.decode('Some \xc3\x98 plain text', charset='utf-8', contentType='text/plain')
     >>> decoded.raw
-    'Some \xc3\x98 plain text'
+    u'Some \xd8 plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -72,7 +72,7 @@ default type is used.
 
     >>> decoded = marshaler.decode('Some \xc3\x98 plain text')
     >>> decoded.raw
-    'Some \xc3\x98 plain text'
+    u'Some \xd8 plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -108,7 +108,7 @@ Let's now use this message to construct a new object.
     >>> from plone.rfc822 import initializeObjectFromSchema
     >>> initializeObjectFromSchema(newContent, ITestContent, inputMessage)
     >>> newContent._text.raw
-    'Some \xc3\x98 plain text'
+    u'Some \xd8 plain text'
     >>> newContent._text.mimeType
     'text/plain'
     >>> newContent._text.outputMimeType
