@@ -115,6 +115,16 @@ Or to get the value encoded:
     >>> value.raw_encoded
     'Some plain text'
 
+Values are equal as long as they have the same `raw`, `mimeType`, `outputMimeType`,
+and `encoding`:
+
+    >>> value == RichTextValue(raw=u"Some plain text",
+    ...                        mimeType='text/plain',
+    ...                        outputMimeType=field.output_mime_type,
+    ...                        encoding='utf-8')
+    True
+
+
 Converting a value from unicode
 -------------------------------
 

@@ -4,6 +4,9 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- Add equality check (`__eq__`) for RawValueHolder and RichTextValue;
+  [davisagli]
+
 - Fix marshaler decode to always decode raw value into unicode
   [datakurre]
 
@@ -16,10 +19,6 @@ Changelog
 
 - Resolved an interesting circular import case, which wasnt effective because
   of sort order of imports
-  [thet]
-
-- For Plone 5, support getting markup control panel settings from the registry,
-  while still supporting normal portal_properties access for Plone < 5.
   [thet]
 
 

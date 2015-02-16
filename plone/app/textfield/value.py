@@ -19,6 +19,11 @@ class RawValueHolder(Persistent):
     def __repr__(self):
         return u"<RawValueHolder: %s>" % self.value
 
+    def __eq__(self, other):
+        if not isinstance(other, RawValueHolder):
+            return NotImplemented
+        return self.value == other.value
+
 
 class RichTextValue(object):
     """The actual value.
@@ -98,3 +103,8 @@ class RichTextValue(object):
     def __repr__(self):
         return u"RichTextValue object. (Did you mean <attribute>.raw or "\
                u"<attribute>.output?)"
+
+    def __eq__(self, other):
+        if not isinstance(other, RichTextValue):
+            return NotImplemented
+        return vars(self) == vars(other)
