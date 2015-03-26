@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.5 (unreleased)
+1.2.5 (2015-03-26)
 ------------------
 
 - Add equality check (`__eq__`) for RawValueHolder and RichTextValue;
