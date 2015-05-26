@@ -127,6 +127,11 @@ and `encoding`:
     >>> value != value2
     False
 
+    >>> value == None
+    False
+    >>> value != None
+    True
+
 
 Converting a value from unicode
 -------------------------------

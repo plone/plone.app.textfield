@@ -4,7 +4,8 @@ Changelog
 1.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix negative equality bug RawValueHolder and RichTextValue introduced in 1.2.5.
+  [jone]
 
 
 1.2.5 (2015-03-26)
