@@ -25,7 +25,10 @@ class RawValueHolder(Persistent):
         return self.value == other.value
 
     def __ne__(self, other):
-        return not self.__eq__(other)
+        equal = self.__eq__(other)
+        if equal is NotImplemented:
+            return NotImplemented
+        return not equal
 
 
 class RichTextValue(object):
@@ -113,4 +116,7 @@ class RichTextValue(object):
         return vars(self) == vars(other)
 
     def __ne__(self, other):
-        return not self.__eq__(other)
+        equal = self.__eq__(other)
+        if equal is NotImplemented:
+            return NotImplemented
+        return not equal
