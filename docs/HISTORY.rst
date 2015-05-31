@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.6 (unreleased)
+1.2.6 (2015-05-31)
 ------------------
 
 - Fix negative equality bug RawValueHolder and RichTextValue introduced in 1.2.5.
