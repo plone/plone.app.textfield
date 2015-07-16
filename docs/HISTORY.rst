@@ -4,7 +4,10 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue, where the ``RichTextValue.output`` was transforming relative to an
+  ``ISite`` object. This broke relative links and for subsites also internal
+  absolute links. Fixes: https://github.com/plone/plone.app.textfield/issues/7
+  [thet]
 
 
 1.2.6 (2015-05-31)
