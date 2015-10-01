@@ -86,7 +86,16 @@ class RichTextValue(object):
         request = getRequest()
         context_path = request.physicalPathFromURL(request.getURL())
         context_view = getSite().restrictedTraverse(context_path)
-        return self.output_relative_to(context_view.context)
+        if getattr(context_view, 'context', False):
+            # TODO - context can be anything. in case of indexing, it's just
+            # not available.
+            # The problem has to be fixed completly differently - maybe really
+            # calling ``output_relative_to`` from templates.
+            return self.output_relative_to(context_view.context)
+        else:
+            # Fallback
+            site = getSite()
+            return self.output_relative_to(site)
 
     def output_relative_to(self, context):
         """Transforms the raw value to the output mimetype, within a specified context.
