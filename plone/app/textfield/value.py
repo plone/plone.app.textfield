@@ -2,6 +2,7 @@ from Products.CMFPlone.utils import safe_unicode
 from persistent import Persistent
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer
 from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.interface import implements
 import logging
 
@@ -77,8 +78,24 @@ class RichTextValue(object):
 
     @property
     def output(self):
-        site = getSite()
-        return self.output_relative_to(site)
+        """Transform output relative to current context.
+        Since we don't have a context available, we have to get it from the
+        request.
+        Fixes: https://github.com/plone/plone.app.textfield/issues/7
+        """
+        request = getRequest()
+        context_path = request.physicalPathFromURL(request.getURL())
+        context_view = getSite().restrictedTraverse(context_path)
+        if getattr(context_view, 'context', False):
+            # TODO - context can be anything. in case of indexing, it's just
+            # not available.
+            # The problem has to be fixed completly differently - maybe really
+            # calling ``output_relative_to`` from templates.
+            return self.output_relative_to(context_view.context)
+        else:
+            # Fallback
+            site = getSite()
+            return self.output_relative_to(site)
 
     def output_relative_to(self, context):
         """Transforms the raw value to the output mimetype, within a specified context.
