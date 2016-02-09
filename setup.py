@@ -10,7 +10,7 @@ setup(
     long_description=open("README.rst").read() + "\n" +
     open(os.path.join("docs", "HISTORY.rst")).read(),
     # Get more strings from
-    # http://www.python.org/pypi?%3Aaction=list_classifiers
+    # https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 5.0",
@@ -21,7 +21,7 @@ setup(
     keywords='plone schema field',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',
-    url='http://pypi.python.org/pypi/plone.app.textfield',
+    url='https://pypi.python.org/pypi/plone.app.textfield',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone', 'plone.app'],
