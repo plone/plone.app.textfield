@@ -2,7 +2,7 @@ from Products.CMFPlone.utils import safe_unicode
 from persistent import Persistent
 from plone.app.textfield.interfaces import IRichTextValue, ITransformer
 from zope.component.hooks import getSite
-from zope.interface import implements
+from zope.interface import implementer
 import logging
 
 LOG = logging.getLogger('plone.app.textfield')
@@ -31,14 +31,13 @@ class RawValueHolder(Persistent):
         return not equal
 
 
+@implementer(IRichTextValue)
 class RichTextValue(object):
     """The actual value.
 
     Note that this is not a persistent object, to avoid a separate ZODB object
     being loaded.
     """
-
-    implements(IRichTextValue)
 
     def __init__(self, raw=None, mimeType=None, outputMimeType=None,
                  encoding='utf-8', output=None):

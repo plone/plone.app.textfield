@@ -3,18 +3,17 @@ from Products.CMFCore.utils import getToolByName
 from ZODB.POSException import ConflictError
 from plone.app.textfield.interfaces import ITransformer, TransformError
 from zope.component.hooks import getSite
-from zope.interface import implements
+from zope.interface import implementer
 import logging
 
 LOG = logging.getLogger('plone.app.textfield')
 
 
+@implementer(ITransformer)
 class PortalTransformsTransformer(object):
 
     """Invoke portal_transforms to perform a conversion
     """
-
-    implements(ITransformer)
 
     def __init__(self, context):
         self.context = context

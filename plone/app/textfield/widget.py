@@ -13,7 +13,7 @@ from z3c.form.interfaces import ITextAreaWidget
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
 from zope.component import adapts, adapter
-from zope.interface import implementsOnly, implementer
+from zope.interface import implementer_only, implementer
 
 
 class IRichTextWidget(ITextAreaWidget):
@@ -23,8 +23,8 @@ class IRichTextWidget(ITextAreaWidget):
         """
 
 
+@implementer_only(IRichTextWidget)
 class RichTextWidget(TextAreaWidget):
-    implementsOnly(IRichTextWidget)
 
     klass = u'richTextWidget'
     value = None

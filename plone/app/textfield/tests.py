@@ -57,7 +57,7 @@ class TestIntegration(PloneTestCase):
         self.assertEquals(u'<p>Some <strong>text</strong></p>\n', value.output)
 
     def testTransformView(self):
-        from zope.interface import Interface, implements
+        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from Products.CMFCore.PortalContent import PortalContent
 
@@ -67,8 +67,8 @@ class TestIntegration(PloneTestCase):
                             default_mime_type='text/structured',
                             output_mime_type='text/html')
 
+        @implementer(IWithText)
         class Context(PortalContent):
-            implements(IWithText)
 
             id = 'context'
             text = None
@@ -98,7 +98,7 @@ class TestIntegration(PloneTestCase):
         self.assertEquals(u"<span>Some html</span>", output.strip())
 
     def testTransformNoneView(self):
-        from zope.interface import Interface, implements
+        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from plone.app.textfield.value import RichTextValue
         from Products.CMFCore.PortalContent import PortalContent
@@ -109,8 +109,8 @@ class TestIntegration(PloneTestCase):
                             default_mime_type='text/structured',
                             output_mime_type='text/html')
 
+        @implementer(IWithText)
         class Context(PortalContent):
-            implements(IWithText)
 
             id = 'context'
             text = None
@@ -130,7 +130,7 @@ class TestIntegration(PloneTestCase):
         self.assertEquals(u'', output.strip())
 
     def testWidgetExtract(self):
-        from zope.interface import Interface, implements
+        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from zope.publisher.browser import TestRequest
         from Products.CMFCore.PortalContent import PortalContent
@@ -144,8 +144,8 @@ class TestIntegration(PloneTestCase):
                             default_mime_type='text/structured',
                             output_mime_type='text/html')
 
+        @implementer(IWithText)
         class Context(PortalContent):
-            implements(IWithText)
 
             text = None
 
@@ -193,7 +193,7 @@ class TestIntegration(PloneTestCase):
         self.assertTrue(converter.toFieldValue(RichTextValue(u'')) is _marker)
 
     def testWidgetAllowedTypesDefault(self):
-        from zope.interface import Interface, implements
+        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from zope.publisher.browser import TestRequest
         from Products.CMFCore.PortalContent import PortalContent
@@ -206,8 +206,8 @@ class TestIntegration(PloneTestCase):
                             default_mime_type='text/structured',
                             output_mime_type='text/html')
 
+        @implementer(IWithText)
         class Context(PortalContent):
-            implements(IWithText)
 
             text = None
 
@@ -225,7 +225,7 @@ class TestIntegration(PloneTestCase):
         self.failIf('text/structured' in allowed)
 
     def testWidgetAllowedTypesField(self):
-        from zope.interface import Interface, implements
+        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from zope.publisher.browser import TestRequest
         from Products.CMFCore.PortalContent import PortalContent
@@ -242,8 +242,8 @@ class TestIntegration(PloneTestCase):
                     'text/structured',
                     'text/html'))
 
+        @implementer(IWithText)
         class Context(PortalContent):
-            implements(IWithText)
 
             text = None
 
