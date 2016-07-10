@@ -6,7 +6,7 @@ except ImportError:
 
 if HAVE_SUPERMODEL:
 
-    from zope.interface import implements
+    from zope.interface import implementer
     from zope.component import adapts
     from plone.app.textfield import RichText
     from plone.supermodel.interfaces import IToUnicode
@@ -24,8 +24,8 @@ if HAVE_SUPERMODEL:
         def __init__(self, klass):
             super(RichTextHandler_, self).__init__(klass)
 
+    @implementer(IToUnicode)
     class RichTextToUnicode(object):
-        implements(IToUnicode)
         adapts(IRichText)
 
         def __init__(self, context):

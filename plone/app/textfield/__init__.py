@@ -2,7 +2,7 @@ from plone.app.textfield.interfaces import IRichText, IRichTextValue
 from plone.app.textfield.value import RichTextValue
 from zope.i18nmessageid.message import MessageFactory
 from zope.interface import Invalid
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema import Object
 from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 from zope.schema.interfaces import IFromUnicode
@@ -11,11 +11,10 @@ from zope.schema.interfaces import WrongType
 _ = MessageFactory('plone')
 
 
+@implementer(IRichText, IFromUnicode)
 class RichText(Object):
     """Text field that also stores MIME type
     """
-
-    implements(IRichText, IFromUnicode)
 
     default_mime_type = 'text/html'
     output_mime_type = 'text/x-html-safe'
