@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '1.2.7.dev0'
 
@@ -8,7 +7,7 @@ setup(
     version=version,
     description="Text field with MIME type support",
     long_description=open("README.rst").read() + "\n" +
-    open(os.path.join("docs", "HISTORY.rst")).read(),
+    open("CHANGES.rst").read(),
     # Get more strings from
     # https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
