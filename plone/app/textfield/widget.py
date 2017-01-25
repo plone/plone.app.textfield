@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 from Acquisition import ImplicitAcquisitionWrapper
-from UserDict import UserDict
-from plone.app.textfield.interfaces import IRichText, IRichTextValue
+from plone.app.textfield.interfaces import IRichText
+from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.utils import getAllowedContentTypes
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.utils import closest_content
+from UserDict import UserDict
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.browser.widget import addFieldClass
 from z3c.form.converter import BaseDataConverter
@@ -12,8 +14,9 @@ from z3c.form.interfaces import IFormLayer
 from z3c.form.interfaces import ITextAreaWidget
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
-from zope.component import adapts, adapter
-from zope.interface import implementer_only, implementer
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import implementer_only
 
 
 class IRichTextWidget(ITextAreaWidget):
@@ -76,8 +79,6 @@ def RichTextFieldWidget(field, request):
 class RichTextConverter(BaseDataConverter):
     """Data converter for the RichTextWidget
     """
-
-    adapts(IRichText, IRichTextWidget)
 
     def toWidgetValue(self, value):
         if IRichTextValue.providedBy(value):

@@ -14,7 +14,12 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Cleanup:
+  Use more zope.interface decorators,
+  add utf8 headers,
+  isort imports,
+  zcml conditions are enough.
+  [jensens]
 
 
 1.2.7 (2016-08-10)

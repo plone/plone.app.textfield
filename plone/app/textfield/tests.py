@@ -1,10 +1,11 @@
-import doctest
-import unittest
-
-import plone.app.textfield
-from plone.app.testing.bbb import PloneTestCase
+# -*- coding: utf-8 -*-
 from plone.app import testing
+from plone.app.testing.bbb import PloneTestCase
 from plone.testing import layered
+
+import doctest
+import plone.app.textfield
+import unittest
 
 
 class IntegrationFixture(testing.PloneSandboxLayer):

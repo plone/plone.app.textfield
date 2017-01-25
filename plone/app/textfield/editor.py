@@ -1,6 +1,7 @@
-from plone.app.textfield import RichText
+# -*- coding: utf-8 -*-
 from plone.app.textfield import _
 from plone.app.textfield import interfaces
+from plone.app.textfield import RichText
 from plone.schemaeditor.fields import FieldFactory
 from zope import schema
 from zope.interface import Attribute

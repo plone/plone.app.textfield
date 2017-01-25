@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 from zope import schema
 from zope.i18nmessageid.message import MessageFactory
 from zope.interface import Interface
 from zope.schema.interfaces import IObject
+
 
 _ = MessageFactory('plone')
 

@@ -1,9 +1,13 @@
-from Products.CMFPlone.utils import safe_unicode
+# -*- coding: utf-8 -*-
 from persistent import Persistent
-from plone.app.textfield.interfaces import IRichTextValue, ITransformer
+from plone.app.textfield.interfaces import IRichTextValue
+from plone.app.textfield.interfaces import ITransformer
+from Products.CMFPlone.utils import safe_unicode
 from zope.component.hooks import getSite
 from zope.interface import implementer
+
 import logging
+
 
 LOG = logging.getLogger('plone.app.textfield')
 

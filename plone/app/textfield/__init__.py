@@ -1,12 +1,15 @@
-from plone.app.textfield.interfaces import IRichText, IRichTextValue
+# -*- coding: utf-8 -*-
+from plone.app.textfield.interfaces import IRichText
+from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.value import RichTextValue
 from zope.i18nmessageid.message import MessageFactory
-from zope.interface import Invalid
 from zope.interface import implementer
+from zope.interface import Invalid
 from zope.schema import Object
 from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 from zope.schema.interfaces import IFromUnicode
 from zope.schema.interfaces import WrongType
+
 
 _ = MessageFactory('plone')
 
