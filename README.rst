@@ -36,21 +36,20 @@ The field actually stores an immutable object of type
 `plone.app.textfield.value.RichTextValue`. This object has the following
 attributes:
 
-    raw
-        The raw value as a unicode string.
+raw
+    The raw value as a unicode string.
 
-    mimeType
-        The MIME type of the raw text.
+mimeType
+    The MIME type of the raw text.
 
-    output
-        A unicode string that represents the value transformed to the
-        default output MIME type. May be None if the transformation could
-        not be completed successfully, but will be cached after it has been
-        successfully transformed once.
+output
+    A unicode string that represents the value transformed to the default output MIME type.
+    May be None if the transformation could not be completed successfully,
+    but will be cached after it has been successfully transformed once.
 
-    outputMimeType
-        The MIME type of the output string. This is normally copied from the
-        field's ``output_mime_type`` property.
+outputMimeType
+    The MIME type of the output string. 
+    This is normally copied from the field's ``output_mime_type`` property.
 
 That the ``output``, ``mimeType`` and ``outputMimeType`` properties will be
 stored in the same _p_jar as the parent content object, whilst the ``raw``
