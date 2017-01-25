@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
-from Products.Five.browser import BrowserView
 from plone.app.textfield.interfaces import ITransformer
+from Products.Five.browser import BrowserView
 
 
 class Transform(BrowserView):

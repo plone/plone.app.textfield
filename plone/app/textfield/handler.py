@@ -1,37 +1,34 @@
-try:
-    from plone.supermodel.exportimport import BaseHandler
-    HAVE_SUPERMODEL = True
-except ImportError:
-    HAVE_SUPERMODEL = False
+# -*- coding: utf-8 -*-
+from plone.app.textfield import RichText
+from plone.app.textfield.interfaces import IRichText
+from plone.supermodel.exportimport import BaseHandler
+from plone.supermodel.interfaces import IToUnicode
+from zope.component import adapter
+from zope.interface import implementer
 
-if HAVE_SUPERMODEL:
 
-    from zope.interface import implementer
-    from zope.component import adapts
-    from plone.app.textfield import RichText
-    from plone.supermodel.interfaces import IToUnicode
-    from plone.app.textfield.interfaces import IRichText
+class RichTextHandler_(BaseHandler):
+    """Special handling for the RichText field, to deal with 'default'
+    that may be unicode.
+    """
 
-    class RichTextHandler_(BaseHandler):
-        """Special handling for the RichText field, to deal with 'default'
-        that may be unicode.
-        """
+    # Don't read or write 'schema'
+    filteredAttributes = BaseHandler.filteredAttributes.copy()
+    filteredAttributes.update({'schema': 'rw'})
 
-        # Don't read or write 'schema'
-        filteredAttributes = BaseHandler.filteredAttributes.copy()
-        filteredAttributes.update({'schema': 'rw'})
+    def __init__(self, klass):
+        super(RichTextHandler_, self).__init__(klass)
 
-        def __init__(self, klass):
-            super(RichTextHandler_, self).__init__(klass)
 
-    @implementer(IToUnicode)
-    class RichTextToUnicode(object):
-        adapts(IRichText)
+@implementer(IToUnicode)
+@adapter(IRichText)
+class RichTextToUnicode(object):
 
-        def __init__(self, context):
-            self.context = context
+    def __init__(self, context):
+        self.context = context
 
-        def toUnicode(self, value):
-            return value.raw
+    def toUnicode(self, value):
+        return value.raw
 
-    RichTextHandler = RichTextHandler_(RichText)
+
+RichTextHandler = RichTextHandler_(RichText)

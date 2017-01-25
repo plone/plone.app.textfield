@@ -14,7 +14,7 @@ Using the field
 
 The field can be used much like any other field:
 
-    >>> from zope.interface import Interface, implements
+    >>> from zope.interface import Interface, implementer
     >>> from plone.app.textfield import RichText
 
     >>> class IContent(Interface):
@@ -46,8 +46,8 @@ These can be set when the field is constructed:
     >>> field = IContent['rich']
 
     >>> from persistent import Persistent
-    >>> class Content(Persistent):
-    ...     implements(IContent)
+    >>> @implementer(IContent)
+    ... class Content(Persistent):
     ...     def __init__(self, rich=None):
     ...         self.rich = rich
 
@@ -79,10 +79,10 @@ This package comes with a default transformer that uses
 Products.PortalTransforms, which in turn comes with Plone.
 
     >>> from plone.app.textfield.interfaces import ITransformer, TransformError
-    >>> from zope.component import adapts, provideAdapter
-    >>> class TestTransformer(object):
-    ...     implements(ITransformer)
-    ...     adapts(Interface)
+    >>> from zope.component import adapter, provideAdapter
+    >>> @implementer(ITransformer)
+    ... @adapter(Interface)
+    ... class TestTransformer(object):
     ...
     ...     def __init__(self, context):
     ...         self.context = context

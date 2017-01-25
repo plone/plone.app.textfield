@@ -1,5 +1,7 @@
-from zope.component.hooks import getSite
+# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
+from zope.component.hooks import getSite
+
 
 try:
     from Products.CMFPlone.interfaces import IMarkupSchema

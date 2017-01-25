@@ -36,9 +36,9 @@ We'll create an instance with some data, too. To avoid having to set up a
 transformation utility, we'll simply provide the output value directly.
 
     >>> from plone.app.textfield.value import RichTextValue
-    >>> from zope.interface import implements
-    >>> class TestContent(object):
-    ...     implements(ITestContent)
+    >>> from zope.interface import implementer
+    >>> @implementer(ITestContent)
+    ... class TestContent(object):
     ...     _text = RichTextValue(u"Some \xd8 plain text", 'text/plain', 'text/html', 'utf-8', u'<p>Some \xd8 plain text</p>')
 
     >>> t = TestContent()
