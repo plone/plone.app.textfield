@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.8 (unreleased)
+1.3.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Enable the ``RichText`` field to work together with a simple ``ITextAreaWidget``.
+  [jensens]
+
 
 Bug fixes:
 

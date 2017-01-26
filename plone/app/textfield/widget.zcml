@@ -1,36 +1,63 @@
 <configure
+    i18n_domain="plone.app.textfield"
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:z3c="http://namespaces.zope.org/z3c"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="plone.app.textfield">
-
-  <include package="z3c.form" file="meta.zcml" />
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+  <include
+      file="meta.zcml"
+      package="z3c.form"
+  />
   <include package="z3c.form" />
-
-  <adapter factory=".widget.RichTextFieldWidget" />
-  <adapter factory=".widget.RichTextConverter"
-           for=".interfaces.IRichText
-                .widget.IRichTextWidget"/>
-
+  <!--
+    register data converter for RichTextWidget
+  -->
+  <adapter
+      factory=".widget.RichTextConverter"
+      for=".interfaces.IRichText
+           .widget.IRichTextWidget"
+  />
+  <!--
+    also register a data converter for the basic z3c.form ITextAreaWidget,
+    so it can be used without tinymce, i.e. in order to convert from
+    text/x-web-intelligent to text/x-safe-html.
+   -->
+  <adapter
+      factory=".widget.RichTextAreaConverter"
+      for=".interfaces.IRichText
+           z3c.form.interfaces.ITextAreaWidget"
+  />
+  <!--
+      register new widget
+  -->
   <class class=".widget.RichTextWidget">
-      <require
-          permission="zope.Public"
-          interface=".widget.IRichTextWidget"
-      />
+    <require
+        interface=".widget.IRichTextWidget"
+        permission="zope.Public"
+    />
   </class>
-
   <z3c:widgetTemplate
+      layer="z3c.form.interfaces.IFormLayer"
       mode="display"
-      widget=".widget.IRichTextWidget"
-      layer="z3c.form.interfaces.IFormLayer"
       template="widget_display.pt"
-      />
-
-  <z3c:widgetTemplate
-      mode="input"
       widget=".widget.IRichTextWidget"
+  />
+  <z3c:widgetTemplate
       layer="z3c.form.interfaces.IFormLayer"
+      mode="input"
       template="widget_input.pt"
-      />
-
+      widget=".widget.IRichTextWidget"
+  />
+  <adapter factory=".widget.RichTextFieldWidget" />
+  <!--
+    register alternative template for ITextAreaWidget display in order to
+    render RichValue as structure
+  -->
+  <z3c:widgetTemplate
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+      mode="display"
+      template="widget_textarea_display.pt"
+      widget="z3c.form.interfaces.ITextAreaWidget"
+      zcml:condition="installed plone.app.z3cform"
+  />
 </configure>
