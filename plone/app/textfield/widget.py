@@ -55,12 +55,16 @@ class RichTextWidget(TextAreaWidget):
         if raw is default:
             return default
 
-        mimeType = self.request.get(
-            "%s.mimeType" % self.name, self.field.default_mime_type)
-        return RichTextValue(raw=raw,
-                             mimeType=mimeType,
-                             outputMimeType=self.field.output_mime_type,
-                             encoding='utf-8')
+        mime_type = self.request.get(
+            '{0:s}.mimeType'.format(self.name),
+            self.field.default_mime_type
+        )
+        return RichTextValue(
+            raw=raw,
+            mimeType=mime_type,
+            outputMimeType=self.field.output_mime_type,
+            encoding='utf-8'
+        )
 
     def allowedMimeTypes(self):
         allowed = self.field.allowed_mime_types
@@ -88,7 +92,8 @@ class RichTextConverter(BaseDataConverter):
         elif value is None:
             return None
         raise ValueError(
-            "Cannot convert %s to an IRichTextValue" % repr(value))
+            'Can not convert {0:s} to an IRichTextValue'.format(repr(value))
+        )
 
     def toFieldValue(self, value):
         if IRichTextValue.providedBy(value):
@@ -100,4 +105,42 @@ class RichTextConverter(BaseDataConverter):
                 return self.field.missing_value
             return self.field.fromUnicode(value)
         raise ValueError(
-            "Cannot convert %s to an IRichTextValue" % repr(value))
+            'Can not convert {0:s} to an IRichTextValue'.format(repr(value))
+        )
+
+
+class RichTextAreaConverter(BaseDataConverter):
+    """Data converter for the original z3cform TextWidget
+
+    This converter ignores the fact allowed_mime_types might be set,
+    because the widget has no way to select it.
+    It always assumes the default_mime_type was used.
+    """
+
+    def toWidgetValue(self, value):
+        if IRichTextValue.providedBy(value):
+            if self.widget.mode in ('input', 'hidden'):
+                return value.raw
+            elif self.widget.mode == 'display':
+                return value.output_relative_to(self.field.context)
+        if isinstance(value, unicode):
+            return value
+        elif value is None:
+            return None
+        raise ValueError(
+            'Can not convert {0:s} to unicode'.format(repr(value))
+        )
+
+    def toFieldValue(self, value):
+        if value == u'':
+            return self.field.missing_value
+        elif isinstance(value, unicode):
+            return RichTextValue(
+                raw=value,
+                mimeType=self.field.default_mime_type,
+                outputMimeType=self.field.output_mime_type,
+                encoding='utf-8'
+            )
+        raise ValueError(
+            'Can not convert {0:s} to an IRichTextValue'.format(repr(value))
+        )

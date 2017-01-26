@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag=""
+      tal:define="safe_structure python:getattr(view.field, 'output_mime_type', None) == 'text/x-html-safe'">
+    <span id="" class=""
+          tal:attributes="id view/id;
+                          class view/klass;
+                          style view/style;
+                          title view/title;
+                          lang view/lang;
+                          onclick view/onclick;
+                          ondblclick view/ondblclick;
+                          onmousedown view/onmousedown;
+                          onmouseup view/onmouseup;
+                          onmouseover view/onmouseover;
+                          onmousemove view/onmousemove;
+                          onmouseout view/onmouseout;
+                          onkeypress view/onkeypress;
+                          onkeydown view/onkeydown;
+                          onkeyup view/onkeyup"><tal:block
+          condition="view/value"><tal:block
+            tal:condition="safe_structure"
+            content="structure view/value"
+          ></tal:block><tal:block
+            condition="not: safe_structure"
+            content="view/value"
+          ></tal:block></tal:block></span>
+</html>
