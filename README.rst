@@ -60,7 +60,7 @@ The ``output``, ``mimeType`` and ``outputMimeType`` properties will be stored in
 whilst the ``raw`` value is stored in a separate persistent object.
 This is to optimize for the common case where the ``output`` is frequently accessed when the object is viewed
 (and thus should avoid a separate persistent object load),
-    whereas the ``raw`` value is infrequently accessed
+whereas the ``raw`` value is infrequently accessed
 (and so should not take up memory unless specifically requested).
 
 
