@@ -141,6 +141,10 @@ class RichTextAreaConverter(BaseDataConverter):
                 outputMimeType=self.field.output_mime_type,
                 encoding='utf-8'
             )
+        elif IRichTextValue.providedBy(value):
+            if value.raw == u'':
+                return self.field.missing_value
+            return value
         raise ValueError(
             'Can not convert {0:s} to an IRichTextValue'.format(repr(value))
         )

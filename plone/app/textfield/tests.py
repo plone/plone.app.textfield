@@ -166,7 +166,7 @@ class TestIntegration(PloneTestCase):
             u"<p>Sample <strong>text</strong></p>",
             value.output.strip())
 
-    def testWidgetConverter(self):
+    def testRichTextWidgetConverter(self):
         from zope.interface import Interface
         from plone.app.textfield import RichText
         from zope.publisher.browser import TestRequest
@@ -190,8 +190,79 @@ class TestIntegration(PloneTestCase):
         widget.update()
 
         converter = RichTextConverter(IWithText['text'], widget)
+
+        # Test with None input.
+        self.assertRaises(ValueError, converter.toFieldValue, None)
+        self.assertTrue(converter.toWidgetValue(None) is None)
+
+        # Test with string input.
+        self.assertRaises(ValueError, converter.toFieldValue, '')
+        self.assertRaises(ValueError, converter.toFieldValue, 'Foo')
+        self.assertRaises(ValueError, converter.toWidgetValue, '')
+        self.assertRaises(ValueError, converter.toWidgetValue, 'Foo')
+
+        # Test with unicode input.
         self.assertTrue(converter.toFieldValue(u'') is _marker)
+        self.assertEqual(converter.toFieldValue(u'Foo').raw, u'Foo')
+        self.assertTrue(isinstance(converter.toFieldValue(u'Foo'), RichTextValue))
+        self.assertEqual(converter.toWidgetValue(u'').raw, u'')
+        self.assertEqual(converter.toWidgetValue(u'Foo').raw, u'Foo')
+
+        # Test with RichTextValue input.
         self.assertTrue(converter.toFieldValue(RichTextValue(u'')) is _marker)
+        rich_text = RichTextValue(u'Foo')
+        self.assertEqual(converter.toFieldValue(rich_text), rich_text)
+        self.assertEqual(converter.toFieldValue(rich_text).raw, u'Foo')
+        self.assertEqual(converter.toWidgetValue(rich_text), rich_text)
+
+    def testRichTextAreaWidgetConverter(self):
+        from zope.interface import Interface
+        from plone.app.textfield import RichText
+        from zope.publisher.browser import TestRequest
+        from plone.app.textfield.value import RichTextValue
+        from plone.app.textfield.widget import RichTextWidget
+        from plone.app.textfield.widget import RichTextAreaConverter
+        from z3c.form.widget import FieldWidget
+
+        _marker = object()
+
+        class IWithText(Interface):
+
+            text = RichText(title=u"Text",
+                            default_mime_type='text/structured',
+                            output_mime_type='text/html',
+                            missing_value=_marker)
+
+        request = TestRequest()
+
+        widget = FieldWidget(IWithText['text'], RichTextWidget(request))
+        widget.update()
+
+        converter = RichTextAreaConverter(IWithText['text'], widget)
+
+        # Test with None input.
+        self.assertRaises(ValueError, converter.toFieldValue, None)
+        self.assertTrue(converter.toWidgetValue(None) is None)
+
+        # Test with string input.
+        self.assertTrue(converter.toFieldValue('') is _marker)
+        self.assertRaises(ValueError, converter.toFieldValue, 'Foo')
+        self.assertRaises(ValueError, converter.toWidgetValue, '')
+        self.assertRaises(ValueError, converter.toWidgetValue, 'Foo')
+
+        # Test with unicode input.
+        self.assertTrue(converter.toFieldValue(u'') is _marker)
+        self.assertEqual(converter.toFieldValue(u'Foo').raw, u'Foo')
+        self.assertTrue(isinstance(converter.toFieldValue(u'Foo'), RichTextValue))
+        self.assertEqual(converter.toWidgetValue(u''), u'')
+        self.assertEqual(converter.toWidgetValue(u'Foo'), u'Foo')
+
+        # Test with RichTextValue input.
+        self.assertTrue(converter.toFieldValue(RichTextValue(u'')) is _marker)
+        rich_text = RichTextValue(u'Foo')
+        self.assertEqual(converter.toFieldValue(rich_text), rich_text)
+        self.assertEqual(converter.toFieldValue(rich_text).raw, u'Foo')
+        self.assertEqual(converter.toWidgetValue(rich_text), u'Foo')
 
     def testWidgetAllowedTypesDefault(self):
         from zope.interface import Interface, implementer
