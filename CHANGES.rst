@@ -14,7 +14,11 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Made sure the new simple textarea template is not used for rich text widgets,
+  but only for simple textarea widgets.  Otherwise you see this in the display:
+  ``RichTextValue object. (Did you mean .raw or .output?)``.
+  Fixes `issue 22 <https://github.com/plone/plone.app.textfield/issues/22>`_.
+  [maurits]
 
 
 1.2.8 (2017-02-05)

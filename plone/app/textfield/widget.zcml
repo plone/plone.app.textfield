@@ -52,12 +52,22 @@
   <!--
     register alternative template for ITextAreaWidget display in order to
     render RichValue as structure
+    But then we must reregister the template for our IRichTextWidget
+    for the IPloneFormLayer, otherwise widget_textarea_display.pt
+    will be used for both, which gives wrong results.
   -->
-  <z3c:widgetTemplate
+  <configure zcml:condition="installed plone.app.z3cform">
+    <z3c:widgetTemplate
       layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       mode="display"
       template="widget_textarea_display.pt"
       widget="z3c.form.interfaces.ITextAreaWidget"
-      zcml:condition="installed plone.app.z3cform"
-  />
+    />
+    <z3c:widgetTemplate
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+      mode="display"
+      template="widget_display.pt"
+      widget=".widget.IRichTextWidget"
+    />
+  </configure>
 </configure>
