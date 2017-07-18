@@ -4,14 +4,6 @@ Changelog
 1.2.9 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Made sure the new simple textarea template is not used for rich text widgets,
