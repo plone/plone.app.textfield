@@ -18,6 +18,8 @@ from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import implementer_only
 
+import six
+
 
 class IRichTextWidget(ITextAreaWidget):
 
@@ -87,7 +89,7 @@ class RichTextConverter(BaseDataConverter):
     def toWidgetValue(self, value):
         if IRichTextValue.providedBy(value):
             return value
-        elif isinstance(value, unicode):
+        elif isinstance(value, six.text_type):
             return self.field.fromUnicode(value)
         elif value is None:
             return None
@@ -100,7 +102,7 @@ class RichTextConverter(BaseDataConverter):
             if value.raw == u'':
                 return self.field.missing_value
             return value
-        elif isinstance(value, unicode):
+        elif isinstance(value, six.text_type):
             if value == u'':
                 return self.field.missing_value
             return self.field.fromUnicode(value)
@@ -123,18 +125,18 @@ class RichTextAreaConverter(BaseDataConverter):
                 return value.raw
             elif self.widget.mode == 'display':
                 return value.output_relative_to(self.field.context)
-        if isinstance(value, unicode):
+        if isinstance(value, six.text_type):
             return value
         elif value is None:
             return None
         raise ValueError(
-            'Can not convert {0:s} to unicode'.format(repr(value))
+            'Can not convert {0:s} to six.text_type'.format(repr(value))
         )
 
     def toFieldValue(self, value):
         if value == u'':
             return self.field.missing_value
-        elif isinstance(value, unicode):
+        elif isinstance(value, six.text_type):
             return RichTextValue(
                 raw=value,
                 mimeType=self.field.default_mime_type,
