@@ -10,6 +10,8 @@ from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 from zope.schema.interfaces import IFromUnicode
 from zope.schema.interfaces import WrongType
 
+import six
+
 
 _ = MessageFactory('plone')
 
@@ -39,7 +41,7 @@ class RichText(Object):
 
         if 'default' in kw:
             default = kw['default']
-            if isinstance(default, unicode):
+            if isinstance(default, six.text_type):
                 kw['default'] = self.fromUnicode(default)
                 kw['default'].readonly = True
 
