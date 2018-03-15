@@ -5,7 +5,6 @@ from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.utils import getAllowedContentTypes
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.utils import closest_content
-from UserDict import UserDict
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.browser.widget import addFieldClass
 from z3c.form.converter import BaseDataConverter
@@ -19,6 +18,11 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 
 import six
+
+try:
+    from collections import UserDict
+except ImportError:
+    from UserDict import UserDict
 
 
 class IRichTextWidget(ITextAreaWidget):
