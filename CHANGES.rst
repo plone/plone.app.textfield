@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Python 3 fixes
+  [pbauer]
 
 
 1.2.10 (2018-01-30)
