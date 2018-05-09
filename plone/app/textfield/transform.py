@@ -7,6 +7,7 @@ from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
+import six
 
 
 LOG = logging.getLogger('plone.app.textfield')
@@ -60,7 +61,9 @@ class PortalTransformsTransformer(object):
 
             else:
                 output = data.getData()
-                return output.decode(value.encoding)
+                if six.PY2:
+                    return output.decode(value.encoding)
+                return output
         except ConflictError:
             raise
         except Exception as e:
