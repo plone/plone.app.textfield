@@ -5,6 +5,8 @@ from plone.rfc822.defaultfields import BaseFieldMarshaler
 from zope.component import adapter
 from zope.interface import Interface
 
+import six
+
 
 @adapter(Interface, IRichText)
 class RichTextFieldMarshaler(BaseFieldMarshaler):
@@ -25,12 +27,11 @@ class RichTextFieldMarshaler(BaseFieldMarshaler):
             charset='utf-8',
             contentType=None,
             primary=False):
-        try:
-            unicode_value = value.decode(charset)
-        except UnicodeEncodeError:
-            unicode_value = value  # was already unicode
+
+        if isinstance(value, six.binary_type):
+            value = value.decode(charset)
         return RichTextValue(
-            raw=unicode_value,
+            raw=value,
             mimeType=contentType or self.field.default_mime_type,
             outputMimeType=self.field.output_mime_type,
             encoding=charset

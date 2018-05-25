@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from plone.app import testing
-from plone.app.testing.bbb import PloneTestCase
+# from plone.app.testing.bbb import PloneTestCase
+from plone.app.testing import PLONE_FIXTURE
 from plone.testing import layered
 
 import doctest
 import plone.app.textfield
+import re
+import six
 import unittest
 
 
@@ -20,9 +23,12 @@ IntegrationLayer = testing.FunctionalTesting(
     bases=(PTC_FIXTURE, ), name='PloneAppTextfieldTest:Functional')
 
 
-class TestIntegration(PloneTestCase):
+class TestIntegration(unittest.TestCase):
 
     layer = IntegrationLayer
+
+    def setUp(self):
+        self.portal = self.layer['portal']
 
     def testTransformPlain(self):
         from zope.interface import Interface
@@ -42,7 +48,10 @@ class TestIntegration(PloneTestCase):
         value = RichTextValue()
         # Mostly, these calls simply should not give an error.
         self.assertEquals(None, value.raw)
-        self.assertEquals(u'', value.output)
+        if six.PY2:
+            self.assertEquals(u'', value.output)
+        else:
+            self.assertEquals(None, value.output)
 
     def testTransformStructured(self):
         from zope.interface import Interface
@@ -196,10 +205,10 @@ class TestIntegration(PloneTestCase):
         self.assertTrue(converter.toWidgetValue(None) is None)
 
         # Test with string input.
-        self.assertRaises(ValueError, converter.toFieldValue, '')
-        self.assertRaises(ValueError, converter.toFieldValue, 'Foo')
-        self.assertRaises(ValueError, converter.toWidgetValue, '')
-        self.assertRaises(ValueError, converter.toWidgetValue, 'Foo')
+        self.assertRaises(ValueError, converter.toFieldValue, b'')
+        self.assertRaises(ValueError, converter.toFieldValue, b'Foo')
+        self.assertRaises(ValueError, converter.toWidgetValue, b'')
+        self.assertRaises(ValueError, converter.toWidgetValue, b'Foo')
 
         # Test with unicode input.
         self.assertTrue(converter.toFieldValue(u'') is _marker)
@@ -246,9 +255,9 @@ class TestIntegration(PloneTestCase):
 
         # Test with string input.
         self.assertTrue(converter.toFieldValue('') is _marker)
-        self.assertRaises(ValueError, converter.toFieldValue, 'Foo')
-        self.assertRaises(ValueError, converter.toWidgetValue, '')
-        self.assertRaises(ValueError, converter.toWidgetValue, 'Foo')
+        self.assertRaises(ValueError, converter.toFieldValue, b'Foo')
+        self.assertRaises(ValueError, converter.toWidgetValue, b'')
+        self.assertRaises(ValueError, converter.toWidgetValue, b'Foo')
 
         # Test with unicode input.
         self.assertTrue(converter.toFieldValue(u'') is _marker)
@@ -333,10 +342,35 @@ class TestIntegration(PloneTestCase):
         self.failUnless('text/structured' in allowed)
 
 
+class Py23DocChecker(doctest.OutputChecker):
+
+    def check_output(self, want, got, optionflags):
+        if six.PY2:
+            want = re.sub("b'(.*?)'", "'\\1'", want)
+        else:
+            want = re.sub("u'(.*?)'", "'\\1'", want)
+            want = re.sub('u"(.*?)"', '"\\1"', want)
+            got = re.sub(
+                'zope.schema._bootstrapinterfaces.WrongType',
+                'WrongType', got)
+            got = re.sub(
+                'zope.interface.exceptions.Invalid',
+                'Invalid', got)
+            got = re.sub(
+                'zope.schema._bootstrapinterfaces.ConstraintNotSatisfied',
+                'ConstraintNotSatisfied', got)
+
+        return doctest.OutputChecker.check_output(self, want, got, optionflags)
+
+
 def test_suite():
     suite = unittest.makeSuite(TestIntegration)
     for doctestfile in ['field.rst', 'handler.rst', 'marshaler.rst']:
         suite.addTest(layered(
-            doctest.DocFileSuite(doctestfile, optionflags=doctest.ELLIPSIS),
+            doctest.DocFileSuite(
+                doctestfile,
+                optionflags=doctest.ELLIPSIS,
+                checker=Py23DocChecker(),
+            ),
             layer=testing.PLONE_FIXTURE))
     return suite

@@ -23,7 +23,8 @@ First, let's wire up the package.
     ... </configure>
     ... """
 
-    >>> from StringIO import StringIO
+    >>> import six
+    >>> from six import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
@@ -48,7 +49,7 @@ Then, let's test the field
     >>> fieldType = IFieldNameExtractor(field)()
     >>> handler = getUtility(IFieldExportImportHandler, name=fieldType)
     >>> element = handler.write(field, u'dummy', fieldType) #doctest: +ELLIPSIS
-    >>> print prettyXML(element)
+    >>> print(prettyXML(element))
     <field name="dummy" type="plone.app.textfield.RichText">
       <allowed_mime_types>
         <element>text/plain</element>

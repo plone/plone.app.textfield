@@ -113,7 +113,7 @@ Or to get the value encoded:
     >>> value.encoding
     'utf-8'
     >>> value.raw_encoded
-    'Some plain text'
+    b'Some plain text'
 
 Values are equal as long as they have the same `raw`, `mimeType`, `outputMimeType`,
 and `encoding`:
@@ -153,7 +153,7 @@ default MIME types set on the field.
     >>> value.raw
     u'A plain text string'
     >>> value.raw_encoded
-    'A plain text string'
+    b'A plain text string'
     >>> value.output
     u'A PLAIN TEXT STRING'
 

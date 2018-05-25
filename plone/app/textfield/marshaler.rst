@@ -18,7 +18,8 @@ To test this, we must first load some configuration:
     ... </configure>
     ... """
 
-    >>> from StringIO import StringIO
+    >>> import six
+    >>> from six import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
@@ -50,8 +51,8 @@ We can now look up and test the marshaler:
 
     >>> marshaler = getMultiAdapter((t, ITestContent['_text']), IFieldMarshaler)
     >>> marshaler.marshal()
-    'Some \xc3\x98 plain text'
-    >>> decoded = marshaler.decode('Some \xc3\x98 plain text', charset='utf-8', contentType='text/plain')
+    b'Some \xc3\x98 plain text'
+    >>> decoded = marshaler.decode(b'Some \xc3\x98 plain text', charset='utf-8', contentType='text/plain')
     >>> decoded.raw
     u'Some \xd8 plain text'
     >>> decoded.mimeType
@@ -70,7 +71,7 @@ We can now look up and test the marshaler:
 If we omit the content type (e.g. this is a non-primary field), the field's
 default type is used.
 
-    >>> decoded = marshaler.decode('Some \xc3\x98 plain text')
+    >>> decoded = marshaler.decode(b'Some \xc3\x98 plain text')
     >>> decoded.raw
     u'Some \xd8 plain text'
     >>> decoded.mimeType
@@ -92,7 +93,7 @@ primary field so that it is encoded in the content body.
 
     >>> message = constructMessageFromSchema(t, ITestContent)
     >>> messageBody = renderMessage(message)
-    >>> print messageBody
+    >>> print(messageBody)
     MIME-Version: 1.0
     Content-Type: text/plain; charset="utf-8"
     <BLANKLINE>
