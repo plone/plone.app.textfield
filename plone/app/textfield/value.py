@@ -7,6 +7,7 @@ from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
+import six
 
 
 LOG = logging.getLogger('plone.app.textfield')
@@ -98,7 +99,10 @@ class RichTextValue(object):
         transformer with the site as a context is used instead.
         """
         if self.mimeType == self.outputMimeType:
-            return self.raw_encoded
+            if six.PY2:
+                return self.raw_encoded
+            else:
+                return self.raw
 
         transformer = ITransformer(context, None)
         if transformer is None:

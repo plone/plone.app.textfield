@@ -37,9 +37,15 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
+        if six.PY2:
+            # in Python 2 transforms expect str
+            source_value = value.raw_encoded
+        else:# in Python 3 we pass text
+            source_value = value.raw
+
         try:
             data = transforms.convertTo(mimeType,
-                                        value.raw_encoded,
+                                        source_value,
                                         mimetype=value.mimeType,
                                         context=self.context,
                                         # portal_transforms caches on this
