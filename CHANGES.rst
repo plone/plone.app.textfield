@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.12 (unreleased)
--------------------
+1.3.0 (unreleased)
+------------------
 
 Breaking changes:
 
@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Python 3 fixes, needs plone.rfc322>=4.0b1.
+  [jensens]
 
 Bug fixes:
 

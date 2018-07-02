@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This package provides a zope.schema style field type called RichText which can be used to store a value with a related MIME type.
+This package provides a ``zope.schema`` style field type called ``RichText`` which can be used to store a value with a related MIME type.
 The value can be transformed to an output MIME type, for example to transform from structured text to HTML.
 
 Basic Usage
@@ -15,12 +15,12 @@ To use the field, place it in a schema like so::
     class ITest(Interface):
 
         bodyText = RichText(
-                title=u"Body text",
-                default_mime_type='text/structured',
-                output_mime_type='text/html',
-                allowed_mime_types=('text/structured', 'text/plain',),
-                default=u"Default value"
-            )
+            title=u"Body text",
+            default_mime_type='text/structured',
+            output_mime_type='text/html',
+            allowed_mime_types=('text/structured', 'text/plain',),
+            default=u"Default value"
+        )
 
 This specifies the default MIME type of text content as well as the default output type,
 and a tuple of allowed types.
@@ -138,3 +138,24 @@ Further Reading
 
 See field.txt for more details about the field's behavior,
 and handler.txt for more details about the plone.supermodel handler.
+
+Issue tracker
+=============
+
+Please report issues via the `Plone issue tracker`_.
+
+.. _`Plone issue tracker`: https://github.com/plone/plone.namedfile/issues
+
+Support
+=======
+
+Questions may be answered via `Plone's support channels`_.
+
+.. _`Plone's support channels`: http://plone.org/support
+
+Contributing
+============
+
+Sources are at the `Plone code repository hosted at Github <https://github.com/plone/plone.namedfile>`_.
+
+Contributors please read the document `Process for Plone core's development <http://docs.plone.org/develop/plone-coredev/index.html>`_
