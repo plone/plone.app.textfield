@@ -1,10 +1,10 @@
 plone.rfc822 marshaler
 ======================
 
-This package includes a field marshaler for ``plone.rfc822``, which will be
-installed if that package is installed.
+This package includes a field marshaler for ``plone.rfc822``,
+which will be installed if that package is installed.
 
-To test this, we must first load some configuration:
+To test this, we must first load some configuration::
 
     >>> configuration = """\
     ... <configure
@@ -18,12 +18,11 @@ To test this, we must first load some configuration:
     ... </configure>
     ... """
 
-    >>> import six
     >>> from six import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
-Next, we will create a simple schema with which to test the marshaler
+Next, we will create a simple schema with which to test the marshaler::
 
     >>> from zope.interface import Interface
     >>> from plone.app.textfield import RichText
@@ -33,8 +32,9 @@ Next, we will create a simple schema with which to test the marshaler
     ...                     output_mime_type='text/html',
     ...                     default_mime_type='text/plain')
 
-We'll create an instance with some data, too. To avoid having to set up a
-transformation utility, we'll simply provide the output value directly.
+We'll create an instance with some data, too.
+To avoid having to set up a transformation utility,
+we'll simply provide the output value directly::
 
     >>> from plone.app.textfield.value import RichTextValue
     >>> from zope.interface import implementer
@@ -44,7 +44,7 @@ transformation utility, we'll simply provide the output value directly.
 
     >>> t = TestContent()
 
-We can now look up and test the marshaler:
+We can now look up and test the marshaler::
 
     >>> from zope.component import getMultiAdapter
     >>> from plone.rfc822.interfaces import IFieldMarshaler
@@ -52,9 +52,12 @@ We can now look up and test the marshaler:
     >>> marshaler = getMultiAdapter((t, ITestContent['_text']), IFieldMarshaler)
     >>> marshaler.marshal()
     b'Some \xc3\x98 plain text'
-    >>> decoded = marshaler.decode(b'Some \xc3\x98 plain text', charset='utf-8', contentType='text/plain')
+
+The other way around::
+
+    >>> decoded = marshaler.decode(b'Some nei\xc3\x9f plain text', charset='utf-8', contentType='text/plain')
     >>> decoded.raw
-    u'Some \xd8 plain text'
+    'Some neiß plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -68,12 +71,12 @@ We can now look up and test the marshaler:
     >>> marshaler.ascii
     False
 
-If we omit the content type (e.g. this is a non-primary field), the field's
-default type is used.
+If we omit the content type (e.g. this is a non-primary field),
+the field's default type is used::
 
-    >>> decoded = marshaler.decode(b'Some \xc3\x98 plain text')
+    >>> decoded = marshaler.decode(b'Some nei\xc3\x9f plain text')
     >>> decoded.raw
-    u'Some \xd8 plain text'
+    'Some neiß plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -81,25 +84,23 @@ default type is used.
     >>> decoded.encoding
     'utf-8'
 
-Let's see how this looks in a message. We will mark the text field as a
-primary field so that it is encoded in the content body.
+Let's see how this looks in a message.
+We will mark the text field as a primary field so that it is encoded in the content body::
 
     >>> from plone.rfc822.interfaces import IPrimaryField
-    >>> from plone.rfc822 import constructMessageFromSchema
-    >>> from plone.rfc822 import renderMessage
-
     >>> from zope.interface import alsoProvides
     >>> alsoProvides(ITestContent['_text'], IPrimaryField)
 
+    >>> from plone.rfc822 import constructMessageFromSchema
     >>> message = constructMessageFromSchema(t, ITestContent)
-    >>> messageBody = renderMessage(message)
+    >>> messageBody = message.as_string()
     >>> print(messageBody)
     MIME-Version: 1.0
     Content-Type: text/plain; charset="utf-8"
     <BLANKLINE>
     Some Ø plain text
 
-Let's now use this message to construct a new object.
+Let's now use this message to construct a new object::
 
     >>> from email import message_from_string
     >>> inputMessage = message_from_string(messageBody)

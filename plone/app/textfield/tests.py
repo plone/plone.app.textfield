@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from plone.app import testing
-# from plone.app.testing.bbb import PloneTestCase
-from plone.app.testing import PLONE_FIXTURE
 from plone.testing import layered
 
 import doctest
@@ -17,6 +15,7 @@ class IntegrationFixture(testing.PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         self.loadZCML(package=plone.app.textfield)
+
 
 PTC_FIXTURE = IntegrationFixture()
 IntegrationLayer = testing.FunctionalTesting(
@@ -213,7 +212,9 @@ class TestIntegration(unittest.TestCase):
         # Test with unicode input.
         self.assertTrue(converter.toFieldValue(u'') is _marker)
         self.assertEqual(converter.toFieldValue(u'Foo').raw, u'Foo')
-        self.assertTrue(isinstance(converter.toFieldValue(u'Foo'), RichTextValue))
+        self.assertTrue(
+            isinstance(converter.toFieldValue(u'Foo'), RichTextValue)
+        )
         self.assertEqual(converter.toWidgetValue(u'').raw, u'')
         self.assertEqual(converter.toWidgetValue(u'Foo').raw, u'Foo')
 
@@ -262,7 +263,9 @@ class TestIntegration(unittest.TestCase):
         # Test with unicode input.
         self.assertTrue(converter.toFieldValue(u'') is _marker)
         self.assertEqual(converter.toFieldValue(u'Foo').raw, u'Foo')
-        self.assertTrue(isinstance(converter.toFieldValue(u'Foo'), RichTextValue))
+        self.assertTrue(
+            isinstance(converter.toFieldValue(u'Foo'), RichTextValue)
+        )
         self.assertEqual(converter.toWidgetValue(u''), u'')
         self.assertEqual(converter.toWidgetValue(u'Foo'), u'Foo')
 

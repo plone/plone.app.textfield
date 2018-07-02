@@ -21,12 +21,13 @@ class RichTextFieldMarshaler(BaseFieldMarshaler):
         return value.raw.encode(charset)
 
     def decode(
-            self,
-            value,
-            message=None,
-            charset='utf-8',
-            contentType=None,
-            primary=False):
+        self,
+        value,
+        message=None,
+        charset='utf-8',
+        contentType=None,
+        primary=False
+    ):
 
         if isinstance(value, six.binary_type):
             value = value.decode(charset)
@@ -34,7 +35,7 @@ class RichTextFieldMarshaler(BaseFieldMarshaler):
             raw=value,
             mimeType=contentType or self.field.default_mime_type,
             outputMimeType=self.field.output_mime_type,
-            encoding=charset
+            encoding=charset,
         )
 
     def getContentType(self):
