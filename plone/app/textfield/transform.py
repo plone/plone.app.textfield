@@ -96,7 +96,7 @@ class PortalTransformsTransformer(object):
                 continue
             # XXX: not sure if it is a potential performance problem
             # looking up the image object
-            if ref_link.to_object.modified() > orig_time:  # noqa
+            if ref_link.to_object.modified() > orig_time:
                 # found an updated image: purge the cache
                 cache.purgeCache()
                 return
