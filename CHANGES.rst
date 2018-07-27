@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- purge transform cache when a uid referenced image
+  gets updated. this fixes `issue CMFPLone#2465 <https://github.com/plone/Products.CMFPlone/issues/2465>`_
+  [petschki]
 
 
 1.2.11 (2018-04-08)

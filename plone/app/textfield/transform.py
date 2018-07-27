@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from Products.CMFCore.utils import getToolByName
+from Products.PortalTransforms.cache import Cache
+from ZODB.POSException import ConflictError
+from plone.app.linkintegrity.utils import getOutgoingLinks
 from plone.app.textfield.interfaces import ITransformer
 from plone.app.textfield.interfaces import TransformError
-from Products.CMFCore.utils import getToolByName
-from ZODB.POSException import ConflictError
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
@@ -36,6 +38,9 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
+        # check for changed scales for referenced images
+        self.check_referenced_images(mimeType, value._raw_holder)
+
         try:
             data = transforms.convertTo(mimeType,
                                         value.raw_encoded,
@@ -67,3 +72,22 @@ class PortalTransformsTransformer(object):
             # log the traceback of the original exception
             LOG.error("Transform exception", exc_info=True)
             raise TransformError('Error during transformation', e)
+
+    def check_referenced_images(self, target_mimetype, cache_obj):
+        # referenced image scale urls get outdated if the images are modified.
+        # purging the transform cache updates those urls.
+        cache = Cache(cache_obj, context=self.context)
+        data = cache.getCache(target_mimetype)
+        if data is None:
+            # not cached ... return
+            return
+        # get the original save time from the cached data dict
+        orig_time = getattr(cache_obj, cache._id).values()[0][0]
+        # lookup referenced images and check modification time
+        for ref_img in getOutgoingLinks(self.context):
+            # XXX: not sure if it is a potential performance problem
+            # looking up the image object
+            if ref_img.to_object.modified() > orig_time:
+                # found an updated image: purge the cache
+                cache.purgeCache()
+                return
