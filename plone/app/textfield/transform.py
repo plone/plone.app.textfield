@@ -10,6 +10,11 @@ from zope.interface import implementer
 
 import logging
 
+try:
+    from plone.app.contenttypes.interfaces import IImage
+    HAS_PAC_IMAGE = True
+except ImportError:
+    HAS_PAC_IMAGE = False
 
 LOG = logging.getLogger('plone.app.textfield')
 
@@ -38,8 +43,9 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
-        # check for modified referenced images
-        self.check_referenced_images(mimeType, value._raw_holder)
+        if HAS_PAC_IMAGE:
+            # check for modified referenced images
+            self.check_referenced_images(mimeType, value._raw_holder)
 
         try:
             data = transforms.convertTo(mimeType,
@@ -84,10 +90,13 @@ class PortalTransformsTransformer(object):
         # get the original save time from the cached data dict
         orig_time = getattr(cache_obj, cache._id).values()[0][0]
         # lookup referenced images and check modification time
-        for ref_img in getOutgoingLinks(self.context):
+        for ref_link in getOutgoingLinks(self.context):
+            # only lookup image references
+            if IImage not in ref_link.to_interfaces_flattened:
+                continue
             # XXX: not sure if it is a potential performance problem
             # looking up the image object
-            if ref_img.to_object.modified() > orig_time:
+            if ref_link.to_object.modified() > orig_time:  # noqa
                 # found an updated image: purge the cache
                 cache.purgeCache()
                 return
