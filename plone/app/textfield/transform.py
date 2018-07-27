@@ -38,7 +38,7 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
-        # check for changed scales for referenced images
+        # check for modified referenced images
         self.check_referenced_images(mimeType, value._raw_holder)
 
         try:
