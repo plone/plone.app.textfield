@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.cache import Cache
 from ZODB.POSException import ConflictError
 from plone.app.linkintegrity.utils import getOutgoingLinks
+from plone.app.linkintegrity.utils import hasOutgoingLinks
 from plone.app.textfield.interfaces import ITransformer
 from plone.app.textfield.interfaces import TransformError
 from zope.component.hooks import getSite
@@ -84,13 +85,22 @@ class PortalTransformsTransformer(object):
         # purging the transform cache updates those urls.
         cache = Cache(cache_obj, context=self.context)
         data = cache.getCache(target_mimetype)
+
         if data is None:
             # not cached ... return
             return
+
+        # lookup referenced images and check modification time
+        try:
+            ol = getOutgoingLinks(self.context)
+        except KeyError:
+            # context might not implement IIntId (eg. portal)
+            return
+
         # get the original save time from the cached data dict
         orig_time = getattr(cache_obj, cache._id).values()[0][0]
-        # lookup referenced images and check modification time
-        for ref_link in getOutgoingLinks(self.context):
+
+        for ref_link in ol:
             # only lookup image references
             if IImage not in ref_link.to_interfaces_flattened:
                 continue
