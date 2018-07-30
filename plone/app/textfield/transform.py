@@ -2,20 +2,13 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.cache import Cache
 from ZODB.POSException import ConflictError
-from plone.app.linkintegrity.utils import getOutgoingLinks
-from plone.app.linkintegrity.utils import hasOutgoingLinks
 from plone.app.textfield.interfaces import ITransformer
 from plone.app.textfield.interfaces import TransformError
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
-
-try:
-    from plone.app.contenttypes.interfaces import IImage
-    HAS_PAC_IMAGE = True
-except ImportError:
-    HAS_PAC_IMAGE = False
+import re
 
 LOG = logging.getLogger('plone.app.textfield')
 
@@ -28,6 +21,7 @@ class PortalTransformsTransformer(object):
 
     def __init__(self, context):
         self.context = context
+        self.catalog = getToolByName(getSite(), 'portal_catalog')
 
     def __call__(self, value, mimeType):
         # shortcut it we have no data
@@ -44,9 +38,8 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
-        if HAS_PAC_IMAGE:
-            # check for modified referenced images
-            self.check_referenced_images(mimeType, value._raw_holder)
+        # check for modified referenced images
+        self.check_referenced_images(mimeType, value._raw_holder)
 
         try:
             data = transforms.convertTo(mimeType,
@@ -87,26 +80,14 @@ class PortalTransformsTransformer(object):
         data = cache.getCache(target_mimetype)
 
         if data is None:
-            # not cached ... return
-            return
-
-        # lookup referenced images and check modification time
-        try:
-            ol = getOutgoingLinks(self.context)
-        except KeyError:
-            # context might not implement IIntId (eg. portal)
             return
 
         # get the original save time from the cached data dict
         orig_time = getattr(cache_obj, cache._id).values()[0][0]
+        # extract all uuids
+        uids = re.findall(r'resolve[uU]id/([^/]*)/@@images', cache_obj.value)
+        modified_imgs = self.catalog(
+            UID=uids, modified=dict(query=orig_time, range="min"))
 
-        for ref_link in ol:
-            # only lookup image references
-            if IImage not in ref_link.to_interfaces_flattened:
-                continue
-            # XXX: not sure if it is a potential performance problem
-            # looking up the image object
-            if ref_link.to_object.modified() > orig_time:
-                # found an updated image: purge the cache
-                cache.purgeCache()
-                return
+        if len(modified_imgs) > 0:
+            cache.purgeCache()
