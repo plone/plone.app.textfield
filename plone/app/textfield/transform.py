@@ -74,18 +74,22 @@ class PortalTransformsTransformer(object):
             raise TransformError('Error during transformation', e)
 
     def check_referenced_images(self, target_mimetype, cache_obj):
+        # extract all image src uuids
+        uids = re.findall('src="[^/]*/resolve[uU]id/([^/"]*)', cache_obj.value)
+        if len(uids) == 0:
+            # no uuid here at all
+            return
+
         # referenced image scale urls get outdated if the images are modified.
         # purging the transform cache updates those urls.
         cache = Cache(cache_obj, context=self.context)
         data = cache.getCache(target_mimetype)
-
         if data is None:
+            # data is not cached
             return
 
         # get the original save time from the cached data dict
         orig_time = getattr(cache_obj, cache._id).values()[0][0]
-        # extract all uuids
-        uids = re.findall('src="[^/]*/resolve[uU]id/([^/"]*)', cache_obj.value)
         modified_imgs = self.catalog(
             UID=uids, modified=dict(query=orig_time, range="min"))
 
