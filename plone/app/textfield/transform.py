@@ -85,7 +85,7 @@ class PortalTransformsTransformer(object):
         # get the original save time from the cached data dict
         orig_time = getattr(cache_obj, cache._id).values()[0][0]
         # extract all uuids
-        uids = re.findall(r'resolve[uU]id/([^/]*)/@@images', cache_obj.value)
+        uids = re.findall('src="[^/]*/resolve[uU]id/([^/"]*)', cache_obj.value)
         modified_imgs = self.catalog(
             UID=uids, modified=dict(query=orig_time, range="min"))
 
