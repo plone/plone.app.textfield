@@ -87,7 +87,7 @@ class PortalTransformsTransformer(object):
         setattr(cache_obj, self._ccounter_id, counter)
 
         # extract all image src uuids
-        uids = set(imguid_re.findall(cache_obj.value))
+        uids = imguid_re.findall(cache_obj.value)
         if len(uids) == 0:
             # no uuid here at all
             return
