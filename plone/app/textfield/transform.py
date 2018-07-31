@@ -11,6 +11,7 @@ import logging
 import re
 
 LOG = logging.getLogger('plone.app.textfield')
+imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')
 
 
 @implementer(ITransformer)
@@ -18,6 +19,8 @@ class PortalTransformsTransformer(object):
 
     """Invoke portal_transforms to perform a conversion
     """
+
+    _ccounter_id = '_v_catalog_counter'
 
     def __init__(self, context):
         self.context = context
@@ -74,8 +77,17 @@ class PortalTransformsTransformer(object):
             raise TransformError('Error during transformation', e)
 
     def check_referenced_images(self, target_mimetype, cache_obj):
+        # check catalog counter for changes first.
+        counter = self.catalog.getCounter()
+        cached_counter = getattr(cache_obj, self._ccounter_id, -1)
+        if cached_counter == counter:
+            # no changes made since last visit
+            return
+        # safe counter state
+        setattr(cache_obj, self._ccounter_id, counter)
+
         # extract all image src uuids
-        uids = re.findall('src="[^/]*/resolve[uU]id/([^/"]*)', cache_obj.value)
+        uids = set(imguid_re.findall(cache_obj.value))
         if len(uids) == 0:
             # no uuid here at all
             return
