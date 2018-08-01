@@ -57,7 +57,7 @@ The other way around::
 
     >>> decoded = marshaler.decode(b'Some nei\xc3\x9f plain text', charset='utf-8', contentType='text/plain')
     >>> decoded.raw
-    'Some neiß plain text'
+    u'Some nei\xdf plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -76,7 +76,7 @@ the field's default type is used::
 
     >>> decoded = marshaler.decode(b'Some nei\xc3\x9f plain text')
     >>> decoded.raw
-    'Some neiß plain text'
+    u'Some nei\xdf plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType

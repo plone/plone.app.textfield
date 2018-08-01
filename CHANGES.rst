@@ -10,7 +10,7 @@ Breaking changes:
 
 New features:
 
-- Python 3 fixes, needs plone.rfc322>=4.0b1.
+- Python 3 fixes, needs plone.rfc822>=2.0b1.
   [jensens]
 
 Bug fixes:
