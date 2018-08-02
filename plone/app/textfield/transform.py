@@ -9,6 +9,7 @@ from zope.interface import implementer
 
 import logging
 import re
+import six
 
 LOG = logging.getLogger('plone.app.textfield')
 imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')
@@ -41,12 +42,19 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
+        if six.PY2:
+            # in Python 2 transforms expect str
+            source_value = value.raw_encoded
+        else:
+            # in Python 3 we pass text
+            source_value = value.raw
+
         # check for modified referenced images
-        self.check_referenced_images(mimeType, value._raw_holder)
+        self.check_referenced_images(source_value, mimeType, value._raw_holder)
 
         try:
             data = transforms.convertTo(mimeType,
-                                        value.raw_encoded,
+                                        source_value,
                                         mimetype=value.mimeType,
                                         context=self.context,
                                         # portal_transforms caches on this
@@ -68,7 +76,9 @@ class PortalTransformsTransformer(object):
 
             else:
                 output = data.getData()
-                return output.decode(value.encoding)
+                if six.PY2:
+                    return output.decode(value.encoding)
+                return output
         except ConflictError:
             raise
         except Exception as e:
@@ -76,7 +86,7 @@ class PortalTransformsTransformer(object):
             LOG.error("Transform exception", exc_info=True)
             raise TransformError('Error during transformation', e)
 
-    def check_referenced_images(self, target_mimetype, cache_obj):
+    def check_referenced_images(self, value, target_mimetype, cache_obj):
         # check catalog counter for changes first.
         counter = self.catalog.getCounter()
         cached_counter = getattr(cache_obj, self._ccounter_id, -1)
@@ -87,7 +97,7 @@ class PortalTransformsTransformer(object):
         setattr(cache_obj, self._ccounter_id, counter)
 
         # extract all image src uuids
-        uids = imguid_re.findall(cache_obj.value)
+        uids = imguid_re.findall(value)
         if len(uids) == 0:
             # no uuid here at all
             return
