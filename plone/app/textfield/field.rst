@@ -170,7 +170,7 @@ MIME types if the allowed_mime_types property is set.
     >>> field.validate(value)
     Traceback (most recent call last):
     ...
-    WrongType: (RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?), ('text/html',))
+    zope.schema._bootstrapinterfaces.WrongType: (RichTextValue object. (Did you mean ...
 
     >>> field.allowed_mime_types = ('text/plain', 'text/html',)
     >>> field.validate(value)
@@ -182,7 +182,7 @@ if a max_length is set.
     >>> field.validate(long_value)
     Traceback (most recent call last):
     ...
-    Invalid: msg_text_too_long
+    zope.interface.exceptions.Invalid: msg_text_too_long
 
 Field validation will also check field constraints.
 
@@ -190,7 +190,7 @@ Field validation will also check field constraints.
     >>> field.validate(value)
     Traceback (most recent call last):
     ...
-    ConstraintNotSatisfied: ...
+    zope.schema._bootstrapinterfaces.ConstraintNotSatisfied: ...
 
 
 Default value

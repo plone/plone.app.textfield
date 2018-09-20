@@ -350,18 +350,18 @@ class Py23DocChecker(doctest.OutputChecker):
     def check_output(self, want, got, optionflags):
         if six.PY2:
             want = re.sub("b'(.*?)'", "'\\1'", want)
+            want = re.sub(
+                'zope.schema._bootstrapinterfaces.WrongType',
+                'WrongType', want)
+            want = re.sub(
+                'zope.interface.exceptions.Invalid',
+                'Invalid', want)
+            want = re.sub(
+                'zope.schema._bootstrapinterfaces.ConstraintNotSatisfied',
+                'ConstraintNotSatisfied', want)
         else:
             want = re.sub("u'(.*?)'", "'\\1'", want)
             want = re.sub('u"(.*?)"', '"\\1"', want)
-            got = re.sub(
-                'zope.schema._bootstrapinterfaces.WrongType',
-                'WrongType', got)
-            got = re.sub(
-                'zope.interface.exceptions.Invalid',
-                'Invalid', got)
-            got = re.sub(
-                'zope.schema._bootstrapinterfaces.ConstraintNotSatisfied',
-                'ConstraintNotSatisfied', got)
 
         return doctest.OutputChecker.check_output(self, want, got, optionflags)
 
