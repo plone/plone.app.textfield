@@ -15,7 +15,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix doctests tests in py3
+  [pbauer]
 
 
 1.2.12 (unreleased)
