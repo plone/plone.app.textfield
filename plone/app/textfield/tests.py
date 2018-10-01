@@ -344,6 +344,11 @@ class TestIntegration(unittest.TestCase):
         self.failUnless('text/html' in allowed)
         self.failUnless('text/structured' in allowed)
 
+    def test_getSize(self):
+        from plone.app.textfield.value import RichTextValue
+        value = RichTextValue(u'\u2603')
+        self.assertEqual(3, value.getSize())
+
 
 class Py23DocChecker(doctest.OutputChecker):
 

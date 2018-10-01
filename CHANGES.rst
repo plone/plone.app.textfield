@@ -13,6 +13,9 @@ New features:
 - Python 3 fixes, needs plone.rfc822>=2.0b1.
   [jensens]
 
+- Add getSize method to get the size of a RichTextValue in bytes
+  [davisagli]
+
 Bug fixes:
 
 - Fix doctests tests in py3
