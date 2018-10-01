@@ -127,3 +127,6 @@ class RichTextValue(object):
         if equal is NotImplemented:
             return NotImplemented
         return not equal
+
+    def getSize(self):
+        return len(safe_unicode(self.raw).encode('utf-8'))
