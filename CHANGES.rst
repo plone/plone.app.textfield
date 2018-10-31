@@ -4,10 +4,6 @@ Changelog
 1.3.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Python 3 fixes, needs plone.rfc822>=2.0b1.
