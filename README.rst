@@ -144,7 +144,7 @@ Issue tracker
 
 Please report issues via the `Plone issue tracker`_.
 
-.. _`Plone issue tracker`: https://github.com/plone/plone.namedfile/issues
+.. _`Plone issue tracker`: https://github.com/plone/plone.app.textfield/issues
 
 Support
 =======
