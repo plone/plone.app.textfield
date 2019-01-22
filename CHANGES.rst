@@ -15,7 +15,7 @@ New features:
 Bug fixes:
 
 - Don't depend on ZODB version directly. Rely on Zope dependency 
-
+  [uwaiszaki]
 
 1.2.11 (2018-04-08)
 -------------------
