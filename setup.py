@@ -38,7 +38,6 @@ setup(
         'zope.schema',
         'zope.interface',
         'zope.component',
-        'ZODB3 >= 3.8.1',
     ],
     extras_require={
         'portaltransforms': ['Products.PortalTransforms'],

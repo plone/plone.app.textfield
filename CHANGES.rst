@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Don't depend on ZODB version directly. Rely on Zope dependency 
 
 
 1.2.11 (2018-04-08)
