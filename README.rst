@@ -158,4 +158,4 @@ Contributing
 
 Sources are at the `Plone code repository hosted at Github <https://github.com/plone/plone.app.textfield>`_.
 
-Contributors please read the document `Process for Plone core's development <http://docs.plone.org/develop/plone-coredev/index.html>`_
+Contributors please read the document `Process for Plone core's development <https://docs.plone.org/develop/coredev/docs/index.html>`_
