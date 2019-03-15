@@ -111,9 +111,12 @@ class PortalTransformsTransformer(object):
             return
 
         # get the original save time from the cached data dict
-        orig_time = getattr(cache_obj, cache._id).values()[0][0]
-        modified_imgs = self.catalog(
-            UID=uids, modified=dict(query=orig_time, range="min"))
+        cached_values = list(getattr(cache_obj, cache._id, {}).values())
+        modified_imgs = []
+        if len(cached_values):
+            orig_time = cached_values[0][0]
+            modified_imgs = self.catalog(
+                UID=uids, modified=dict(query=orig_time, range="min"))
 
         if len(modified_imgs) > 0:
             cache.purgeCache()
