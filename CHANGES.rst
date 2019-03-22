@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.1 (2019-03-21)
+------------------
+
+Bug fixes:
+
+
+- fix python 3 issue when checking referenced images in transform
+  [petschki] (#34)
+- Initialize towncrier.
+  [gforcada] (#2548)
+
+
 1.3.0 (2018-10-31)
 ------------------
 
