@@ -76,7 +76,7 @@ class PortalTransformsTransformer(object):
 
             else:
                 output = data.getData()
-                if six.PY2:
+                if six.PY2 and isinstance(output, str):
                     return output.decode(value.encoding)
                 return output
         except ConflictError:
