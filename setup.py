@@ -10,9 +10,9 @@ setup(
     description="Text field with MIME type support",
     long_description=open("README.rst").read() + "\n" +
     open("CHANGES.rst").read(),
-    # Get more strings from
-    # https://pypi.org/classifiers/
+    # Get more strings from https://pypi.org/classifiers/
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
         "Framework :: Plone :: 5.2",
         "License :: OSI Approved :: GNU General Public License (GPL)",
