@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.2 (2019-09-13)
+------------------
+
+Bug fixes:
+
+
+- Check if transform output is actual string on Python 2.
+  [agitator] (#37)
+
+
 1.3.1 (2019-03-21)
 ------------------
 
