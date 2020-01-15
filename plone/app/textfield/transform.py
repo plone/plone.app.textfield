@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+from plone.app.textfield.interfaces import ITransformer
+from plone.app.textfield.interfaces import TransformError
 from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.cache import Cache
 from ZODB.POSException import ConflictError
-from plone.app.textfield.interfaces import ITransformer
-from plone.app.textfield.interfaces import TransformError
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
 import re
 import six
+
 
 LOG = logging.getLogger("plone.app.textfield")
 imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')

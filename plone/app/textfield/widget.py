@@ -19,6 +19,7 @@ from zope.interface import implementer_only
 
 import six
 
+
 try:
     from collections import UserDict
 except ImportError:
