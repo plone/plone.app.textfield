@@ -11,7 +11,7 @@ import logging
 import re
 import six
 
-LOG = logging.getLogger('plone.app.textfield')
+LOG = logging.getLogger("plone.app.textfield")
 imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')
 
 
@@ -21,16 +21,16 @@ class PortalTransformsTransformer(object):
     """Invoke portal_transforms to perform a conversion
     """
 
-    _ccounter_id = '_v_catalog_counter'
+    _ccounter_id = "_v_catalog_counter"
 
     def __init__(self, context):
         self.context = context
-        self.catalog = getToolByName(getSite(), 'portal_catalog')
+        self.catalog = getToolByName(getSite(), "portal_catalog")
 
     def __call__(self, value, mimeType):
         # shortcut it we have no data
         if value.raw is None:
-            return u''
+            return u""
 
         # shortcut if we already have the right value
         if mimeType is value.mimeType:
@@ -38,7 +38,7 @@ class PortalTransformsTransformer(object):
 
         site = getSite()
 
-        transforms = getToolByName(site, 'portal_transforms', None)
+        transforms = getToolByName(site, "portal_transforms", None)
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
@@ -53,17 +53,21 @@ class PortalTransformsTransformer(object):
         self.check_referenced_images(source_value, mimeType, value._raw_holder)
 
         try:
-            data = transforms.convertTo(mimeType,
-                                        source_value,
-                                        mimetype=value.mimeType,
-                                        context=self.context,
-                                        # portal_transforms caches on this
-                                        object=value._raw_holder,
-                                        encoding=value.encoding)
+            data = transforms.convertTo(
+                mimeType,
+                source_value,
+                mimetype=value.mimeType,
+                context=self.context,
+                # portal_transforms caches on this
+                object=value._raw_holder,
+                encoding=value.encoding,
+            )
             if data is None:
                 # TODO: i18n
-                msg = (u'No transform path found from "%s" to "%s".' %
-                       (value.mimeType, mimeType))
+                msg = u'No transform path found from "%s" to "%s".' % (
+                    value.mimeType,
+                    mimeType,
+                )
                 LOG.error(msg)
                 # TODO: memoize?
                 # plone_utils = getToolByName(self.context, 'plone_utils')
@@ -72,7 +76,7 @@ class PortalTransformsTransformer(object):
                 # other page.
                 # The following might work better, but how to get the request?
                 # IStatusMessage(request).add(msg, type='error')
-                return u''
+                return u""
 
             else:
                 output = data.getData()
@@ -84,7 +88,7 @@ class PortalTransformsTransformer(object):
         except Exception as e:
             # log the traceback of the original exception
             LOG.error("Transform exception", exc_info=True)
-            raise TransformError('Error during transformation', e)
+            raise TransformError("Error during transformation", e)
 
     def check_referenced_images(self, value, target_mimetype, cache_obj):
         # check catalog counter for changes first.
@@ -116,7 +120,8 @@ class PortalTransformsTransformer(object):
         if len(cached_values):
             orig_time = cached_values[0][0]
             modified_imgs = self.catalog(
-                UID=uids, modified=dict(query=orig_time, range="min"))
+                UID=uids, modified=dict(query=orig_time, range="min")
+            )
 
         if len(modified_imgs) > 0:
             cache.purgeCache()

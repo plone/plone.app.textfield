@@ -16,6 +16,7 @@ class Transform(BrowserView):
     e.g.::
         context/@@text-transform/fieldname/text/plain
     """
+
     fieldName = None
     major = None
     minor = None
@@ -42,7 +43,7 @@ class Transform(BrowserView):
             if not self.major or not self.minor:
                 mimeType = value.outputMimeType
             else:
-                mimeType = "%s/%s" % (self.major, self.minor, )
+                mimeType = "%s/%s" % (self.major, self.minor,)
 
         transformer = ITransformer(context)
         return transformer(value, mimeType)

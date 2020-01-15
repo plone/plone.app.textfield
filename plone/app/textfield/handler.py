@@ -14,7 +14,7 @@ class RichTextHandler_(BaseHandler):
 
     # Don't read or write 'schema'
     filteredAttributes = BaseHandler.filteredAttributes.copy()
-    filteredAttributes.update({'schema': 'rw'})
+    filteredAttributes.update({"schema": "rw"})
 
     def __init__(self, klass):
         super(RichTextHandler_, self).__init__(klass)
@@ -23,7 +23,6 @@ class RichTextHandler_(BaseHandler):
 @implementer(IToUnicode)
 @adapter(IRichText)
 class RichTextToUnicode(object):
-
     def __init__(self, context):
         self.context = context
 

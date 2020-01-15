@@ -5,7 +5,7 @@ from zope.interface import Interface
 from zope.schema.interfaces import IObject
 
 
-_ = MessageFactory('plone')
+_ = MessageFactory("plone")
 
 
 class IRichText(IObject):
@@ -13,13 +13,11 @@ class IRichText(IObject):
     """
 
     default_mime_type = schema.ASCIILine(
-        title=_(u"Default MIME type"),
-        default='text/html',
+        title=_(u"Default MIME type"), default="text/html",
     )
 
     output_mime_type = schema.ASCIILine(
-        title=_(u"Default output MIME type"),
-        default='text/x-html-safe'
+        title=_(u"Default output MIME type"), default="text/x-html-safe"
     )
 
     allowed_mime_types = schema.Tuple(
@@ -31,8 +29,8 @@ class IRichText(IObject):
     )
 
     max_length = schema.Int(
-        title=_(u'Maximum length'),
-        description=_(u'in characters'),
+        title=_(u"Maximum length"),
+        description=_(u"in characters"),
         required=False,
         min=0,
         default=None,
@@ -50,19 +48,12 @@ class IRichTextValue(Interface):
     The object is immutable.
     """
 
-    raw = schema.Text(
-        title=_(u"Raw value in the original MIME type"),
-        readonly=True,
-    )
+    raw = schema.Text(title=_(u"Raw value in the original MIME type"), readonly=True,)
 
-    mimeType = schema.ASCIILine(
-        title=_(u"MIME type"),
-        readonly=True,
-    )
+    mimeType = schema.ASCIILine(title=_(u"MIME type"), readonly=True,)
 
     outputMimeType = schema.ASCIILine(
-        title=_(u"Default output MIME type"),
-        readonly=True,
+        title=_(u"Default output MIME type"), readonly=True,
     )
 
     encoding = schema.ASCIILine(

@@ -10,7 +10,7 @@ import logging
 import six
 
 
-LOG = logging.getLogger('plone.app.textfield')
+LOG = logging.getLogger("plone.app.textfield")
 
 
 class RawValueHolder(Persistent):
@@ -44,17 +44,25 @@ class RichTextValue(object):
     being loaded.
     """
 
-    def __init__(self, raw=None, mimeType=None, outputMimeType=None,
-                 encoding='utf-8', output=None):
+    def __init__(
+        self,
+        raw=None,
+        mimeType=None,
+        outputMimeType=None,
+        encoding="utf-8",
+        output=None,
+    ):
         self._raw_holder = RawValueHolder(raw)
         self._mimeType = mimeType
         self._outputMimeType = outputMimeType
         self._encoding = encoding
+
     # the raw value - stored in a separate persistent object
 
     @property
     def raw(self):
         return self._raw_holder.value
+
     # Encoded raw value
 
     @property
@@ -64,15 +72,15 @@ class RichTextValue(object):
     @property
     def raw_encoded(self):
         if self._raw_holder.value is None:
-            return ''
-        happy_value = safe_unicode(self._raw_holder.value,
-                                   encoding=self.encoding)
-        return happy_value.encode(self.encoding, 'ignore')
+            return ""
+        happy_value = safe_unicode(self._raw_holder.value, encoding=self.encoding)
+        return happy_value.encode(self.encoding, "ignore")
 
     # the current mime type
     @property
     def mimeType(self):
         return self._mimeType
+
     # the default mime type
 
     @property
@@ -114,8 +122,10 @@ class RichTextValue(object):
         return transformer(self, self.outputMimeType)
 
     def __repr__(self):
-        return u"RichTextValue object. (Did you mean <attribute>.raw or "\
-               u"<attribute>.output?)"
+        return (
+            u"RichTextValue object. (Did you mean <attribute>.raw or "
+            u"<attribute>.output?)"
+        )
 
     def __eq__(self, other):
         if not isinstance(other, RichTextValue):
@@ -129,4 +139,4 @@ class RichTextValue(object):
         return not equal
 
     def getSize(self):
-        return len(safe_unicode(self.raw).encode('utf-8'))
+        return len(safe_unicode(self.raw).encode("utf-8"))

@@ -18,10 +18,7 @@ def markupRegistrySettings(context):
     try:
         # get the new registry
         registry = getUtility(IRegistry, context=context)
-        settings = registry.forInterface(
-            IMarkupSchema,
-            prefix='plone',
-        )
+        settings = registry.forInterface(IMarkupSchema, prefix="plone",)
     except (KeyError, ComponentLookupError):
         settings = None
     return settings
@@ -40,21 +37,20 @@ def getAllowedContentTypes():
     if reg:
         allowed_types = reg.allowed_types
     else:
-        portal_transforms = getToolByName(site, 'portal_transforms', None)
+        portal_transforms = getToolByName(site, "portal_transforms", None)
         if portal_transforms is None:
             return None
 
-        portal_properties = getToolByName(site, 'portal_properties', None)
+        portal_properties = getToolByName(site, "portal_properties", None)
         if portal_properties is None:
             return None
 
-        site_properties = portal_properties.get('site_properties', None)
+        site_properties = portal_properties.get("site_properties", None)
         if site_properties is None:
             return None
 
         allowed = set(portal_transforms.listAvailableTextInputs())
-        forbidden = set(
-            site_properties.getProperty('forbidden_contenttypes', []))
+        forbidden = set(site_properties.getProperty("forbidden_contenttypes", []))
 
         allowed_types = allowed - forbidden
 
