@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.3 (2020-03-09)
+------------------
+
+Bug fixes:
+
+
+- Black-en & isort code.
+  [thet] (#39)
+
+
 1.3.2 (2019-09-13)
 ------------------
 
