@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from Acquisition import ImplicitAcquisitionWrapper
+from Products.CMFCore.utils import getToolByName
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.utils import getAllowedContentTypes
+from plone.app.textfield.utils import getDefaultWysiwygEditor
+from plone.app.textfield.utils import getAvailableWysiwygEditors
+from plone.app.textfield.utils import getWysiwygEditor
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.utils import closest_content
 from z3c.form.browser.textarea import TextAreaWidget
@@ -76,6 +80,14 @@ class RichTextWidget(TextAreaWidget):
         if allowed is None:
             allowed = getAllowedContentTypes()
         return list(allowed)
+
+    def getWysiwygEditor(self):
+        tool = getToolByName(self.wrapped_context(), 'portal_membership')
+        member = tool.getAuthenticatedMember()
+        member_editor = member.getProperty('wysiwyg_editor')
+        available_editors = getAvailableWysiwygEditors()
+        default_editor = getDefaultWysiwygEditor()
+        return getWysiwygEditor(member_editor, available_editors, default_editor)
 
 
 @adapter(IRichText, IFormLayer)
