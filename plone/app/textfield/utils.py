@@ -4,6 +4,7 @@ from zope.component.hooks import getSite
 
 
 try:
+    from Products.CMFPlone.interfaces import IEditingSchema
     from Products.CMFPlone.interfaces import IMarkupSchema
     from plone.registry.interfaces import IRegistry
     from zope.component import getUtility
@@ -59,3 +60,38 @@ def getAllowedContentTypes():
         allowed_types = allowed - forbidden
 
     return allowed_types
+
+
+def getDefaultWysiwygEditor():
+    registry = getUtility(IRegistry)
+    try:
+        records = registry.forInterface(IEditingSchema, check=False,
+                                        prefix='plone')
+        default_editor = records.default_editor.lower()
+    except AttributeError:
+        default_editor = 'tinymce'
+    return default_editor
+
+
+def getAvailableWysiwygEditors():
+    registry = getUtility(IRegistry)
+    try:
+        records = registry.forInterface(IEditingSchema, check=False,
+                                        prefix='plone')
+        available = records.available_editors
+    except AttributeError:
+        available = ['TinyMCE']
+    return available
+
+
+def getWysiwygEditor(member_editor, available_editors, default_editor):
+    if member_editor is None:
+        return default_editor.lower()
+    elif member_editor == u'None':
+        return u'plaintexteditor'
+    elif member_editor in available_editors:
+        return member_editor.lower()
+    else:
+        # Member's wysiwyg_editor property holds
+        # wysiwyg_editor that has been uninstalled
+        return default_editor.lower()

@@ -56,9 +56,7 @@
                         here_url           request/getURL;
                         member context/portal_membership/getAuthenticatedMember;
                         isAnon context/@@plone_portal_state/anonymous;
-                        member_editor python: not isAnon and member.getProperty('wysiwyg_editor').lower() or '';
-                        default_editor python: context.portal_properties.site_properties.getProperty('default_editor', '').lower();
-                        editor python: member_editor=='' and default_editor or member_editor;
+                        editor view/getWysiwygEditor;
                         support_path string:nocall:here/@@${editor}_wysiwyg_support|here/${editor}_wysiwyg_support|here/${editor}/wysiwyg_support|here/portal_skins/plone_wysiwyg/wysiwyg_support;
                         support python: path(support_path);
                         tabindex           nothing;

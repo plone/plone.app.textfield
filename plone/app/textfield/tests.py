@@ -333,10 +333,34 @@ class TestIntegration(PloneTestCase):
         self.failUnless('text/structured' in allowed)
 
 
+class TestTextfield(unittest.TestCase):
+    def test_getWysiwygEditor(self):
+        from plone.app.textfield.utils import getWysiwygEditor
+        editor = getWysiwygEditor(None, [], u"TinyMCE")
+        self.assertEquals(editor, u"tinymce")
+        editor = getWysiwygEditor(u"None", [], u"TinyMCE")
+        self.assertEquals(editor, u"plaintexteditor")
+        editor = getWysiwygEditor(u"TinyMCE", [u"TinyMCE", u"None"], u"TinyMCE")
+        self.assertEquals(editor, u"tinymce")
+        editor = getWysiwygEditor(u"CKeditor", [u"TinyMCE", u"None"], u"TinyMCE")
+        self.assertEquals(editor, u"tinymce")
+        editor = getWysiwygEditor(u"CKeditor", [u"TinyMCE", u"CKeditor", u"None"], u"TinyMCE")
+        self.assertEquals(editor, u"ckeditor")
+
+
 def test_suite():
+
     suite = unittest.makeSuite(TestIntegration)
+    suite.addTest(unittest.makeSuite(TestTextfield))
     for doctestfile in ['field.rst', 'handler.rst', 'marshaler.rst']:
         suite.addTest(layered(
             doctest.DocFileSuite(doctestfile, optionflags=doctest.ELLIPSIS),
             layer=testing.PLONE_FIXTURE))
+    flags = \
+        doctest.NORMALIZE_WHITESPACE | \
+        doctest.ELLIPSIS | \
+        doctest.IGNORE_EXCEPTION_DETAIL
+    suite.addTest(layered(
+        doctest.DocFileSuite('richtext_widget.rst', optionflags=flags),
+        layer=testing.PLONE_INTEGRATION_TESTING))
     return suite
