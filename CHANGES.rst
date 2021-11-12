@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix usage of wysiwyg editor settings
+  from portal_properties to registry
+  [duchenean, gotcha]
 
 
 1.2.11 (2018-04-08)

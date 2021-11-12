@@ -170,7 +170,7 @@ MIME types if the allowed_mime_types property is set.
     >>> field.validate(value)
     Traceback (most recent call last):
     ...
-    WrongType: (RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?), ('text/html',))
+    WrongType: (RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?), ('text/html',), None)
 
     >>> field.allowed_mime_types = ('text/plain', 'text/html',)
     >>> field.validate(value)
