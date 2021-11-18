@@ -54,3 +54,9 @@ If we render the widget we get the HTML:
       <textarea name="text" rows="25" class="pat-tinymce" id="text">&lt;p&gt;Hello world&lt;/p&gt;</textarea>
     </div>
   </div>
+  >>> from zope.component import getGlobalSiteManager
+  >>> gsm = getGlobalSiteManager()
+  >>> gsm.unregisterAdapter(factory,
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, None, None, None),
+  ...     IPageTemplate, name='input')
+  True
