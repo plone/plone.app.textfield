@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.6 (2021-11-25)
+------------------
+
+Bug fixes:
+
+
+- Fix usage of wysiwyg editor settings from portal_properties to registry
+  [duchenean, gotcha] (#45)
+
+
 1.3.5 (2020-09-26)
 ------------------
 
