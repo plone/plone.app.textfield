@@ -1,0 +1,3 @@
+Remove dependency on ZODB3, use ZODB instead.
+Add troove classifiers for Plone 6 and newer Python.
+[jensens]
