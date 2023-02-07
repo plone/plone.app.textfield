@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.7 (2023-02-08)
+------------------
+
+Bug fixes:
+
+
+- Remove dependency on ZODB3, use ZODB instead.
+  Add troove classifiers for Plone 6 and newer Python.
+  [jensens] (#47)
+
+
 1.3.6 (2021-11-25)
 ------------------
 
