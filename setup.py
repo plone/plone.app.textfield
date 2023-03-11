@@ -35,10 +35,7 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
-        "zope.schema",
-        "zope.interface",
-        "zope.component",
-        "ZODB",
+        "plone.base",
     ],
     extras_require={
         "portaltransforms": ["Products.PortalTransforms"],

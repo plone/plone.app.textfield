@@ -1,7 +1,7 @@
 from persistent import Persistent
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.interfaces import ITransformer
-from Products.CMFPlone.utils import safe_unicode
+from plone.base.utils import safe_text
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
@@ -71,7 +71,7 @@ class RichTextValue:
     def raw_encoded(self):
         if self._raw_holder.value is None:
             return ""
-        happy_value = safe_unicode(self._raw_holder.value, encoding=self.encoding)
+        happy_value = safe_text(self._raw_holder.value, encoding=self.encoding)
         return happy_value.encode(self.encoding, "ignore")
 
     # the current mime type
@@ -134,4 +134,4 @@ class RichTextValue:
         return not equal
 
     def getSize(self):
-        return len(safe_unicode(self.raw).encode("utf-8"))
+        return len(safe_text(self.raw).encode("utf-8"))

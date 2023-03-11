@@ -1,15 +1,10 @@
+from plone.base.interfaces import IEditingSchema
+from plone.base.interfaces import IMarkupSchema
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface.interfaces import ComponentLookupError
-
-
-try:
-    from Products.CMFPlone.interfaces import IEditingSchema
-    from Products.CMFPlone.interfaces import IMarkupSchema
-except ImportError:
-    IMarkupSchema = None
 
 
 def markupRegistrySettings(context):
