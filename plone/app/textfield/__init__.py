@@ -17,8 +17,7 @@ _ = MessageFactory("plone")
 
 @implementer(IRichText, IFromUnicode)
 class RichText(Object):
-    """Text field that also stores MIME type
-    """
+    """Text field that also stores MIME type"""
 
     default_mime_type = "text/html"
     output_mime_type = "text/x-html-safe"

@@ -1,13 +1,13 @@
 from Acquisition import ImplicitAcquisitionWrapper
-from Products.CMFCore.utils import getToolByName
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.utils import getAllowedContentTypes
-from plone.app.textfield.utils import getDefaultWysiwygEditor
 from plone.app.textfield.utils import getAvailableWysiwygEditors
+from plone.app.textfield.utils import getDefaultWysiwygEditor
 from plone.app.textfield.utils import getWysiwygEditor
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.utils import closest_content
+from Products.CMFCore.utils import getToolByName
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.browser.widget import addFieldClass
 from z3c.form.converter import BaseDataConverter
@@ -31,13 +31,11 @@ except ImportError:
 
 class IRichTextWidget(ITextAreaWidget):
     def allowedMimeTypes():
-        """Get allowed MIME types
-        """
+        """Get allowed MIME types"""
 
 
 @implementer_only(IRichTextWidget)
 class RichTextWidget(TextAreaWidget):
-
     klass = "richTextWidget"
     value = None
 
@@ -81,9 +79,9 @@ class RichTextWidget(TextAreaWidget):
         return list(allowed)
 
     def getWysiwygEditor(self):
-        tool = getToolByName(self.wrapped_context(), 'portal_membership')
+        tool = getToolByName(self.wrapped_context(), "portal_membership")
         member = tool.getAuthenticatedMember()
-        member_editor = member.getProperty('wysiwyg_editor')
+        member_editor = member.getProperty("wysiwyg_editor")
         available_editors = getAvailableWysiwygEditors()
         default_editor = getDefaultWysiwygEditor()
         return getWysiwygEditor(member_editor, available_editors, default_editor)
@@ -97,8 +95,7 @@ def RichTextFieldWidget(field, request):
 
 
 class RichTextConverter(BaseDataConverter):
-    """Data converter for the RichTextWidget
-    """
+    """Data converter for the RichTextWidget"""
 
     def toWidgetValue(self, value):
         if IRichTextValue.providedBy(value):
@@ -107,9 +104,7 @@ class RichTextConverter(BaseDataConverter):
             return self.field.fromUnicode(value)
         elif value is None:
             return None
-        raise ValueError(
-            f"Can not convert {repr(value):s} to an IRichTextValue"
-        )
+        raise ValueError(f"Can not convert {repr(value):s} to an IRichTextValue")
 
     def toFieldValue(self, value):
         if IRichTextValue.providedBy(value):
@@ -120,9 +115,7 @@ class RichTextConverter(BaseDataConverter):
             if value == "":
                 return self.field.missing_value
             return self.field.fromUnicode(value)
-        raise ValueError(
-            f"Can not convert {repr(value):s} to an IRichTextValue"
-        )
+        raise ValueError(f"Can not convert {repr(value):s} to an IRichTextValue")
 
 
 class RichTextAreaConverter(BaseDataConverter):
@@ -159,6 +152,4 @@ class RichTextAreaConverter(BaseDataConverter):
             if value.raw == "":
                 return self.field.missing_value
             return value
-        raise ValueError(
-            f"Can not convert {repr(value):s} to an IRichTextValue"
-        )
+        raise ValueError(f"Can not convert {repr(value):s} to an IRichTextValue")

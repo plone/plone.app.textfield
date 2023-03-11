@@ -50,7 +50,10 @@ setup(
         "widget": ["z3c.form"],
         "marshaler": ["plone.rfc822"],
         "editor": ["plone.schemaeditor"],
-        "tests": ["plone.app.testing", "plone.supermodel [test]",],
+        "tests": [
+            "plone.app.testing",
+            "plone.supermodel [test]",
+        ],
     },
     entry_points="""
       """,

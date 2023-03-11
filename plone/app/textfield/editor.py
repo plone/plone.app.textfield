@@ -16,7 +16,6 @@ except ImportError:
 
 
 class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
-
     if HAS_VOCABS:
         default_mime_type = schema.Choice(
             title=_("Input format"),

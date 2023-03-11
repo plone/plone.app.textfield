@@ -9,8 +9,7 @@ import six
 
 @adapter(Interface, IRichText)
 class RichTextFieldMarshaler(BaseFieldMarshaler):
-    """Field marshaler for plone.app.textfield values.
-    """
+    """Field marshaler for plone.app.textfield values."""
 
     ascii = False
 
@@ -22,7 +21,6 @@ class RichTextFieldMarshaler(BaseFieldMarshaler):
     def decode(
         self, value, message=None, charset="utf-8", contentType=None, primary=False
     ):
-
         if isinstance(value, bytes):
             value = value.decode(charset)
         return RichTextValue(

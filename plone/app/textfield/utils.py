@@ -18,7 +18,10 @@ def markupRegistrySettings(context):
     try:
         # get the new registry
         registry = getUtility(IRegistry, context=context)
-        settings = registry.forInterface(IMarkupSchema, prefix="plone",)
+        settings = registry.forInterface(
+            IMarkupSchema,
+            prefix="plone",
+        )
     except (KeyError, ComponentLookupError):
         settings = None
     return settings
@@ -60,30 +63,28 @@ def getAllowedContentTypes():
 def getDefaultWysiwygEditor():
     registry = getUtility(IRegistry)
     try:
-        records = registry.forInterface(IEditingSchema, check=False,
-                                        prefix='plone')
+        records = registry.forInterface(IEditingSchema, check=False, prefix="plone")
         default_editor = records.default_editor.lower()
     except AttributeError:
-        default_editor = 'tinymce'
+        default_editor = "tinymce"
     return default_editor
 
 
 def getAvailableWysiwygEditors():
     registry = getUtility(IRegistry)
     try:
-        records = registry.forInterface(IEditingSchema, check=False,
-                                        prefix='plone')
+        records = registry.forInterface(IEditingSchema, check=False, prefix="plone")
         available = records.available_editors
     except AttributeError:
-        available = ['TinyMCE']
+        available = ["TinyMCE"]
     return available
 
 
 def getWysiwygEditor(member_editor, available_editors, default_editor):
     if member_editor is None:
         return default_editor.lower()
-    elif member_editor == 'None':
-        return 'plaintexteditor'
+    elif member_editor == "None":
+        return "plaintexteditor"
     elif member_editor in available_editors:
         return member_editor.lower()
     else:

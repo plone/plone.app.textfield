@@ -8,11 +8,11 @@ _ = MessageFactory("plone")
 
 
 class IRichText(IObject):
-    """A text field that stores MIME type
-    """
+    """A text field that stores MIME type"""
 
     default_mime_type = schema.ASCIILine(
-        title=_("Default MIME type"), default="text/html",
+        title=_("Default MIME type"),
+        default="text/html",
     )
 
     output_mime_type = schema.ASCIILine(
@@ -47,12 +47,19 @@ class IRichTextValue(Interface):
     The object is immutable.
     """
 
-    raw = schema.Text(title=_("Raw value in the original MIME type"), readonly=True,)
+    raw = schema.Text(
+        title=_("Raw value in the original MIME type"),
+        readonly=True,
+    )
 
-    mimeType = schema.ASCIILine(title=_("MIME type"), readonly=True,)
+    mimeType = schema.ASCIILine(
+        title=_("MIME type"),
+        readonly=True,
+    )
 
     outputMimeType = schema.ASCIILine(
-        title=_("Default output MIME type"), readonly=True,
+        title=_("Default output MIME type"),
+        readonly=True,
     )
 
     encoding = schema.ASCIILine(

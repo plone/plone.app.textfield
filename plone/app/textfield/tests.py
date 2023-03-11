@@ -9,7 +9,6 @@ import unittest
 
 
 class IntegrationFixture(testing.PloneSandboxLayer):
-
     defaultBases = (testing.PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
@@ -23,18 +22,16 @@ IntegrationLayer = testing.FunctionalTesting(
 
 
 class TestIntegration(unittest.TestCase):
-
     layer = IntegrationLayer
 
     def setUp(self):
         self.portal = self.layer["portal"]
 
     def testTransformPlain(self):
-        from zope.interface import Interface
         from plone.app.textfield import RichText
+        from zope.interface import Interface
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/plain",
@@ -53,11 +50,10 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(None, value.output)
 
     def testTransformStructured(self):
-        from zope.interface import Interface
         from plone.app.textfield import RichText
+        from zope.interface import Interface
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -68,12 +64,12 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual("<p>Some <strong>text</strong></p>\n", value.output)
 
     def testTransformView(self):
-        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from Products.CMFCore.PortalContent import PortalContent
+        from zope.interface import implementer
+        from zope.interface import Interface
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -82,7 +78,6 @@ class TestIntegration(unittest.TestCase):
 
         @implementer(IWithText)
         class Context(PortalContent):
-
             id = "context"
             text = None
 
@@ -112,13 +107,13 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual("<span>Some html</span>", output.strip())
 
     def testTransformNoneView(self):
-        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
         from plone.app.textfield.value import RichTextValue
         from Products.CMFCore.PortalContent import PortalContent
+        from zope.interface import implementer
+        from zope.interface import Interface
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -127,7 +122,6 @@ class TestIntegration(unittest.TestCase):
 
         @implementer(IWithText)
         class Context(PortalContent):
-
             id = "context"
             text = None
 
@@ -145,16 +139,16 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual("", output.strip())
 
     def testWidgetExtract(self):
-        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
-        from zope.publisher.browser import TestRequest
-        from Products.CMFCore.PortalContent import PortalContent
         from plone.app.textfield.widget import RichTextWidget
-        from z3c.form.widget import FieldWidget
+        from Products.CMFCore.PortalContent import PortalContent
         from z3c.form.interfaces import NOVALUE
+        from z3c.form.widget import FieldWidget
+        from zope.interface import implementer
+        from zope.interface import Interface
+        from zope.publisher.browser import TestRequest
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -163,7 +157,6 @@ class TestIntegration(unittest.TestCase):
 
         @implementer(IWithText)
         class Context(PortalContent):
-
             text = None
 
         request = TestRequest()
@@ -181,18 +174,17 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual("<p>Sample <strong>text</strong></p>", value.output.strip())
 
     def testRichTextWidgetConverter(self):
-        from zope.interface import Interface
         from plone.app.textfield import RichText
-        from zope.publisher.browser import TestRequest
         from plone.app.textfield.value import RichTextValue
-        from plone.app.textfield.widget import RichTextWidget
         from plone.app.textfield.widget import RichTextConverter
+        from plone.app.textfield.widget import RichTextWidget
         from z3c.form.widget import FieldWidget
+        from zope.interface import Interface
+        from zope.publisher.browser import TestRequest
 
         _marker = object()
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -232,18 +224,17 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(converter.toWidgetValue(rich_text), rich_text)
 
     def testRichTextAreaWidgetConverter(self):
-        from zope.interface import Interface
         from plone.app.textfield import RichText
-        from zope.publisher.browser import TestRequest
         from plone.app.textfield.value import RichTextValue
-        from plone.app.textfield.widget import RichTextWidget
         from plone.app.textfield.widget import RichTextAreaConverter
+        from plone.app.textfield.widget import RichTextWidget
         from z3c.form.widget import FieldWidget
+        from zope.interface import Interface
+        from zope.publisher.browser import TestRequest
 
         _marker = object()
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -283,15 +274,15 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(converter.toWidgetValue(rich_text), "Foo")
 
     def testWidgetAllowedTypesDefault(self):
-        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
-        from zope.publisher.browser import TestRequest
-        from Products.CMFCore.PortalContent import PortalContent
         from plone.app.textfield.widget import RichTextWidget
+        from Products.CMFCore.PortalContent import PortalContent
         from z3c.form.widget import FieldWidget
+        from zope.interface import implementer
+        from zope.interface import Interface
+        from zope.publisher.browser import TestRequest
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -300,7 +291,6 @@ class TestIntegration(unittest.TestCase):
 
         @implementer(IWithText)
         class Context(PortalContent):
-
             text = None
 
         request = TestRequest()
@@ -317,15 +307,15 @@ class TestIntegration(unittest.TestCase):
         self.assertFalse("text/structured" in allowed)
 
     def testWidgetAllowedTypesField(self):
-        from zope.interface import Interface, implementer
         from plone.app.textfield import RichText
-        from zope.publisher.browser import TestRequest
-        from Products.CMFCore.PortalContent import PortalContent
         from plone.app.textfield.widget import RichTextWidget
+        from Products.CMFCore.PortalContent import PortalContent
         from z3c.form.widget import FieldWidget
+        from zope.interface import implementer
+        from zope.interface import Interface
+        from zope.publisher.browser import TestRequest
 
         class IWithText(Interface):
-
             text = RichText(
                 title="Text",
                 default_mime_type="text/structured",
@@ -335,7 +325,6 @@ class TestIntegration(unittest.TestCase):
 
         @implementer(IWithText)
         class Context(PortalContent):
-
             text = None
 
         request = TestRequest()
@@ -369,6 +358,7 @@ class Py23DocChecker(doctest.OutputChecker):
 class TestTextfield(unittest.TestCase):
     def test_getWysiwygEditor(self):
         from plone.app.textfield.utils import getWysiwygEditor
+
         editor = getWysiwygEditor(None, [], "TinyMCE")
         self.assertEqual(editor, "tinymce")
         editor = getWysiwygEditor("None", [], "TinyMCE")
@@ -377,27 +367,34 @@ class TestTextfield(unittest.TestCase):
         self.assertEqual(editor, "tinymce")
         editor = getWysiwygEditor("CKeditor", ["TinyMCE", "None"], "TinyMCE")
         self.assertEqual(editor, "tinymce")
-        editor = getWysiwygEditor("CKeditor", ["TinyMCE", "CKeditor", "None"], "TinyMCE")
+        editor = getWysiwygEditor(
+            "CKeditor", ["TinyMCE", "CKeditor", "None"], "TinyMCE"
+        )
         self.assertEqual(editor, "ckeditor")
 
 
 def test_suite():
-
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestIntegration)
     for doctestfile in ["field.rst", "handler.rst", "marshaler.rst"]:
         suite.addTest(
             layered(
                 doctest.DocFileSuite(
-                    doctestfile, optionflags=doctest.ELLIPSIS, checker=Py23DocChecker(),
+                    doctestfile,
+                    optionflags=doctest.ELLIPSIS,
+                    checker=Py23DocChecker(),
                 ),
                 layer=testing.PLONE_FIXTURE,
             )
         )
-    flags = \
-        doctest.NORMALIZE_WHITESPACE | \
-        doctest.ELLIPSIS | \
-        doctest.IGNORE_EXCEPTION_DETAIL
-    suite.addTest(layered(
-        doctest.DocFileSuite("richtext_widget.rst", optionflags=flags),
-        layer=testing.PLONE_INTEGRATION_TESTING))
+    flags = (
+        doctest.NORMALIZE_WHITESPACE
+        | doctest.ELLIPSIS
+        | doctest.IGNORE_EXCEPTION_DETAIL
+    )
+    suite.addTest(
+        layered(
+            doctest.DocFileSuite("richtext_widget.rst", optionflags=flags),
+            layer=testing.PLONE_INTEGRATION_TESTING,
+        )
+    )
     return suite
