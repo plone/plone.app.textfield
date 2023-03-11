@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
@@ -83,8 +82,8 @@ def getAvailableWysiwygEditors():
 def getWysiwygEditor(member_editor, available_editors, default_editor):
     if member_editor is None:
         return default_editor.lower()
-    elif member_editor == u'None':
-        return u'plaintexteditor'
+    elif member_editor == 'None':
+        return 'plaintexteditor'
     elif member_editor in available_editors:
         return member_editor.lower()
     else:

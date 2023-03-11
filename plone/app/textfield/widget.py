@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import ImplicitAcquisitionWrapper
 from Products.CMFCore.utils import getToolByName
 from plone.app.textfield.interfaces import IRichText
@@ -39,11 +38,11 @@ class IRichTextWidget(ITextAreaWidget):
 @implementer_only(IRichTextWidget)
 class RichTextWidget(TextAreaWidget):
 
-    klass = u"richTextWidget"
+    klass = "richTextWidget"
     value = None
 
     def update(self):
-        super(RichTextWidget, self).update()
+        super().update()
         addFieldClass(self)
 
     def wrapped_context(self):
@@ -66,7 +65,7 @@ class RichTextWidget(TextAreaWidget):
             return default
 
         mime_type = self.request.get(
-            "{0:s}.mimeType".format(self.name), self.field.default_mime_type
+            f"{self.name:s}.mimeType", self.field.default_mime_type
         )
         return RichTextValue(
             raw=raw,
@@ -104,25 +103,25 @@ class RichTextConverter(BaseDataConverter):
     def toWidgetValue(self, value):
         if IRichTextValue.providedBy(value):
             return value
-        elif isinstance(value, six.text_type):
+        elif isinstance(value, str):
             return self.field.fromUnicode(value)
         elif value is None:
             return None
         raise ValueError(
-            "Can not convert {0:s} to an IRichTextValue".format(repr(value))
+            f"Can not convert {repr(value):s} to an IRichTextValue"
         )
 
     def toFieldValue(self, value):
         if IRichTextValue.providedBy(value):
-            if value.raw == u"":
+            if value.raw == "":
                 return self.field.missing_value
             return value
-        elif isinstance(value, six.text_type):
-            if value == u"":
+        elif isinstance(value, str):
+            if value == "":
                 return self.field.missing_value
             return self.field.fromUnicode(value)
         raise ValueError(
-            "Can not convert {0:s} to an IRichTextValue".format(repr(value))
+            f"Can not convert {repr(value):s} to an IRichTextValue"
         )
 
 
@@ -140,16 +139,16 @@ class RichTextAreaConverter(BaseDataConverter):
                 return value.raw
             elif self.widget.mode == "display":
                 return value.output_relative_to(self.field.context)
-        if isinstance(value, six.text_type):
+        if isinstance(value, str):
             return value
         elif value is None:
             return None
-        raise ValueError("Can not convert {0:s} to six.text_type".format(repr(value)))
+        raise ValueError(f"Can not convert {repr(value):s} to six.text_type")
 
     def toFieldValue(self, value):
-        if value == u"":
+        if value == "":
             return self.field.missing_value
-        elif isinstance(value, six.text_type):
+        elif isinstance(value, str):
             return RichTextValue(
                 raw=value,
                 mimeType=self.field.default_mime_type,
@@ -157,9 +156,9 @@ class RichTextAreaConverter(BaseDataConverter):
                 encoding="utf-8",
             )
         elif IRichTextValue.providedBy(value):
-            if value.raw == u"":
+            if value.raw == "":
                 return self.field.missing_value
             return value
         raise ValueError(
-            "Can not convert {0:s} to an IRichTextValue".format(repr(value))
+            f"Can not convert {repr(value):s} to an IRichTextValue"
         )

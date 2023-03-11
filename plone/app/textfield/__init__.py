@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.value import RichTextValue
@@ -42,11 +41,11 @@ class RichText(Object):
 
         if "default" in kw:
             default = kw["default"]
-            if isinstance(default, six.text_type):
+            if isinstance(default, str):
                 kw["default"] = self.fromUnicode(default)
                 kw["default"].readonly = True
 
-        super(RichText, self).__init__(schema=schema, **kw)
+        super().__init__(schema=schema, **kw)
 
     def fromUnicode(self, str_val):
         return RichTextValue(
@@ -64,7 +63,7 @@ class RichText(Object):
             raise Invalid(
                 _(
                     "msg_text_too_long",
-                    default=u"Text is too long. (Maximum ${max} characters.)",
+                    default="Text is too long. (Maximum ${max} characters.)",
                     mapping={"max": self.max_length},
                 )
             )

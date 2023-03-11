@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.value import RichTextValue
 from plone.rfc822.defaultfields import BaseFieldMarshaler
@@ -24,7 +23,7 @@ class RichTextFieldMarshaler(BaseFieldMarshaler):
         self, value, message=None, charset="utf-8", contentType=None, primary=False
     ):
 
-        if isinstance(value, six.binary_type):
+        if isinstance(value, bytes):
             value = value.decode(charset)
         return RichTextValue(
             raw=value,

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from plone.app.textfield.interfaces import ITransformer
 from Products.Five.browser import BrowserView
@@ -43,7 +42,7 @@ class Transform(BrowserView):
             if not self.major or not self.minor:
                 mimeType = value.outputMimeType
             else:
-                mimeType = "%s/%s" % (self.major, self.minor,)
+                mimeType = "{}/{}".format(self.major, self.minor)
 
         transformer = ITransformer(context)
         return transformer(value, mimeType)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.textfield import RichText
 from plone.app.textfield.interfaces import IRichText
 from plone.supermodel.exportimport import BaseHandler
@@ -17,12 +16,12 @@ class RichTextHandler_(BaseHandler):
     filteredAttributes.update({"schema": "rw"})
 
     def __init__(self, klass):
-        super(RichTextHandler_, self).__init__(klass)
+        super().__init__(klass)
 
 
 @implementer(IToUnicode)
 @adapter(IRichText)
-class RichTextToUnicode(object):
+class RichTextToUnicode:
     def __init__(self, context):
         self.context = context
 

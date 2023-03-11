@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from persistent import Persistent
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.interfaces import ITransformer
@@ -22,7 +21,7 @@ class RawValueHolder(Persistent):
         self.value = value
 
     def __repr__(self):
-        return u"<RawValueHolder: %s>" % self.value
+        return "<RawValueHolder: %s>" % self.value
 
     def __eq__(self, other):
         if not isinstance(other, RawValueHolder):
@@ -37,7 +36,7 @@ class RawValueHolder(Persistent):
 
 
 @implementer(IRichTextValue)
-class RichTextValue(object):
+class RichTextValue:
     """The actual value.
 
     Note that this is not a persistent object, to avoid a separate ZODB object
@@ -107,10 +106,7 @@ class RichTextValue(object):
         transformer with the site as a context is used instead.
         """
         if self.mimeType == self.outputMimeType:
-            if six.PY2:
-                return self.raw_encoded
-            else:
-                return self.raw
+            return self.raw
 
         transformer = ITransformer(context, None)
         if transformer is None:
@@ -123,8 +119,8 @@ class RichTextValue(object):
 
     def __repr__(self):
         return (
-            u"RichTextValue object. (Did you mean <attribute>.raw or "
-            u"<attribute>.output?)"
+            "RichTextValue object. (Did you mean <attribute>.raw or "
+            "<attribute>.output?)"
         )
 
     def __eq__(self, other):
