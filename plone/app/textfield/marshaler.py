@@ -4,8 +4,6 @@ from plone.rfc822.defaultfields import BaseFieldMarshaler
 from zope.component import adapter
 from zope.interface import Interface
 
-import six
-
 
 @adapter(Interface, IRichText)
 class RichTextFieldMarshaler(BaseFieldMarshaler):

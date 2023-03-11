@@ -6,7 +6,6 @@ from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
-import six
 
 
 LOG = logging.getLogger("plone.app.textfield")

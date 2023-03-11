@@ -8,7 +8,6 @@ from zope.interface import implementer
 
 import logging
 import re
-import six
 
 
 LOG = logging.getLogger("plone.app.textfield")
@@ -73,11 +72,7 @@ class PortalTransformsTransformer:
                 # IStatusMessage(request).add(msg, type='error')
                 return ""
 
-            else:
-                output = data.getData()
-                if six.PY2 and isinstance(output, str):
-                    return output.decode(value.encoding)
-                return output
+            return data.getData()
         except ConflictError:
             raise
         except Exception as e:

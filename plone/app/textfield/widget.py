@@ -1,4 +1,5 @@
 from Acquisition import ImplicitAcquisitionWrapper
+from collections import UserDict
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.utils import getAllowedContentTypes
@@ -19,14 +20,6 @@ from z3c.form.widget import FieldWidget
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import implementer_only
-
-import six
-
-
-try:
-    from collections import UserDict
-except ImportError:
-    from UserDict import UserDict
 
 
 class IRichTextWidget(ITextAreaWidget):
@@ -136,7 +129,7 @@ class RichTextAreaConverter(BaseDataConverter):
             return value
         elif value is None:
             return None
-        raise ValueError(f"Can not convert {repr(value):s} to six.text_type")
+        raise ValueError(f"Can not convert {repr(value):s} to string")
 
     def toFieldValue(self, value):
         if value == "":

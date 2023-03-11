@@ -9,8 +9,6 @@ from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 from zope.schema.interfaces import IFromUnicode
 from zope.schema.interfaces import WrongType
 
-import six
-
 
 _ = MessageFactory("plone")
 

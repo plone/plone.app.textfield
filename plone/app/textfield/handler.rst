@@ -23,8 +23,7 @@ First, let's wire up the package.
     ... </configure>
     ... """
 
-    >>> import six
-    >>> from six import StringIO
+    >>> from io import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 

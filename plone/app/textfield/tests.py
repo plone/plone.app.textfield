@@ -4,7 +4,6 @@ from plone.testing import layered
 import doctest
 import plone.app.textfield
 import re
-import six
 import unittest
 
 
