@@ -42,7 +42,7 @@ class Transform(BrowserView):
             if not self.major or not self.minor:
                 mimeType = value.outputMimeType
             else:
-                mimeType = "{}/{}".format(self.major, self.minor)
+                mimeType = f"{self.major}/{self.minor}"
 
         transformer = ITransformer(context)
         return transformer(value, mimeType)
