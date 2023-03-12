@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from setuptools import find_packages
 from setuptools import setup
 
 
-version = "1.3.8.dev0"
+version = "2.0.0.dev0"
 
 setup(
     name="plone.app.textfield",
@@ -14,13 +13,10 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
-        "Framework :: Plone :: 5.2",
         "Framework :: Plone :: 6.0",
         "Framework :: Plone :: Core",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
@@ -36,14 +32,10 @@ setup(
     namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*",
+    python_requires=">=3.8",
     install_requires=[
         "setuptools",
-        "six",
-        "zope.schema",
-        "zope.interface",
-        "zope.component",
-        "ZODB",
+        "plone.base",
     ],
     extras_require={
         "portaltransforms": ["Products.PortalTransforms"],
@@ -51,7 +43,10 @@ setup(
         "widget": ["z3c.form"],
         "marshaler": ["plone.rfc822"],
         "editor": ["plone.schemaeditor"],
-        "tests": ["plone.app.testing", "plone.supermodel [test]",],
+        "tests": [
+            "plone.app.testing",
+            "plone.supermodel [test]",
+        ],
     },
     entry_points="""
       """,

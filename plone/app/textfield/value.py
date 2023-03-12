@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
 from persistent import Persistent
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.interfaces import ITransformer
-from Products.CMFPlone.utils import safe_unicode
+from plone.base.utils import safe_text
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
-import six
 
 
 LOG = logging.getLogger("plone.app.textfield")
@@ -22,7 +20,7 @@ class RawValueHolder(Persistent):
         self.value = value
 
     def __repr__(self):
-        return u"<RawValueHolder: %s>" % self.value
+        return "<RawValueHolder: %s>" % self.value
 
     def __eq__(self, other):
         if not isinstance(other, RawValueHolder):
@@ -37,7 +35,7 @@ class RawValueHolder(Persistent):
 
 
 @implementer(IRichTextValue)
-class RichTextValue(object):
+class RichTextValue:
     """The actual value.
 
     Note that this is not a persistent object, to avoid a separate ZODB object
@@ -73,7 +71,7 @@ class RichTextValue(object):
     def raw_encoded(self):
         if self._raw_holder.value is None:
             return ""
-        happy_value = safe_unicode(self._raw_holder.value, encoding=self.encoding)
+        happy_value = safe_text(self._raw_holder.value, encoding=self.encoding)
         return happy_value.encode(self.encoding, "ignore")
 
     # the current mime type
@@ -107,10 +105,7 @@ class RichTextValue(object):
         transformer with the site as a context is used instead.
         """
         if self.mimeType == self.outputMimeType:
-            if six.PY2:
-                return self.raw_encoded
-            else:
-                return self.raw
+            return self.raw
 
         transformer = ITransformer(context, None)
         if transformer is None:
@@ -123,8 +118,8 @@ class RichTextValue(object):
 
     def __repr__(self):
         return (
-            u"RichTextValue object. (Did you mean <attribute>.raw or "
-            u"<attribute>.output?)"
+            "RichTextValue object. (Did you mean <attribute>.raw or "
+            "<attribute>.output?)"
         )
 
     def __eq__(self, other):
@@ -139,4 +134,4 @@ class RichTextValue(object):
         return not equal
 
     def getSize(self):
-        return len(safe_unicode(self.raw).encode("utf-8"))
+        return len(safe_text(self.raw).encode("utf-8"))

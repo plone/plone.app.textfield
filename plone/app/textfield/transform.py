@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.textfield.interfaces import ITransformer
 from plone.app.textfield.interfaces import TransformError
 from Products.CMFCore.utils import getToolByName
@@ -9,7 +8,6 @@ from zope.interface import implementer
 
 import logging
 import re
-import six
 
 
 LOG = logging.getLogger("plone.app.textfield")
@@ -17,10 +15,9 @@ imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')
 
 
 @implementer(ITransformer)
-class PortalTransformsTransformer(object):
+class PortalTransformsTransformer:
 
-    """Invoke portal_transforms to perform a conversion
-    """
+    """Invoke portal_transforms to perform a conversion"""
 
     _ccounter_id = "_v_catalog_counter"
 
@@ -31,7 +28,7 @@ class PortalTransformsTransformer(object):
     def __call__(self, value, mimeType):
         # shortcut it we have no data
         if value.raw is None:
-            return u""
+            return ""
 
         # shortcut if we already have the right value
         if mimeType is value.mimeType:
@@ -43,12 +40,8 @@ class PortalTransformsTransformer(object):
         if transforms is None:
             raise TransformError("Cannot find portal_transforms tool")
 
-        if six.PY2:
-            # in Python 2 transforms expect str
-            source_value = value.raw_encoded
-        else:
-            # in Python 3 we pass text
-            source_value = value.raw
+        # in Python 3 we pass text
+        source_value = value.raw
 
         # check for modified referenced images
         self.check_referenced_images(source_value, mimeType, value._raw_holder)
@@ -65,7 +58,7 @@ class PortalTransformsTransformer(object):
             )
             if data is None:
                 # TODO: i18n
-                msg = u'No transform path found from "%s" to "%s".' % (
+                msg = 'No transform path found from "{}" to "{}".'.format(
                     value.mimeType,
                     mimeType,
                 )
@@ -77,13 +70,9 @@ class PortalTransformsTransformer(object):
                 # other page.
                 # The following might work better, but how to get the request?
                 # IStatusMessage(request).add(msg, type='error')
-                return u""
+                return ""
 
-            else:
-                output = data.getData()
-                if six.PY2 and isinstance(output, str):
-                    return output.decode(value.encoding)
-                return output
+            return data.getData()
         except ConflictError:
             raise
         except Exception as e:

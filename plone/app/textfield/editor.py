@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.textfield import _
 from plone.app.textfield import interfaces
 from plone.app.textfield import RichText
@@ -17,10 +16,9 @@ except ImportError:
 
 
 class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
-
     if HAS_VOCABS:
         default_mime_type = schema.Choice(
-            title=_(u"Input format"),
+            title=_("Input format"),
             vocabulary="plone.app.vocabularies.AllowedContentTypes",
             default="text/html",
         )
@@ -33,4 +31,4 @@ class IRichText(interfaces.IRichText, schema_ifaces.IFromUnicode):
     allowed_mime_types = Attribute("")
 
 
-RichTextFactory = FieldFactory(RichText, _(u"Rich Text"))
+RichTextFactory = FieldFactory(RichText, _("Rich Text"))

@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
+from plone.base.interfaces import IEditingSchema
+from plone.base.interfaces import IMarkupSchema
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface.interfaces import ComponentLookupError
-
-
-try:
-    from Products.CMFPlone.interfaces import IEditingSchema
-    from Products.CMFPlone.interfaces import IMarkupSchema
-except ImportError:
-    IMarkupSchema = None
 
 
 def markupRegistrySettings(context):
@@ -19,7 +13,10 @@ def markupRegistrySettings(context):
     try:
         # get the new registry
         registry = getUtility(IRegistry, context=context)
-        settings = registry.forInterface(IMarkupSchema, prefix="plone",)
+        settings = registry.forInterface(
+            IMarkupSchema,
+            prefix="plone",
+        )
     except (KeyError, ComponentLookupError):
         settings = None
     return settings
@@ -61,30 +58,28 @@ def getAllowedContentTypes():
 def getDefaultWysiwygEditor():
     registry = getUtility(IRegistry)
     try:
-        records = registry.forInterface(IEditingSchema, check=False,
-                                        prefix='plone')
+        records = registry.forInterface(IEditingSchema, check=False, prefix="plone")
         default_editor = records.default_editor.lower()
     except AttributeError:
-        default_editor = 'tinymce'
+        default_editor = "tinymce"
     return default_editor
 
 
 def getAvailableWysiwygEditors():
     registry = getUtility(IRegistry)
     try:
-        records = registry.forInterface(IEditingSchema, check=False,
-                                        prefix='plone')
+        records = registry.forInterface(IEditingSchema, check=False, prefix="plone")
         available = records.available_editors
     except AttributeError:
-        available = ['TinyMCE']
+        available = ["TinyMCE"]
     return available
 
 
 def getWysiwygEditor(member_editor, available_editors, default_editor):
     if member_editor is None:
         return default_editor.lower()
-    elif member_editor == u'None':
-        return u'plaintexteditor'
+    elif member_editor == "None":
+        return "plaintexteditor"
     elif member_editor in available_editors:
         return member_editor.lower()
     else:

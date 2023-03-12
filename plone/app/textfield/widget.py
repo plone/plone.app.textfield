@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
 from Acquisition import ImplicitAcquisitionWrapper
-from Products.CMFCore.utils import getToolByName
+from collections import UserDict
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.utils import getAllowedContentTypes
-from plone.app.textfield.utils import getDefaultWysiwygEditor
 from plone.app.textfield.utils import getAvailableWysiwygEditors
+from plone.app.textfield.utils import getDefaultWysiwygEditor
 from plone.app.textfield.utils import getWysiwygEditor
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.utils import closest_content
+from Products.CMFCore.utils import getToolByName
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.browser.widget import addFieldClass
 from z3c.form.converter import BaseDataConverter
@@ -21,29 +21,19 @@ from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import implementer_only
 
-import six
-
-
-try:
-    from collections import UserDict
-except ImportError:
-    from UserDict import UserDict
-
 
 class IRichTextWidget(ITextAreaWidget):
     def allowedMimeTypes():
-        """Get allowed MIME types
-        """
+        """Get allowed MIME types"""
 
 
 @implementer_only(IRichTextWidget)
 class RichTextWidget(TextAreaWidget):
-
-    klass = u"richTextWidget"
+    klass = "richTextWidget"
     value = None
 
     def update(self):
-        super(RichTextWidget, self).update()
+        super().update()
         addFieldClass(self)
 
     def wrapped_context(self):
@@ -66,7 +56,7 @@ class RichTextWidget(TextAreaWidget):
             return default
 
         mime_type = self.request.get(
-            "{0:s}.mimeType".format(self.name), self.field.default_mime_type
+            f"{self.name:s}.mimeType", self.field.default_mime_type
         )
         return RichTextValue(
             raw=raw,
@@ -82,9 +72,9 @@ class RichTextWidget(TextAreaWidget):
         return list(allowed)
 
     def getWysiwygEditor(self):
-        tool = getToolByName(self.wrapped_context(), 'portal_membership')
+        tool = getToolByName(self.wrapped_context(), "portal_membership")
         member = tool.getAuthenticatedMember()
-        member_editor = member.getProperty('wysiwyg_editor')
+        member_editor = member.getProperty("wysiwyg_editor")
         available_editors = getAvailableWysiwygEditors()
         default_editor = getDefaultWysiwygEditor()
         return getWysiwygEditor(member_editor, available_editors, default_editor)
@@ -98,32 +88,27 @@ def RichTextFieldWidget(field, request):
 
 
 class RichTextConverter(BaseDataConverter):
-    """Data converter for the RichTextWidget
-    """
+    """Data converter for the RichTextWidget"""
 
     def toWidgetValue(self, value):
         if IRichTextValue.providedBy(value):
             return value
-        elif isinstance(value, six.text_type):
+        elif isinstance(value, str):
             return self.field.fromUnicode(value)
         elif value is None:
             return None
-        raise ValueError(
-            "Can not convert {0:s} to an IRichTextValue".format(repr(value))
-        )
+        raise ValueError(f"Can not convert {repr(value):s} to an IRichTextValue")
 
     def toFieldValue(self, value):
         if IRichTextValue.providedBy(value):
-            if value.raw == u"":
+            if value.raw == "":
                 return self.field.missing_value
             return value
-        elif isinstance(value, six.text_type):
-            if value == u"":
+        elif isinstance(value, str):
+            if value == "":
                 return self.field.missing_value
             return self.field.fromUnicode(value)
-        raise ValueError(
-            "Can not convert {0:s} to an IRichTextValue".format(repr(value))
-        )
+        raise ValueError(f"Can not convert {repr(value):s} to an IRichTextValue")
 
 
 class RichTextAreaConverter(BaseDataConverter):
@@ -140,16 +125,16 @@ class RichTextAreaConverter(BaseDataConverter):
                 return value.raw
             elif self.widget.mode == "display":
                 return value.output_relative_to(self.field.context)
-        if isinstance(value, six.text_type):
+        if isinstance(value, str):
             return value
         elif value is None:
             return None
-        raise ValueError("Can not convert {0:s} to six.text_type".format(repr(value)))
+        raise ValueError(f"Can not convert {repr(value):s} to string")
 
     def toFieldValue(self, value):
-        if value == u"":
+        if value == "":
             return self.field.missing_value
-        elif isinstance(value, six.text_type):
+        elif isinstance(value, str):
             return RichTextValue(
                 raw=value,
                 mimeType=self.field.default_mime_type,
@@ -157,9 +142,7 @@ class RichTextAreaConverter(BaseDataConverter):
                 encoding="utf-8",
             )
         elif IRichTextValue.providedBy(value):
-            if value.raw == u"":
+            if value.raw == "":
                 return self.field.missing_value
             return value
-        raise ValueError(
-            "Can not convert {0:s} to an IRichTextValue".format(repr(value))
-        )
+        raise ValueError(f"Can not convert {repr(value):s} to an IRichTextValue")

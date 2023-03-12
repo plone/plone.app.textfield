@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.value import RichTextValue
@@ -10,16 +9,13 @@ from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
 from zope.schema.interfaces import IFromUnicode
 from zope.schema.interfaces import WrongType
 
-import six
-
 
 _ = MessageFactory("plone")
 
 
 @implementer(IRichText, IFromUnicode)
 class RichText(Object):
-    """Text field that also stores MIME type
-    """
+    """Text field that also stores MIME type"""
 
     default_mime_type = "text/html"
     output_mime_type = "text/x-html-safe"
@@ -42,11 +38,11 @@ class RichText(Object):
 
         if "default" in kw:
             default = kw["default"]
-            if isinstance(default, six.text_type):
+            if isinstance(default, str):
                 kw["default"] = self.fromUnicode(default)
                 kw["default"].readonly = True
 
-        super(RichText, self).__init__(schema=schema, **kw)
+        super().__init__(schema=schema, **kw)
 
     def fromUnicode(self, str_val):
         return RichTextValue(
@@ -64,7 +60,7 @@ class RichText(Object):
             raise Invalid(
                 _(
                     "msg_text_too_long",
-                    default=u"Text is too long. (Maximum ${max} characters.)",
+                    default="Text is too long. (Maximum ${max} characters.)",
                     mapping={"max": self.max_length},
                 )
             )
