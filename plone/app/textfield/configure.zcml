@@ -1,31 +1,37 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plone.app.textfield">
+    i18n_domain="plone.app.textfield"
+    >
 
   <!-- Configure plone.supermodel support if available -->
-  <include zcml:condition="installed plone.supermodel"
+  <include
       file="handler.zcml"
+      zcml:condition="installed plone.supermodel"
       />
 
   <!-- Configure PortalTransforms based transformer if available -->
-  <include zcml:condition="installed Products.PortalTransforms"
+  <include
       file="transform.zcml"
+      zcml:condition="installed Products.PortalTransforms"
       />
 
   <!-- Configure z3c.form widget if z3c.form is installed -->
-  <include zcml:condition="installed z3c.form"
+  <include
       file="widget.zcml"
+      zcml:condition="installed z3c.form"
       />
 
   <!-- Configure plone.rfc822 marshaler if installed -->
-  <include zcml:condition="installed plone.rfc822"
+  <include
       file="marshaler.zcml"
+      zcml:condition="installed plone.rfc822"
       />
 
   <!-- Configure plone.schemaeditor field factory if installed -->
-  <include zcml:condition="installed plone.schemaeditor"
+  <include
       file="editor.zcml"
+      zcml:condition="installed plone.schemaeditor"
       />
 
   <!-- Configure transform invocation browser view -->
