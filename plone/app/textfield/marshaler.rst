@@ -40,7 +40,7 @@ we'll simply provide the output value directly::
     >>> from zope.interface import implementer
     >>> @implementer(ITestContent)
     ... class TestContent(object):
-    ...     _text = RichTextValue(u"Some \xd8 plain text", 'text/plain', 'text/html', 'utf-8', u'<p>Some \xd8 plain text</p>')
+    ...     _text = RichTextValue(u"Some \xd8 plain text", 'text/plain', 'text/html', 'utf-8', '<p>Some \xd8 plain text</p>')
 
     >>> t = TestContent()
 
@@ -57,7 +57,7 @@ The other way around::
 
     >>> decoded = marshaler.decode(b'Some nei\xc3\x9f plain text', charset='utf-8', contentType='text/plain')
     >>> decoded.raw
-    u'Some nei\xdf plain text'
+    'Some nei\xdf plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -76,7 +76,7 @@ the field's default type is used::
 
     >>> decoded = marshaler.decode(b'Some nei\xc3\x9f plain text')
     >>> decoded.raw
-    u'Some nei\xdf plain text'
+    'Some nei\xdf plain text'
     >>> decoded.mimeType
     'text/plain'
     >>> decoded.outputMimeType
@@ -110,7 +110,7 @@ Let's now use this message to construct a new object::
     >>> from plone.rfc822 import initializeObjectFromSchema
     >>> initializeObjectFromSchema(newContent, ITestContent, inputMessage)
     >>> newContent._text.raw
-    u'Some \xd8 plain text'
+    'Some \xd8 plain text'
     >>> newContent._text.mimeType
     'text/plain'
     >>> newContent._text.outputMimeType

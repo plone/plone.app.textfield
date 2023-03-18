@@ -47,7 +47,7 @@ Then, let's test the field
     ...     allowed_mime_types=('text/plain', 'text/html',))
     >>> fieldType = IFieldNameExtractor(field)()
     >>> handler = getUtility(IFieldExportImportHandler, name=fieldType)
-    >>> element = handler.write(field, u'dummy', fieldType) #doctest: +ELLIPSIS
+    >>> element = handler.write(field, 'dummy', fieldType) #doctest: +ELLIPSIS
     >>> print(prettyXML(element))
     <field name="dummy" type="plone.app.textfield.RichText">
       <allowed_mime_types>
@@ -90,15 +90,15 @@ To import:
     >>> reciprocal.__name__
     'dummy'
     >>> reciprocal.title
-    u'Test'
+    'Test'
     >>> reciprocal.description
-    u'Test desc'
+    'Test desc'
     >>> reciprocal.required
     False
     >>> reciprocal.readonly
     True
     >>> reciprocal.default.raw
-    u'Test default'
+    'Test default'
     >>> reciprocal.missing_value is None
     True
     >>> reciprocal.default_mime_type

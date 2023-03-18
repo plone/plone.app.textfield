@@ -48,12 +48,13 @@ We also need to register the template for at least the widget and request:
 If we render the widget we get the HTML:
   >>> widget.update()
   >>> print(widget.render())
-  <div xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" class="richTextWidget">
-    <input type="hidden" id="text_text_format" name="text.mimeType" value="text/html"/>
-    <div>
-      <textarea name="text" rows="25" class="pat-tinymce" id="text">&lt;p&gt;Hello world&lt;/p&gt;</textarea>
-    </div>
-  </div>
+  <div xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" class="richTextWidget" >
+  ...<input type="hidden" id="text_text_format" name="text.mimeType" value="text/html" />
+  ...<div>
+  ...<textarea name="text" rows="25" class="pat-tinymce" id="text">&lt;p&gt;Hello world&lt;/p&gt;</textarea>
+  ...</div>
+  ...</div>
+
   >>> from zope.component import getGlobalSiteManager
   >>> gsm = getGlobalSiteManager()
   >>> gsm.unregisterAdapter(factory,
