@@ -8,6 +8,29 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0 (2023-03-21)
+------------------
+
+Breaking changes:
+
+
+- Drop Python 2 support. [jensens] (#48)
+
+
+Bug fixes:
+
+
+- Depend on plone.base and remove implicit circular dependency on Products.CMFPlone.
+  [jensens] (#48)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (80cf330f)
+
+
 1.3.7 (2023-02-08)
 ------------------
 

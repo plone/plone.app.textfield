@@ -1,2 +1,0 @@
-Depend on plone.base and remove implicit circular dependency on Products.CMFPlone.
-[jensens]
