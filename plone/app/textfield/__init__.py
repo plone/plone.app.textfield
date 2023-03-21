@@ -29,7 +29,7 @@ class RichText(Object):
         allowed_mime_types=None,
         max_length=None,
         schema=IRichTextValue,
-        **kw
+        **kw,
     ):
         self.default_mime_type = default_mime_type
         self.output_mime_type = output_mime_type

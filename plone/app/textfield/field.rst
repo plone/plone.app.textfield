@@ -101,12 +101,12 @@ Products.PortalTransforms, which in turn comes with Plone.
 Let's now access the output of our previously constructed value object again:
 
     >>> value.output
-    u'SOME PLAIN TEXT'
+    'SOME PLAIN TEXT'
 
 It is of course possible to get the raw value:
 
     >>> value.raw
-    u'Some plain text'
+    'Some plain text'
 
 Or to get the value encoded:
 
@@ -151,11 +151,11 @@ default MIME types set on the field.
     >>> value.outputMimeType
     'text/x-uppercase'
     >>> value.raw
-    u'A plain text string'
+    'A plain text string'
     >>> value.raw_encoded
     b'A plain text string'
     >>> value.output
-    u'A PLAIN TEXT STRING'
+    'A PLAIN TEXT STRING'
 
 Validation
 ----------
@@ -211,7 +211,7 @@ MIME types.
     RichTextValue object. (Did you mean <attribute>.raw or <attribute>.output?)
 
     >>> default_field.default.raw
-    u'Default value'
+    'Default value'
     >>> default_field.default.outputMimeType
     'text/x-uppercase'
     >>> default_field.default.mimeType

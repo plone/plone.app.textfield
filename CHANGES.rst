@@ -188,7 +188,7 @@ Fixes:
   while still supporting normal portal_properties access for Plone < 5.
   [thet]
 
-- Resolved an interesting circular import case, which wasnt effective because
+- Resolved an interesting circular import case, which wasn't effective because
   of sort order of imports
   [thet]
 

@@ -3,7 +3,6 @@ from plone.testing import layered
 
 import doctest
 import plone.app.textfield
-import re
 import unittest
 
 
@@ -346,14 +345,6 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(3, value.getSize())
 
 
-class Py23DocChecker(doctest.OutputChecker):
-    def check_output(self, want, got, optionflags):
-        want = re.sub("u'(.*?)'", "'\\1'", want)
-        want = re.sub('u"(.*?)"', '"\\1"', want)
-
-        return doctest.OutputChecker.check_output(self, want, got, optionflags)
-
-
 class TestTextfield(unittest.TestCase):
     def test_getWysiwygEditor(self):
         from plone.app.textfield.utils import getWysiwygEditor
@@ -380,7 +371,6 @@ def test_suite():
                 doctest.DocFileSuite(
                     doctestfile,
                     optionflags=doctest.ELLIPSIS,
-                    checker=Py23DocChecker(),
                 ),
                 layer=testing.PLONE_FIXTURE,
             )

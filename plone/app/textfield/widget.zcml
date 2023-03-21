@@ -1,13 +1,14 @@
 <configure
-    i18n_domain="plone.app.textfield"
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:z3c="http://namespaces.zope.org/z3c"
-    xmlns:zcml="http://namespaces.zope.org/zcml">
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.app.textfield"
+    >
   <include
-      file="meta.zcml"
       package="z3c.form"
-  />
+      file="meta.zcml"
+      />
   <include package="z3c.form" />
   <!--
     register data converter for RichTextWidget
@@ -16,7 +17,7 @@
       factory=".widget.RichTextConverter"
       for=".interfaces.IRichText
            .widget.IRichTextWidget"
-  />
+      />
   <!--
     also register a data converter for the basic z3c.form ITextAreaWidget,
     so it can be used without tinymce, i.e. in order to convert from
@@ -26,28 +27,28 @@
       factory=".widget.RichTextAreaConverter"
       for=".interfaces.IRichText
            z3c.form.interfaces.ITextAreaWidget"
-  />
+      />
   <!--
       register new widget
   -->
   <class class=".widget.RichTextWidget">
     <require
-        interface=".widget.IRichTextWidget"
         permission="zope.Public"
-    />
+        interface=".widget.IRichTextWidget"
+        />
   </class>
   <z3c:widgetTemplate
+      widget=".widget.IRichTextWidget"
+      template="widget_display.pt"
       layer="z3c.form.interfaces.IFormLayer"
       mode="display"
-      template="widget_display.pt"
-      widget=".widget.IRichTextWidget"
-  />
+      />
   <z3c:widgetTemplate
+      widget=".widget.IRichTextWidget"
+      template="widget_input.pt"
       layer="z3c.form.interfaces.IFormLayer"
       mode="input"
-      template="widget_input.pt"
-      widget=".widget.IRichTextWidget"
-  />
+      />
   <adapter factory=".widget.RichTextFieldWidget" />
   <!--
     register alternative template for ITextAreaWidget display in order to
@@ -58,16 +59,16 @@
   -->
   <configure zcml:condition="installed plone.app.z3cform">
     <z3c:widgetTemplate
-      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
-      mode="display"
-      template="widget_textarea_display.pt"
-      widget="z3c.form.interfaces.ITextAreaWidget"
-    />
+        widget="z3c.form.interfaces.ITextAreaWidget"
+        template="widget_textarea_display.pt"
+        layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+        mode="display"
+        />
     <z3c:widgetTemplate
-      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
-      mode="display"
-      template="widget_display.pt"
-      widget=".widget.IRichTextWidget"
-    />
+        widget=".widget.IRichTextWidget"
+        template="widget_display.pt"
+        layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+        mode="display"
+        />
   </configure>
 </configure>
