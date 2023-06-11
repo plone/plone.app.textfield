@@ -4,3 +4,6 @@
 [meta]
 template = "default"
 commit-id = "55bda5c9"
+
+[pyproject]
+dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.schemaeditor', 'plone.app.z3cform', 'Products.Portaltransforms', 'plone.app.vocabularies']"

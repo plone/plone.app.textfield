@@ -44,8 +44,10 @@ setup(
         "marshaler": ["plone.rfc822"],
         "editor": ["plone.schemaeditor"],
         "tests": [
+            "lxml",
             "plone.app.testing",
             "plone.supermodel [test]",
+            "plone.testing",
         ],
     },
     entry_points="""
