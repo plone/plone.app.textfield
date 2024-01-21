@@ -43,6 +43,7 @@ setup(
     install_requires=[
         "setuptools",
         "plone.base",
+        "Zope",
     ],
     extras_require={
         "portaltransforms": ["Products.PortalTransforms"],
