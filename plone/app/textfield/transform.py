@@ -16,7 +16,6 @@ imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')
 
 @implementer(ITransformer)
 class PortalTransformsTransformer:
-
     """Invoke portal_transforms to perform a conversion"""
 
     _ccounter_id = "_v_catalog_counter"
