@@ -296,10 +296,6 @@ class TestIntegration(unittest.TestCase):
         widget = FieldWidget(IWithText["text"], RichTextWidget(request))
         widget.update()
 
-        self.portal["portal_properties"]["site_properties"]._setPropValue(
-            "forbidden_contenttypes", ["text/structured"]
-        )
-
         allowed = widget.allowedMimeTypes()
         self.assertTrue("text/html" in allowed)
         self.assertFalse("text/structured" in allowed)
@@ -329,10 +325,6 @@ class TestIntegration(unittest.TestCase):
 
         widget = FieldWidget(IWithText["text"], RichTextWidget(request))
         widget.update()
-
-        self.portal["portal_properties"]["site_properties"]._setPropValue(
-            "forbidden_contenttypes", ["text/structured"]
-        )
 
         allowed = widget.allowedMimeTypes()
         self.assertTrue("text/html" in allowed)

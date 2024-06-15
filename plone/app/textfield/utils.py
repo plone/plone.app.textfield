@@ -23,36 +23,19 @@ def markupRegistrySettings(context):
 
 
 def getAllowedContentTypes():
-    """Get a set of allowed MIME types according to the portal_properties
-    tool
-    """
+    """Get a set of allowed MIME types."""
     site = getSite()
     if site is None:
         return None
 
-    allowed_types = []
     reg = markupRegistrySettings(site)
     if reg:
-        allowed_types = reg.allowed_types
-    else:
-        portal_transforms = getToolByName(site, "portal_transforms", None)
-        if portal_transforms is None:
-            return None
+        return reg.allowed_types
+    portal_transforms = getToolByName(site, "portal_transforms", None)
+    if portal_transforms is None:
+        return None
 
-        portal_properties = getToolByName(site, "portal_properties", None)
-        if portal_properties is None:
-            return None
-
-        site_properties = portal_properties.get("site_properties", None)
-        if site_properties is None:
-            return None
-
-        allowed = set(portal_transforms.listAvailableTextInputs())
-        forbidden = set(site_properties.getProperty("forbidden_contenttypes", []))
-
-        allowed_types = allowed - forbidden
-
-    return allowed_types
+    return set(portal_transforms.listAvailableTextInputs())
 
 
 def getDefaultWysiwygEditor():
