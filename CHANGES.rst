@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0 (2024-06-26)
+------------------
+
+Breaking changes:
+
+
+- Remove usage of ``portal_properties`` in ``getAllowedContentTypes``.
+  This code was still checking `portal_properties.site_properties.forbidden_contenttypes`.
+  [maurits] (#125)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (6e36bcc4)
+
+
 2.0.1 (2024-01-19)
 ------------------
 

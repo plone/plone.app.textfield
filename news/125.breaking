@@ -1,4 +1,0 @@
-Remove usage of ``portal_properties`` in ``getAllowedContentTypes``.
-This code was still checking `portal_properties.site_properties.forbidden_contenttypes`.
-[maurits]
-
