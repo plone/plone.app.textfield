@@ -3,7 +3,7 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.0.1.dev0"
+commit-id = "2.2.0"
 
 [pyproject]
 dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.schemaeditor', 'plone.app.z3cform', 'Products.Portaltransforms', 'plone.app.vocabularies']"
@@ -12,4 +12,4 @@ dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.
 test_extras = """
     tests
 """
-test_matrix = { "6.2" = ["3.13", "3.12", "3.11", "3.10"], "6.1" = ["3.13", "3.12", "3.11", "3.10"] }
+test_matrix = {"6.2" = ["*"]}
