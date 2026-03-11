@@ -9,7 +9,6 @@ from zope.interface import implementer
 import logging
 import re
 
-
 LOG = logging.getLogger("plone.app.textfield")
 imguid_re = re.compile(r'src="[^/]*/resolve[uU]id/([^/"]*)')
 
