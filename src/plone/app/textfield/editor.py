@@ -6,7 +6,6 @@ from zope import schema
 from zope.interface import Attribute
 from zope.schema import interfaces as schema_ifaces
 
-
 try:
     import plone.app.vocabularies  # noqa
 
