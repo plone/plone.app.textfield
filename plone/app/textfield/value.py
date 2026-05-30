@@ -9,6 +9,9 @@ import logging
 
 LOG = logging.getLogger("plone.app.textfield")
 
+HTML_MIME_TYPE = "text/html"
+SAFE_HTML_MIME_TYPE = "text/x-html-safe"
+
 
 class RawValueHolder(Persistent):
     """Place the raw value in a separate persistent object so that it does not
@@ -84,6 +87,14 @@ class RichTextValue:
     def outputMimeType(self):
         return self._outputMimeType
 
+    def _clone_for_transform(self, mimeType, outputMimeType):
+        clone = self.__class__.__new__(self.__class__)
+        clone._raw_holder = self._raw_holder
+        clone._mimeType = mimeType
+        clone._outputMimeType = outputMimeType
+        clone._encoding = self.encoding
+        return clone
+
     @property
     def output(self):
         site = getSite()
@@ -93,7 +104,7 @@ class RichTextValue:
         """Transforms the raw value to the output mimetype, within a specified context.
 
         If the value's mimetype is already the same as the output mimetype,
-        no transformation is performed.
+        no transformation is performed unless safe HTML output is requested.
 
         The context parameter is relevant when the transformation is
         context-dependent. For example, Plone's resolveuid-and-caption
@@ -103,8 +114,21 @@ class RichTextValue:
         If a transformer cannot be found for the specified context, a
         transformer with the site as a context is used instead.
         """
-        if self.mimeType == self.outputMimeType:
+        if self.raw is None:
+            return None
+
+        mimeType = self.mimeType or HTML_MIME_TYPE
+        outputMimeType = self.outputMimeType or SAFE_HTML_MIME_TYPE
+
+        if mimeType == outputMimeType and outputMimeType != SAFE_HTML_MIME_TYPE:
             return self.raw
+
+        if mimeType == SAFE_HTML_MIME_TYPE and outputMimeType == SAFE_HTML_MIME_TYPE:
+            # Treat stored safe HTML as HTML when rendering to the safe HTML
+            # output type.  The safe_html transform is idempotent for already
+            # safe markup, and this avoids trusting attacker-controlled input
+            # that merely claims to be text/x-html-safe.
+            mimeType = HTML_MIME_TYPE
 
         transformer = ITransformer(context, None)
         if transformer is None:
@@ -113,7 +137,11 @@ class RichTextValue:
             if transformer is None:
                 return None
 
-        return transformer(self, self.outputMimeType)
+        value = self
+        if mimeType != self.mimeType or outputMimeType != self.outputMimeType:
+            value = self._clone_for_transform(mimeType, outputMimeType)
+
+        return transformer(value, outputMimeType)
 
     def __repr__(self):
         return (
