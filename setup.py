@@ -2,7 +2,6 @@ from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
-
 version = "2.0.2.dev0"
 
 long_description = (
@@ -28,6 +27,8 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords="plone schema field",
