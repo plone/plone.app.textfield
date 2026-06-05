@@ -1,15 +1,23 @@
 # Generated from:
-# https://github.com/plone/meta/tree/main/src/plone/meta/default
+# https://github.com/plone/meta/tree/2.x/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.0.1.dev0"
+commit-id = "2.9.1.dev0"
 
 [pyproject]
-dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.schemaeditor', 'plone.app.z3cform', 'Products.Portaltransforms', 'plone.app.vocabularies']"
+dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.schemaeditor', 'plone.app.z3cform', 'Products.Portaltransforms', 'plone.app.vocabularies', 'setuptools']"
 
 [tox]
+skip_test_extra = true
 test_extras = """
     tests
 """
-test_matrix = { "6.2" = ["3.13", "3.12", "3.11", "3.10"], "6.1" = ["3.13", "3.12", "3.11", "3.10"] }
+test_matrix = { "6.1" = ["*"] }
+envlist_lines = """
+# Add two envs to prevent python-check-versions to complain,
+# which would force us to set requires_python to 3.10+,
+# which I don't want to do in a bugfix release.
+    py39-plone60
+    py38-plone60
+"""
