@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.2 (2026-06-05)
+------------------
+
+Bug fixes:
+
+
+- Security: Always sanitize RichText output for safe-HTML output type.
+  See https://github.com/plone/plone.app.textfield/security/advisories/GHSA-4r4f-gg25-rmg5
+  @gyst
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (6e36bcc4)
+
+
 2.0.1 (2024-01-19)
 ------------------
 
