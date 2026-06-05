@@ -47,6 +47,39 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(None, value.raw)
         self.assertEqual(None, value.output)
 
+    def assertXSSPayloadIsSanitized(self, value):
+        payload = '<img src=x onerror="alert(1)">'
+        output = value.output_relative_to(self.portal)
+
+        self.assertNotIn(payload, output)
+        self.assertNotIn("onerror", output.lower())
+
+    def testOutputSanitizesLazyRichTextValueConstructor(self):
+        from plone.app.textfield.value import RichTextValue
+
+        payload = '<img src=x onerror="alert(1)">'
+        value = RichTextValue(payload)
+
+        self.assertXSSPayloadIsSanitized(value)
+
+    def testOutputSanitizesSpoofedSafeHtmlMimeType(self):
+        from plone.app.textfield.value import RichTextValue
+
+        # A value whose input mimeType claims to already be the safe-HTML
+        # output type must NOT be trusted as pre-sanitized: output must still
+        # run safe_html. This is the same bypass an untrusted REST client
+        # reaches by sending content-type: text/x-html-safe (covered by a
+        # deserializer test in plone.restapi); here we exercise the value
+        # layer directly to avoid a test-time dependency on plone.restapi.
+        payload = '<img src=x onerror="alert(1)">'
+        value = RichTextValue(
+            payload,
+            mimeType="text/x-html-safe",
+            outputMimeType="text/x-html-safe",
+        )
+
+        self.assertXSSPayloadIsSanitized(value)
+
     def testTransformStructured(self):
         from plone.app.textfield import RichText
         from zope.interface import Interface
