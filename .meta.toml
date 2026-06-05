@@ -6,9 +6,11 @@ template = "default"
 commit-id = "2.9.1.dev0"
 
 [pyproject]
-dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.schemaeditor', 'plone.app.z3cform', 'Products.Portaltransforms', 'plone.app.vocabularies']"
+dependencies_ignores = "['z3c.form', 'plone.supermodel', 'plone.rfc822', 'plone.schemaeditor', 'plone.app.z3cform', 'Products.Portaltransforms', 'plone.app.vocabularies', 'setuptools']"
 
 [tox]
+skip_test_extra = true
 test_extras = """
     tests
 """
+test_matrix = { "6.0" = ["*"] }
