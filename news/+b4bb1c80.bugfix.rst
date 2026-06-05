@@ -1,3 +1,0 @@
-Security: Always sanitize RichText output for safe-HTML output type.
-See https://github.com/plone/plone.app.textfield/security/advisories/GHSA-4r4f-gg25-rmg5
-@gyst
