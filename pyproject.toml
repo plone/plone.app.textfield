@@ -4,7 +4,63 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "plone.app.textfield"
+version = "4.0.2.dev0"
+description = "Text field with MIME type support"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Plone",
+    "Framework :: Plone :: 6.2",
+    "Framework :: Plone :: Core",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+license = "GPL-2.0-only"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Martin Aspeli",email = "optilude@gmail.com"},
+]
+maintainers = [
+    {name = "Plone Foundation and contributors",email = "plone-developers@lists.sourceforge.net"},
+]
+dependencies = [
+    "Zope",
+    "plone.base",
+]
+keywords = ["plone", "schema", "field"]
+
+[project.optional-dependencies]
+portaltransforms = ["Products.PortalTransforms"]
+supermodel = ["plone.supermodel"]
+widget = ["z3c.form"]
+marshaler = ["plone.rfc822"]
+editor = ["plone.schemaeditor"]
+tests = [
+    "lxml",
+    "plone.app.testing",
+    "plone.supermodel [test]",
+    "plone.testing",
+]
+
+[project.urls]
+Source = "https://github.com/plone/plone.app.textfield"
+Issues = "https://github.com/plone/Products.CMFPlone/issues"
+Changelog = "https://github.com/plone/plone.app.textfield/blob/master/CHANGES.rst"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst"]}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"
